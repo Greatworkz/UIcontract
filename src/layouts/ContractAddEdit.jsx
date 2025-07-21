@@ -4,7 +4,7 @@ import {
   Card, CardContent, Grid, Button, Avatar, Divider, IconButton
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-
+import CardSection  from '../components/CardSection';
 const steps = ['Select Project SOW', 'Business Case', 'Deliverable', 'Documents', 'Summary'];
 
 const ContractAddEdit = () => {
@@ -31,11 +31,9 @@ const ContractAddEdit = () => {
         ))}
       </Tabs>
 
-      {/* Filters Section */}
-      <Card variant="outlined" sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="subtitle1" fontWeight={600} gutterBottom>Apply filters</Typography>
-          <Grid container spacing={2}>
+
+      <CardSection title="Apply filters">
+      <Grid container spacing={2}>
             <Grid item xs={12} md={3}>
               <Select fullWidth defaultValue="ALG Global Limited">
                 <MenuItem value="ALG Global Limited">ALG Global Limited</MenuItem>
@@ -72,20 +70,13 @@ const ContractAddEdit = () => {
               </Select>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
+      </CardSection>
 
       {/* MSA Information Section */}
-      <Card variant="outlined" sx={{ mb: 3 }}>
-        <CardContent>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="subtitle1" fontWeight={600}>MSA Information</Typography>
-            <IconButton size="small" onClick={handleEditClick}>
-              <EditIcon fontSize="small" />
-              <Typography variant="body2" ml={0.5}>Edit</Typography>
-            </IconButton>
-          </Box>
-          <Divider sx={{ mb: 2 }} />
+      
+
+      <CardSection title="MSA Information">
+      <Divider sx={{ mb: 2 }} />
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <Avatar src="/user-avatar.png" alt="User" />
@@ -124,8 +115,7 @@ const ContractAddEdit = () => {
               <Typography variant="subtitle2">{msaInfo.sowCode}</Typography>
             </Grid>
           </Grid>
-        </CardContent>
-      </Card>
+      </CardSection>
 
       {/* Scope of Service Section */}
       <Card variant="outlined">
