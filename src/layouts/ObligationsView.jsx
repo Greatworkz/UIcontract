@@ -17,6 +17,8 @@ import {
   Checkbox,
   IconButton,
   Button,
+  Divider,Radio,
+  RadioGroup,FormControlLabel
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import ChartSection from "../components/ChartSection";
@@ -25,6 +27,7 @@ import ThemedTabs, { ThemedTab } from "../components/TabSection";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ObligationSliderView from "./ObligationSliderView";
+import ModalSection from "../components/ModalSection";
 const Matricks = [
   { label: "Total Classes", value: 34, icon: "" },
   { label: "Confidence", value: 14, icon: "" },
@@ -131,6 +134,14 @@ const pageData = [
   },
 ];
 
+const CustomerDetails = [ 
+  {label : 'Customer Name', value: 'ALG Glbal Limited'},
+  {label : 'Document Name', value: 'NDA_2024_Analysis_Report.pdf'},
+  {label : 'Contract Type', value: 'Non-Disclosure Agreements (NDAs)'},
+  {label : 'Selected Obligations', value: '02'}
+ ]
+
+ 
 const ObligationView = () => {
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -138,12 +149,28 @@ const ObligationView = () => {
     setTabIndex(newValue);
   };
 
+  const [date, setDate] = useState('2025-06-06');
+  const [status, setStatus] = useState({
+    obSubmitted: 'no',
+    obComplied: 'yes',
+    slaImpact: 'yes',
+    billable: 'yes',
+    kpiNonCompliance: 'no',
+    hasIssue: 'no',
+    financialImpact: 'yes',
+    hasRisk: 'no'
+  });
+
+  const handleChange = (field) => (e) => {
+    setStatus((prev) => ({ ...prev, [field]: e.target.value }));
+  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [selectedPage, setSelectedPage] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [UpdatemodalOpen, setUpdateModalOpen] = useState(false);
 
   const handleOpenDrawer = (page) => {
     setSelectedPage(page);
@@ -270,7 +297,7 @@ const ObligationView = () => {
               </Grid>
 
               {/* Table */}
-              <Table>
+              <Table  sx={{ overflowX: "auto" }}>
                 <TableHead>
                   <TableRow>
                     <TableCell padding="checkbox"></TableCell>
@@ -354,6 +381,7 @@ const ObligationView = () => {
                           variant="text"
                           size="medium"
                           sx={{ textTransform: "none",color:'#000',fontWeight: 600 }}
+                          onClick={() => setUpdateModalOpen(true)}
                         >
                           update
                         </Button>
@@ -369,6 +397,110 @@ const ObligationView = () => {
         </CardSection>
       </Box>
       <ObligationSliderView open={drawerOpen} onClose={handleCloseDrawer} page={selectedPage} />
+
+      <Box>
+        <ModalSection
+          title="OB- Status Update & Tracking"
+          open={UpdatemodalOpen}
+          onClose={() => setUpdateModalOpen(false)}
+        >
+          <Box sx={{ px: 2, py: 1.5, width: 420 }}>
+            {/* Customer Info */}
+            <Stack spacing={1.5}>
+              {CustomerDetails.map((item, idx) => (
+                <Box key={idx} display="flex">
+                  <Typography
+                    variant="body2"
+                    sx={{ minWidth: 160, color: "#60698F" }}
+                  >
+                    {item.label}
+                  </Typography>
+                  <Typography variant="body2">{item.value}</Typography>
+                </Box>
+              ))}
+            </Stack>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Section Title */}
+            <Typography variant="subtitle2" fontWeight={600} mb={1}>
+              Status Update
+            </Typography>
+
+            {/* Select Date */}
+            <Box mb={2}>
+              <Typography variant="body2" mb={0.5}>
+                Select Date
+              </Typography>
+              <TextField
+                type="date"
+                fullWidth
+                size="small"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </Box>
+
+            {/* Radio Buttons Section */}
+            {[
+              { label: "OB Submitted on Time", key: "obSubmitted" },
+              { label: "OB Complied", key: "obComplied" },
+              { label: "SLA Impact", key: "slaImpact" },
+              { label: "Billable by Service Provider", key: "billable" },
+              { label: "KPI-Non Compliance", key: "kpiNonCompliance" },
+              { label: "Has issue", key: "hasIssue" },
+              { label: "Financial Impact", key: "financialImpact" },
+              { label: "Has Risk", key: "hasRisk" },
+            ].map((item) => (
+              <Box
+                key={item.key}
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                mt={1}
+              >
+                <Typography variant="body2" sx={{ flex: 1 }}>
+                  {item.label}
+                </Typography>
+                <RadioGroup
+                  row
+                  value={status[item.key]}
+                  onChange={handleChange(item.key)}
+                  sx={{ gap: 1 }}
+                >
+                  <FormControlLabel
+                    value="yes"
+                    control={<Radio size="small" />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value="no"
+                    control={<Radio size="small" />}
+                    label="No"
+                  />
+                </RadioGroup>
+              </Box>
+            ))}
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Footer Buttons */}
+            <Box display="flex" justifyContent="flex-start" gap={2}>
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ backgroundColor: "#2268E9", color: "#fff" }}
+              >
+                Map
+              </Button>
+              <Button variant="outlined" size="small" onClick={() => setUpdateModalOpen(false)}>
+                Cancel
+              </Button>
+            </Box>
+          </Box>
+        </ModalSection>
+      </Box>
+
     </Box>
   );
 };

@@ -1,12 +1,12 @@
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
-  
   components: {
     Typography: {
       fontFamily: 'Inter, sans-serif',
       color: '#21263C'
     },
+
     MuiTextField: {
       defaultProps: {
         variant: 'standard',
@@ -15,16 +15,18 @@ const theme = createTheme({
         },
       },
     },
+
     MuiInputBase: {
       styleOverrides: {
         root: {
           border: '1px solid #ced4da',
           borderRadius: '8px',
-          padding: '10px 14px',
+          padding: '6px 10px',
           fontSize: '15px',
           backgroundColor: '#fff',
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',
+          minHeight: '36px',
           '&:focus-within': {
             borderColor: '#1976d2',
           },
@@ -34,6 +36,7 @@ const theme = createTheme({
         },
       },
     },
+
     MuiInputLabel: {
       defaultProps: {
         shrink: true,
@@ -48,27 +51,28 @@ const theme = createTheme({
         },
       },
     },
+
     MuiSelect: {
-        defaultProps: {
-          variant: 'standard',
-          disableUnderline: true,
+      defaultProps: {
+        variant: 'standard',
+        disableUnderline: true,
+      },
+      styleOverrides: {
+        root: {
+          fontFamily: 'Inter, sans-serif',
+          maxHeight: '40px',
         },
-        styleOverrides: {
-          select: {
-            padding: '2px',
-            fontSize: '15px',
-            backgroundColor: '#fff',
-            borderRadius: '8px', // for smooth corners inside the box
-          },
-          icon: {
-            color: '#495057',
-          },
-          root:{
-            fontFamily: 'Inter, sans-serif',
-          }
+        select: {
+          padding: '4px 10px',
+          fontSize: '15px',
+          backgroundColor: '#fff',
+          borderRadius: '8px',
         },
+        icon: {
+          color: '#495057',
+        },
+      },
     },
-      
   },
 });
 

@@ -17,7 +17,7 @@ const CardSection = ({ title, children }) => {
           <Typography
             component="h2"
             sx={{
-              fontSize: '20px',
+              fontSize: '18px',
               fontWeight: 600,
               mb: 2,
               color: '#212529',

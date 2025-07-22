@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const modalStyle = {
   position: "absolute",
-  top: "40%",
+  top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "#fff",
@@ -25,7 +25,7 @@ const ModalSection = ({ open, onClose, title, children }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
           <Typography variant="h6" fontWeight={600}>
             {title}
           </Typography>
