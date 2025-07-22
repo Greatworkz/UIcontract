@@ -145,7 +145,7 @@ const Obligations = () => {
     <Box sx={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       {/* First Card: Tabs */}
       <Box sx={{ mb: 3 }}>
-        <CardSection title="Extracted Contract List">
+        <CardSection title="Extracted Obligation List">
           <Tabs
             value={tab}
             onChange={handleTabChange}
