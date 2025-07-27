@@ -9,7 +9,7 @@ import './index.css';
 import TEST from "./layouts/test";
 import ContractList from "./layouts/Contract";
 import ContractAddEdit from "./layouts/ContractAddEdit";
-
+import TwoStepVerification from "./layouts/TwoStepVerification";
 function App() {
 
   return (
@@ -17,7 +17,9 @@ function App() {
       {/* Auth Routes - no navbar */}
       {/* <Route element={<AuthLayout />}> */}
         <Route path="/" element={<Login />} />
-        <Route path="/test" element={<TEST />} />
+        <Route path="/twostepVerification" element={<TwoStepVerification />} />
+        {/* <Route path="/test" element={<TEST />} /> */}
+
       {/* </Route> */}
 
       {/* Main App Routes - with navbar */}

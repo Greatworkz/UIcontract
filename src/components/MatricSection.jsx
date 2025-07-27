@@ -21,7 +21,7 @@ const MetricSection = ({ title, value, icon }) => {
         sx={{ width: 40, height: 40 }}
       />
       <Box>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '14px', fontWeight: 500, color: '#696D9A'}}>
           {title}
         </Typography>
         <Typography variant="h6" fontWeight="bold">

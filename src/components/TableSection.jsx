@@ -39,7 +39,7 @@ const TableSection = ({ headers = [], rows = [], onEdit, onDelete,onRowClick }) 
         <TableHead>
           <TableRow>
             {headers.map((header, idx) => (
-              <TableCell key={idx} sx={{ fontWeight: "bold", py: 2, px: 2 }}>
+              <TableCell key={idx} sx={{ fontWeight: "bold", py: 2, px: 2, }}>
                 {header}
               </TableCell>
             ))}
@@ -48,65 +48,78 @@ const TableSection = ({ headers = [], rows = [], onEdit, onDelete,onRowClick }) 
         </TableHead>
 
         <TableBody>
-          {rows.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={headers.length + 1}>
-                <Typography align="center" color="text.secondary">
-                  No data available
+  {rows.length === 0 ? (
+    <TableRow>
+      <TableCell colSpan={headers.length + 1} sx={{ fontSize: "13px" }}>
+        <Typography align="center" color="text.secondary" sx={{ fontSize: "13px" }}>
+          No data available
+        </Typography>
+      </TableCell>
+    </TableRow>
+  ) : (
+    rows.map((row, rowIndex) => (
+      <TableRow
+        key={rowIndex}
+        hover
+        sx={{
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "#F9FAFF",
+            "& td": {
+              color: "#2268E9",
+            },
+          },
+        }}
+        onClick={() => onRowClick?.(row)}
+      >
+        {headers.map((header, colIndex) => {
+          const key = header.toLowerCase();
+          const value = row[key] ?? "—";
+
+          return (
+            <TableCell
+              key={colIndex}
+              sx={{
+                py: 2,
+                px: 2,
+                fontSize: "13px",
+                whiteSpace: "nowrap",
+                borderBottom: "1px solid #DCDCEF"
+              }}
+            >
+              {key === "status" ? (
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: "13px",
+                    color: getStatusColor(value),
+                    textTransform: "capitalize"
+                  }}
+                >
+                  {value}
                 </Typography>
-              </TableCell>
-            </TableRow>
-          ) : (
-            rows.map((row, rowIndex) => (
-              <TableRow key={rowIndex} hover 
-               sx={{ cursor: "pointer" }}
-               onClick={() => onRowClick?.(row)} >
-                {headers.map((header, colIndex) => {
-                  const key = header.toLowerCase();
-                  const value = row[key] ?? "—";
+              ) : (
+                value
+              )}
+            </TableCell>
+          );
+        })}
 
-                  return (
-                    <TableCell
-                      key={colIndex}
-                      sx={{
-                        py: 2,
-                        px: 2,
-                        fontSize: "0.925rem",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {key === "status" ? (
-                        <Typography
-                          sx={{
-                            fontWeight: 600,
-                            fontSize: "14px",
-                            color: getStatusColor(value),
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          {value}
-                        </Typography>
-                      ) : (
-                        value
-                      )}
-                    </TableCell>
-                  );
-                })}
+        <TableCell sx={{ py: 1, px: 2 }}>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <IconButton color="primary" onClick={() => onEdit?.(row)}>
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton color="error" onClick={() => onDelete?.(row)}>
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </Box>
+        </TableCell>
+      </TableRow>
+    ))
+  )}
+</TableBody>
 
-                <TableCell sx={{ py: 1, px: 2 }}>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <IconButton color="primary" onClick={() => onEdit?.(row)}>
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton color="error" onClick={() => onDelete?.(row)}>
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
       </Table>
     </TableContainer>
   );

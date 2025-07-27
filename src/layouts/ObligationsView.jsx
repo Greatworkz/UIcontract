@@ -28,6 +28,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ObligationSliderView from "./ObligationSliderView";
 import ModalSection from "../components/ModalSection";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 const Matricks = [
   { label: "Total Classes", value: 34, icon: "" },
   { label: "Confidence", value: 14, icon: "" },
@@ -184,18 +185,39 @@ const ObligationView = () => {
 
   return (
     <Box px={{ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }} py={3}>
-      {/* Header */}
-      <Box display="flex" flexDirection="column" mb={3}>
-        <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
-          <Typography variant="h6" fontWeight="bold">
-            {contractDetails.customer_name}
-          </Typography>
-          <Chip label="ACTIVE" size="small" color="success" />
-        </Box>
-        <Typography variant="body2" color="text.secondary" mt={0.5}>
-          {contractDetails.uploaded_file}
-        </Typography>
-      </Box>
+       {/* Header */}
+  <Box display="flex" flexDirection="column" mb={3}>
+    <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+      {/* Back Arrow */}
+      <IconButton size="small"> {/* You can define this */}
+        <ArrowBackIosIcon fontSize="small" />
+      </IconButton>
+
+      {/* Customer Name */}
+      <Typography variant="h6" fontWeight="bold">
+        {contractDetails.customer_name}
+      </Typography>
+
+      {/* Chip - square and colored */}
+      <Chip
+        label="ACTIVE"
+        size="small"
+        sx={{
+          borderRadius: '3px', // Square shape
+          backgroundColor: '#C5E9D1', // Custom color
+          color: '#008631', // Text color
+          fontWeight: 500,
+          px: 1.5,
+          border: '1px'
+        }}
+      />
+    </Box>
+
+    {/* Subtext */}
+    <Typography variant="body2" color="text.secondary" mt={0.5} sx={{ fontSize: '12px' , fontWeight: 500, color: '#60698F', ml:6,mt: 1}}>
+      {contractDetails.uploaded_file}
+    </Typography>
+  </Box> 
 
       {/* Metric Cards */}
       <Grid container spacing={2} mb={2}>
@@ -219,11 +241,11 @@ const ObligationView = () => {
                 <Box key={idx} display="flex">
                   <Typography
                     variant="body2"
-                    sx={{ minWidth: 140, color: "#60698F" }}
+                    sx={{ minWidth: 140, color: "#60698F" , fontSize: '13px',fontWeight: 500}}
                   >
                     {item.label}
                   </Typography>
-                  <Typography variant="body2" sx={{ ml: 1 }}>
+                  <Typography variant="body2" sx={{ ml: 1,color: "#21263C" , fontSize: '13px',fontWeight: 500 }}>
                     {item.value}
                   </Typography>
                 </Box>
@@ -239,11 +261,11 @@ const ObligationView = () => {
                 <Box key={idx} display="flex">
                   <Typography
                     variant="body2"
-                    sx={{ minWidth: 140, color: "#60698F" }}
+                    sx={{ minWidth: 180, color: "#60698F",fontSize: '13px',fontWeight: 500 }}
                   >
                     {item.label}
                   </Typography>
-                  <Typography variant="body2" sx={{ ml: 1 }}>
+                  <Typography variant="body2" sx={{ ml: 1,color: "#21263C" , fontSize: '13px',fontWeight: 500 }}>
                     {item.value}
                   </Typography>
                 </Box>
@@ -259,9 +281,9 @@ const ObligationView = () => {
 
       {/* Tabs & Table */}
 
-      <Box mt={5}>
+      <Box sx={{ mt: "20px" }}>
         <CardSection>
-          <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2 }}>
+          <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2, }}>
             <ThemedTabs value={tabIndex} onChange={handleTabChange}>
               <ThemedTab label="Sections" />
               <ThemedTab label="Pages" />
@@ -299,10 +321,20 @@ const ObligationView = () => {
               {/* Table */}
               <Table  sx={{ overflowX: "auto" }}>
                 <TableHead>
-                  <TableRow>
-                    <TableCell padding="checkbox"></TableCell>
-                    {/* Optional: Add meaningful headers here */}
-                  </TableRow>
+                <TableRow>
+                <TableCell
+                  padding="checkbox"
+                  sx={{
+                    borderColor: '#E5E5E5',
+                    backgroundColor: '#F9FAFF', // Needed for radius visibility
+                    borderRadius: '3px',
+                  }}
+                >
+                  {/* Optional: checkbox or leave empty */}
+                </TableCell>
+                {/* Add other header cells here */}
+              </TableRow>
+
                 </TableHead>
                 <TableBody>
                   {pageData.map((page) => (

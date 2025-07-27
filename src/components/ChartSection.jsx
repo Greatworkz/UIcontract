@@ -4,7 +4,7 @@ import { Card, CardContent, Typography, Box } from '@mui/material';
 
 const COLORS = ['#F04438', '#FEC84B', '#6C757D']; // Red, Yellow, Gray (customize as needed)
 
-const ChartSection = ({ title, data = [], height = 185 }) => {
+const ChartSection = ({ title, data = [], height = 175 }) => {
   return (
     <Card sx={{
         backgroundColor: '#ffffff',

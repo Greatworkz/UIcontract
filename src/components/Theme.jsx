@@ -19,16 +19,16 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          border: '1px solid #ced4da',
+          border: '2px solid #D0D5DD',
           borderRadius: '8px',
           padding: '6px 10px',
           fontSize: '15px',
           backgroundColor: '#fff',
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',
-          minHeight: '36px',
+          minHeight: '48px',
           '&:focus-within': {
-            borderColor: '#1976d2',
+            borderColor: '#D1E9FF', //1976d2
           },
         },
         input: {
@@ -43,10 +43,10 @@ const theme = createTheme({
       },
       styleOverrides: {
         root: {
-          fontSize: '15px',
-          fontWeight: 500,
+          fontSize: '16px',
+          fontWeight: 400,
           fontFamily: 'Inter, sans-serif',
-          color: '#212529',
+          color: '#344054',
           transform: 'translate(0, -6px) scale(0.85)',
         },
       },
@@ -60,11 +60,11 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'Inter, sans-serif',
-          maxHeight: '40px',
+          maxHeight: '34px',
         },
         select: {
           padding: '4px 10px',
-          fontSize: '15px',
+          fontSize: '13px',
           backgroundColor: '#fff',
           borderRadius: '8px',
         },

@@ -6,10 +6,11 @@ const CardSection = ({ title, children }) => {
     <Card
       sx={{
         backgroundColor: '#ffffff',
-        borderRadius: '10px',
+        borderRadius: '20px',
         fontFamily: 'Inter, sans-serif',
-        fontSize: '14px',
+        fontSize: '13px',
         boxShadow: '0 6px 6px rgba(0,0,0,0.08)', // subtle shadow
+        fontWeight: 500
       }}
     >
       <CardContent sx={{ p: 3 }}>

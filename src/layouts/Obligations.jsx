@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
 import {
@@ -11,9 +11,12 @@ import {
   Box,
   Tabs,
   Tab,
-  Typography,
+  Typography,Pagination
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const mockContracts = [
   {
@@ -137,6 +140,11 @@ const Obligations = () => {
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
+  const [Datevalue, setDateValue] = React.useState([null, null]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+const rowsPerPage = 10;
+const totalCount = 173; 
 
   const filteredContracts =
     tab === "All" ? mockContracts : mockContracts.filter((c) => c.status === tab);
@@ -178,16 +186,16 @@ const Obligations = () => {
         <CardSection>
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
             <Grid item xs={12} md={4}>
-              <Typography sx={{ color: '#000', fontWeight: 600 }}>
+              <Typography sx={{ color: '#000', fontWeight: 600, fontSize: '14px' }}>
                 Filter By :
               </Typography>
             </Grid>
 
             <Grid item xs={12} md={3}>
-              <FormControl fullWidth>
-                <Select defaultValue="ALG Global Limited">
-                  <MenuItem value="ALG Global Limited">ALG Global Limited</MenuItem>
-                  <MenuItem value="Another Company">Another Company</MenuItem>
+              <FormControl fullWidth >
+                <Select defaultValue="ALG Global Limited" >
+                  <MenuItem value="ALG Global Limited" sx={{ fontSize: '13px' }}>ALG Global Limited</MenuItem>
+                  <MenuItem value="Another Company" sx={{ fontSize: '13px' }}>Another Company</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -201,12 +209,37 @@ const Obligations = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Grid item xs={12} md={4}>
+        <DateRangePicker
+          value={Datevalue}
+          onChange={(newValue) => setDateValue(newValue)}
+          renderInput={(startProps, endProps) => (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <TextField
                 fullWidth
-                placeholder="10.01.2025 to 24.06.2025"
+                {...startProps}
+                placeholder="Start Date"
+                InputProps={{
+                  ...startProps.InputProps,
+                  sx: { height: "34px" },
+                }}
               />
-            </Grid>
+              <Box sx={{ mx: 1 }}>to</Box>
+              <TextField
+                fullWidth
+                {...endProps}
+                placeholder="End Date"
+                InputProps={{
+                  ...endProps.InputProps,
+                  sx: { height: "34px" },
+                }}
+              />
+            </Box>
+          )}
+        />
+      </Grid>
+    </LocalizationProvider>
 
             <Grid item xs={12} md={2}>
               <Typography
@@ -240,6 +273,31 @@ const Obligations = () => {
               onDelete={(row) => console.log("Delete", row)}
             />
           </Box>
+
+          <Box
+  sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    mt: 2, // margin top
+  }}
+>
+
+  {/* Right side - Total count */}
+  <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+     Total Count : {totalCount} 
+  </Typography>
+
+  {/* Left side - Pagination */}
+  <Pagination
+    count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+    page={currentPage}
+    onChange={(e, page) => setCurrentPage(page)}
+    size="small"
+  />
+
+  
+</Box>
         </CardSection>
       </Container>
     </Box>

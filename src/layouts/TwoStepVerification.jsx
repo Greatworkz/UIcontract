@@ -7,19 +7,19 @@ import {
   TextField,
   Button,
   IconButton,
-  InputAdornment,InputBase
+  InputAdornment
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const TwoStepVerification = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate('/twostepVerification');  //  twostepVerification  obligations
+    navigate('/obligations');
   };
 
   const handleTogglePassword = () => {
@@ -40,17 +40,17 @@ const Login = () => {
       <Card
         sx={{
           width: '418px',
-          // maxWidth: 400,
-          // height: '464px',
           fontSize: '16px',
           px: 4,
           py: 4,
-          // boxShadow: 6,
           borderRadius: '20px',
         }}
       >
         <CardContent>
-          <Typography  align="center" sx={{ fontFamily: 'Poppins',fontSize: '28px', fontWeight: 600, mb:1}}>
+          <Typography
+            align="center"
+            sx={{ fontFamily: 'Poppins', fontSize: '28px', fontWeight: 600, mb: 1 }}
+          >
             Login to your account
           </Typography>
 
@@ -63,49 +63,35 @@ const Login = () => {
               label="Email"
               name="email"
               type="email"
-              placeholder='Enter your email'
+              placeholder="Enter your email"
             />
-            {/* <TextField
+
+            <TextField
               margin="normal"
               fullWidth
               required
               id="password"
-              label="Password"
               name="password"
-              type="password"
-              placeholder='Enter your password'
-            /> */}
-
-<TextField
-      margin="normal"
-      fullWidth
-      required
-      id="password"
-      name="password"
-      type={showPassword ? 'text' : 'password'}
-      placeholder="Enter your password"
-      label="Password"
-      
-      // slotProps={{
-      //   input: {
-      //     endAdornment: (
-      //       <InputAdornment position="end">
-      //         <IconButton onClick={handleTogglePassword} edge="end">
-      //           {showPassword ? <VisibilityOff /> : <Visibility />}
-      //         </IconButton>
-      //       </InputAdornment>
-      //     )
-      //   }
-      // }}
-    />
+              type={showPassword ? 'text' : 'password'}
+              placeholder=".  .  .  ."
+              label="Enter Code"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleTogglePassword} edge="end">
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
 
             <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
                 mt: 3,
-                // py: ,
                 fontSize: '16px',
                 backgroundColor: '#1570EF',
                 textTransform: 'none',
@@ -113,13 +99,12 @@ const Login = () => {
                 borderRadius: '8px',
                 height: '52px',
                 '&:hover': {
-                backgroundColor: '#175CD3',
+                  backgroundColor: '#175CD3',
                 },
-            }}
+              }}
             >
-            Login now
+              Login now
             </Button>
-
           </Box>
 
           <Typography
@@ -127,14 +112,13 @@ const Login = () => {
             align="center"
             sx={{
               mt: 3,
-              color: '#a8a8a8',
+              color: '#1976d2',
               fontSize: '16px',
+              cursor: 'pointer',
             }}
+            onClick={() => navigate(-1)} // Go back
           >
-            Need help?{' '}
-            <Box component="span" sx={{ color: '#1976d2', cursor: 'pointer' }}>
-              Support
-            </Box>
+            ← Back
           </Typography>
         </CardContent>
       </Card>
@@ -142,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default TwoStepVerification;

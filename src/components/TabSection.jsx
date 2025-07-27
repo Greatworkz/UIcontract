@@ -11,12 +11,16 @@ const ThemedTabs = ({ value, onChange, children, ...props }) => {
       indicatorColor="primary"
       sx={{
         mt: 1,
+        color: '#21263C',
+        fontWeight: 400,
+        height: '52px',
         '& .MuiTab-root': {
           fontSize: '14px',
-          fontWeight: 500,
+          fontWeight: 400,
           textTransform: 'none',
           fontFamily: 'Inter, sans-serif',
           px: 2,
+          
         },
         '& .MuiTabs-indicator': {
           height: '3px',

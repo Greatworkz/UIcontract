@@ -12,11 +12,14 @@ import {
   Tab,
   useMediaQuery,
   useTheme,
+  TextField,
+  InputAdornment,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 const tabRoutes = [
   { label: 'Home', path: '/home' },
   { label: 'Contracts', path: '/contracts', include: ['contracts','/contract/add']  },
@@ -51,7 +54,7 @@ const CustomNavbar = () => {
   return (
     <>
       {/* Top Navbar */}
-      <AppBar position="static" sx={{ px: 2, backgroundColor: '#061445' }}>
+      <AppBar position="static" sx={{ px: 2,py:2, backgroundColor: '#061445',height: '50px' }}>
         <Toolbar>
           <Box display="flex" alignItems="center" flexGrow={1}>
             <img src="/your-logo.png" alt="Logo" width="24" style={{ marginRight: 8 }} />
@@ -62,7 +65,41 @@ const CustomNavbar = () => {
           </Box>
 
           {/* Company Dropdown */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center',gap: 2 }}>
+          <TextField
+  variant="outlined"
+  size="small"
+  placeholder="Search..."
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <SearchIcon sx={{ color: '#ccc' }} />
+      </InputAdornment>
+    ),
+    sx: {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)', // light transparent white
+      borderRadius: '6px',
+      height: '36px',
+      width: '222px',
+      color: '#fff',
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+      },
+      // '&:hover .MuiOutlinedInput-notchedOutline': {
+      //   borderColor: '#fff',
+      // },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+      },
+    },
+  }}
+  inputProps={{
+    style: {
+      color: '#fff',
+    },
+  }}
+/>
+
             <Typography
               onClick={handleMenuOpen}
               sx={{
@@ -79,6 +116,10 @@ const CustomNavbar = () => {
               <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
               <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
             </Menu>
+
+            <IconButton sx={{ color: '#fff' }}>
+             <NotificationsNoneIcon />
+            </IconButton>
 
             <Avatar
               alt="User"
