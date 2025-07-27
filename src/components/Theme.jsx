@@ -16,13 +16,26 @@ const theme = createTheme({
       },
     },
 
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          height: '35px',
+          fontSize: '14px',
+          '& input': {
+            padding: '8px 10px',
+            fontSize: '14px',
+          },
+        },
+      },
+    },
+
     MuiInputBase: {
       styleOverrides: {
         root: {
-          border: '2px solid #D0D5DD',
+          border: '1px solid #E5E5E5',
           borderRadius: '8px',
           padding: '6px 10px',
-          fontSize: '15px',
+          fontSize: '14px',
           backgroundColor: '#fff',
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',

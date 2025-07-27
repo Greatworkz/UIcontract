@@ -11,13 +11,11 @@ import {
   Box,
   Tabs,
   Tab,
-  Typography,Pagination
+  Typography,
+  Pagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-
+import DateRangeInput from "../components/DateRange";
 const mockContracts = [
   {
     customer: "ALG Global Limited",
@@ -140,14 +138,15 @@ const Obligations = () => {
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
-  const [Datevalue, setDateValue] = React.useState([null, null]);
-
+  const [dateRange, setDateRange] = useState([null, null]);
   const [currentPage, setCurrentPage] = useState(1);
-const rowsPerPage = 10;
-const totalCount = 173; 
+  const rowsPerPage = 10;
+  const totalCount = 173;
 
   const filteredContracts =
-    tab === "All" ? mockContracts : mockContracts.filter((c) => c.status === tab);
+    tab === "All"
+      ? mockContracts
+      : mockContracts.filter((c) => c.status === tab);
 
   return (
     <Box sx={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
@@ -161,16 +160,16 @@ const totalCount = 173;
             indicatorColor="primary"
             sx={{
               mt: 1,
-              '& .MuiTab-root': {
-                fontSize: '14px',
+              "& .MuiTab-root": {
+                fontSize: "14px",
                 fontWeight: 500,
-                textTransform: 'none',
-                fontFamily: 'Inter, sans-serif',
+                textTransform: "none",
+                fontFamily: "Inter, sans-serif",
                 px: 2,
               },
-              '& .MuiTabs-indicator': {
-                height: '3px',
-                borderRadius: '2px',
+              "& .MuiTabs-indicator": {
+                height: "3px",
+                borderRadius: "2px",
               },
             }}
           >
@@ -186,16 +185,25 @@ const totalCount = 173;
         <CardSection>
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
             <Grid item xs={12} md={4}>
-              <Typography sx={{ color: '#000', fontWeight: 600, fontSize: '14px' }}>
+              <Typography
+                sx={{ color: "#000", fontWeight: 600, fontSize: "14px" }}
+              >
                 Filter By :
               </Typography>
             </Grid>
 
             <Grid item xs={12} md={3}>
-              <FormControl fullWidth >
-                <Select defaultValue="ALG Global Limited" >
-                  <MenuItem value="ALG Global Limited" sx={{ fontSize: '13px' }}>ALG Global Limited</MenuItem>
-                  <MenuItem value="Another Company" sx={{ fontSize: '13px' }}>Another Company</MenuItem>
+              <FormControl fullWidth>
+                <Select defaultValue="ALG Global Limited">
+                  <MenuItem
+                    value="ALG Global Limited"
+                    sx={{ fontSize: "13px" }}
+                  >
+                    ALG Global Limited
+                  </MenuItem>
+                  <MenuItem value="Another Company" sx={{ fontSize: "13px" }}>
+                    Another Company
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -203,52 +211,28 @@ const totalCount = 173;
             <Grid item xs={12} md={3}>
               <FormControl fullWidth>
                 <Select defaultValue="Non-Disclosure Agreement (NDAs)">
-                  <MenuItem value="Non-Disclosure Agreement (NDAs)">NDAs</MenuItem>
-                  <MenuItem value="Service Agreements">Service Agreements</MenuItem>
+                  <MenuItem value="Non-Disclosure Agreement (NDAs)">
+                    NDAs
+                  </MenuItem>
+                  <MenuItem value="Service Agreements">
+                    Service Agreements
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
 
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Grid item xs={12} md={4}>
-        <DateRangePicker
-          value={Datevalue}
-          onChange={(newValue) => setDateValue(newValue)}
-          renderInput={(startProps, endProps) => (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <TextField
-                fullWidth
-                {...startProps}
-                placeholder="Start Date"
-                InputProps={{
-                  ...startProps.InputProps,
-                  sx: { height: "34px" },
-                }}
-              />
-              <Box sx={{ mx: 1 }}>to</Box>
-              <TextField
-                fullWidth
-                {...endProps}
-                placeholder="End Date"
-                InputProps={{
-                  ...endProps.InputProps,
-                  sx: { height: "34px" },
-                }}
-              />
-            </Box>
-          )}
-        />
-      </Grid>
-    </LocalizationProvider>
+            <Grid item xs={12} md={2}>
+              <DateRangeInput value={dateRange} onChange={setDateRange} />
+            </Grid>
 
             <Grid item xs={12} md={2}>
               <Typography
                 sx={{
-                  color: '#2268E9',
+                  color: "#2268E9",
                   fontWeight: 500,
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  textAlign: { xs: 'left', md: 'right' },
+                  fontSize: "13px",
+                  cursor: "pointer",
+                  textAlign: { xs: "left", md: "right" },
                 }}
               >
                 Clear Filter
@@ -275,29 +259,26 @@ const totalCount = 173;
           </Box>
 
           <Box
-  sx={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    mt: 2, // margin top
-  }}
->
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mt: 2, // margin top
+            }}
+          >
+            {/* Right side - Total count */}
+            <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+              Total Count : {totalCount}
+            </Typography>
 
-  {/* Right side - Total count */}
-  <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
-     Total Count : {totalCount} 
-  </Typography>
-
-  {/* Left side - Pagination */}
-  <Pagination
-    count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
-    page={currentPage}
-    onChange={(e, page) => setCurrentPage(page)}
-    size="small"
-  />
-
-  
-</Box>
+            {/* Left side - Pagination */}
+            <Pagination
+              count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+              page={currentPage}
+              onChange={(e, page) => setCurrentPage(page)}
+              size="small"
+            />
+          </Box>
         </CardSection>
       </Container>
     </Box>
