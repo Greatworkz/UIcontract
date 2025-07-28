@@ -64,6 +64,25 @@ const TwoStepVerification = () => {
               name="email"
               type="email"
               placeholder="Enter your email"
+
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  border: "1px solid #D1E9FF",
+                  borderRadius: "8px",
+                  height: "48px",
+                  padding: "0px", // remove internal padding
+                  "& input": {
+                    padding: "12px 16px", // apply padding inside the input
+                  },
+                },
+              }}
+              sx={{
+                width: "314px",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none", // remove default outline
+                },
+              }}
             />
 
             <TextField
@@ -76,13 +95,33 @@ const TwoStepVerification = () => {
               placeholder=".  .  .  ."
               label="Enter Code"
               InputProps={{
+                disableUnderline: true,
                 endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePassword} edge="end">
+                  <InputAdornment position="center">
+                    <IconButton onClick={handleTogglePassword} edge="center">
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 ),
+                sx: {
+                  border: "1px solid #D1E9FF",
+                  borderRadius: "8px",
+                  height: "48px",
+                  padding: 0,
+                  "& input": {
+                    padding: "12px 16px",
+                  },
+                },
+              }}
+              sx={{
+                width: "314px",
+                "& .MuiInputBase-root": {
+                  backgroundColor: "#fff",
+                },
+                "& .MuiInputBase-input": {
+                  fontSize: "14px",
+                  fontFamily: "Inter, sans-serif",
+                },
               }}
             />
 

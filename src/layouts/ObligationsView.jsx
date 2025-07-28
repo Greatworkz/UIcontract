@@ -29,12 +29,18 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ObligationSliderView from "./ObligationSliderView";
 import ModalSection from "../components/ModalSection";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
+import TotalClassSvg from "../assets/icons/Total classes.svg";
+import ConfidenceSvg from "../assets/icons/Confidence.svg";
+import HighConfidenceSvg from "../assets/icons/Highly Confidence.svg";
+import TotalPagesSvg from "../assets/icons/Total pages.svg";
+import BotSvg from "../assets/icons/BOT.svg"
 const Matricks = [
-  { label: "Total Classes", value: 34, icon: "" },
-  { label: "Confidence", value: 14, icon: "" },
-  { label: "High Confidence", value: 19, icon: "" },
-  { label: "Total Pages", value: 36, icon: "" },
-  { label: "Processed By", value: "Open Ai", icon: "" },
+  { label: "Total Classes", value: 34, icon: TotalClassSvg },
+  { label: "Confidence", value: 14, icon: ConfidenceSvg },
+  { label: "High Confidence", value: 19, icon: HighConfidenceSvg },
+  { label: "Total Pages", value: 36, icon: TotalPagesSvg },
+  { label: "Processed By", value: "Open Ai", icon: BotSvg },
 ];
 
 const contractDetails = {
@@ -296,7 +302,7 @@ const ObligationView = () => {
           {tabIndex === 1 && (
             <Box mt={2}>
               <Grid container spacing={2} mb={3}>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}>
                   <TextField
                     fullWidth
                     label="Search content"
@@ -304,7 +310,7 @@ const ObligationView = () => {
                     // onChange={(e) => setSearch(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}>
                   <TextField
                     fullWidth
                     select

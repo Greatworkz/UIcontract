@@ -6,7 +6,7 @@ const CardSection = ({ title, children }) => {
     <Card
       sx={{
         backgroundColor: '#ffffff',
-        borderRadius: '20px',
+        borderRadius: '8px',
         fontFamily: 'Inter, sans-serif',
         fontSize: '13px',
         boxShadow: '0 6px 6px rgba(0,0,0,0.08)', // subtle shadow

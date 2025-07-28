@@ -18,119 +18,103 @@ import { useNavigate } from "react-router-dom";
 import DateRangeInput from "../components/DateRange";
 const mockContracts = [
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "Confidential_Agreement_Report.pdf",
-    code: "NDA-2025-05-022-001",
-    date: "10/01/2025",
-    time: "14:45:30",
-    status: "Completed",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "Confidential_Agreement_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-001",
+    "Update On": "10/01/2025 14:45:30",
+    "Status": "Completed",
   },
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "NDA_2024_Analysis_Report.pdf",
-    code: "NDA-2025-05-022-013",
-    date: "04/06/2025",
-    time: "14:45:42",
-    status: "Active",
-  },
-
-  {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "Confidential_Agreement_Report.pdf",
-    code: "NDA-2025-05-022-001",
-    date: "10/01/2025",
-    time: "14:45:30",
-    status: "Terminate",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "NDA_2024_Analysis_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-013",
+    "Update On": "04/06/2025 14:45:42",
+    "Status": "Active",
   },
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "NDA_2024_Analysis_Report.pdf",
-    code: "NDA-2025-05-022-013",
-    date: "04/06/2025",
-    time: "14:45:42",
-    status: "Active",
-  },
-
-  {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "Confidential_Agreement_Report.pdf",
-    code: "NDA-2025-05-022-001",
-    date: "10/01/2025",
-    time: "14:45:30",
-    status: "Completed",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "Confidential_Agreement_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-001",
+    "Update On": "10/01/2025 14:45:30",
+    "Status": "Terminate",
   },
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "NDA_2024_Analysis_Report.pdf",
-    code: "NDA-2025-05-022-013",
-    date: "04/06/2025",
-    time: "14:45:42",
-    status: "Terminate",
-  },
-
-  {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "Confidential_Agreement_Report.pdf",
-    code: "NDA-2025-05-022-001",
-    date: "10/01/2025",
-    time: "14:45:30",
-    status: "Completed",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "NDA_2024_Analysis_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-013",
+    "Update On": "04/06/2025 14:45:42",
+    "Status": "Active",
   },
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "NDA_2024_Analysis_Report.pdf",
-    code: "NDA-2025-05-022-013",
-    date: "04/06/2025",
-    time: "14:45:42",
-    status: "Active",
-  },
-
-  {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "Confidential_Agreement_Report.pdf",
-    code: "NDA-2025-05-022-001",
-    date: "10/01/2025",
-    time: "14:45:30",
-    status: "Terminate",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "Confidential_Agreement_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-001",
+    "Update On": "10/01/2025 14:45:30",
+    "Status": "Completed",
   },
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "NDA_2024_Analysis_Report.pdf",
-    code: "NDA-2025-05-022-013",
-    date: "04/06/2025",
-    time: "14:45:42",
-    status: "Active",
-  },
-
-  {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "Confidential_Agreement_Report.pdf",
-    code: "NDA-2025-05-022-001",
-    date: "10/01/2025",
-    time: "14:45:30",
-    status: "Completed",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "NDA_2024_Analysis_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-013",
+    "Update On": "04/06/2025 14:45:42",
+    "Status": "Terminate",
   },
   {
-    customer: "ALG Global Limited",
-    type: "Non-Disclosure Agreement (NDAs)",
-    file: "NDA_2024_Analysis_Report.pdf",
-    code: "NDA-2025-05-022-013",
-    date: "04/06/2025",
-    time: "14:45:42",
-    status: "Terminate",
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "Confidential_Agreement_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-001",
+    "Update On": "10/01/2025 14:45:30",
+    "Status": "Completed",
+  },
+  {
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "NDA_2024_Analysis_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-013",
+    "Update On": "04/06/2025 14:45:42",
+    "Status": "Active",
+  },
+  {
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "Confidential_Agreement_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-001",
+    "Update On": "10/01/2025 14:45:30",
+    "Status": "Terminate",
+  },
+  {
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "NDA_2024_Analysis_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-013",
+    "Update On": "04/06/2025 14:45:42",
+    "Status": "Active",
+  },
+  {
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "Confidential_Agreement_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-001",
+    "Update On": "10/01/2025 14:45:30",
+    "Status": "Completed",
+  },
+  {
+    "Customer Name": "ALG Global Limited",
+    "Contract Type": "Non-Disclosure Agreement (NDAs)",
+    "File Name": "NDA_2024_Analysis_Report.pdf",
+    "Extraction Code": "NDA-2025-05-022-013",
+    "Update On": "04/06/2025 14:45:42",
+    "Status": "Terminate",
   },
 ];
+
 
 const Obligations = () => {
   const [tab, setTab] = React.useState("All");
@@ -146,8 +130,8 @@ const Obligations = () => {
   const filteredContracts =
     tab === "All"
       ? mockContracts
-      : mockContracts.filter((c) => c.status === tab);
-
+      : mockContracts.filter((c) => c.Status === tab);
+  console.log('=========',filteredContracts)
   return (
     <Box sx={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       {/* First Card: Tabs */}
@@ -243,12 +227,11 @@ const Obligations = () => {
           <Box sx={{ overflowX: "auto" }}>
             <TableSection
               headers={[
-                "Customer",
-                "Type",
-                "File",
-                "Code",
-                "Date",
-                "Time",
+                "Customer Name",
+                "Contract Type",
+                "File Name",
+                "Extraction Code",
+                "Update On",
                 "Status",
               ]}
               rows={filteredContracts}

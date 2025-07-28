@@ -84,7 +84,7 @@ const CustomNavbar = () => {
 
           {/* Company Dropdown */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {/* <TextField
+            <TextField
               variant="outlined"
               size="small"
               placeholder="Search..."
@@ -97,17 +97,18 @@ const CustomNavbar = () => {
                 sx: {
                   backgroundColor: "rgba(255, 255, 255, 0.1)", // light transparent white
                   borderRadius: "6px",
-                  height: "36px",
+                  height: "30px",
                   width: "222px",
                   color: "#fff",
+                  border: "none",
                   "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "rgba(255, 255, 255, 0.1)",
+                     border: "none",
                   },
                   // '&:hover .MuiOutlinedInput-notchedOutline': {
                   //   borderColor: '#fff',
                   // },
                   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "rgba(255, 255, 255, 0.1)",
+                     border: "none",
                   },
                 },
               }}
@@ -116,7 +117,7 @@ const CustomNavbar = () => {
                   color: "#fff",
                 },
               }}
-            /> */}
+            />
 
             <Typography
               onClick={handleMenuOpen}

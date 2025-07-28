@@ -13,7 +13,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ModalSection from "../components/ModalSection";
-
+import BotSvg from "../assets/icons/BOT.svg"
 const ViewDocDetails = [
   { label: '', key: ''}
 ]
@@ -56,8 +56,9 @@ const ObligationSliderView = ({ open, onClose, page }) => {
               color="#F57C00"
               fontWeight="bold"
             >
-              {page.confidence} CONFIDENCE
+              {page.confidence} CONFIDENCE 
             </Box>
+            <img src={BotSvg} alt=""  style={{ width: 16, height: 16 }}/>
             <Box flex={1} textAlign="right">
               <IconButton size="small" onClick={onClose}>
                 <CloseIcon sx={{ color: "#FF5252" }} />
@@ -67,8 +68,8 @@ const ObligationSliderView = ({ open, onClose, page }) => {
 
           <Box>
             <Typography variant="body2" color="text.secondary" mt={0.5}>
-              Section: {page.section} {" | "}
-              SubSections: {page.subsections} {" | "}
+              Section: {page.section} 
+              SubSections: {page.subsections} 
               Parent: {page.parent || "N/A"}
             </Typography>
           </Box>
@@ -86,7 +87,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
               sx={{
                 backgroundColor: "#ffffff",
                 border: "1px solid #E7EEFC",
-                borderRadius: "10px",
+                borderRadius: "6px",
                 boxShadow: "0 6px 6px rgba(0,0,0,0.08)",
                 fontFamily: "Inter, sans-serif",
                 fontSize: "14px",
@@ -107,17 +108,19 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                   checked={!!selectedSections[index]}
                   onChange={() => handleCheckboxChange(index)}
                   size="small"
-                  sx={{ mr: 1 }}
+                  sx={{ mr: 1,color: '#E5E5E5' }}
                 />
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" sx={{ fontSize: '14px', fontWeight: 400 }}>
                   {section.title || `Section ${index + 1}`}
                 </Typography>
               </Box>
               </AccordionSummary>
               <AccordionDetails sx={{ px: 2, py: 1 }}>
-                <Typography fontSize={13} fontWeight={500} gutterBottom>
+              <Typography fontSize={13} fontWeight={500} sx={{ color: '#061445',fontWeight: 600}}>
                   OB - Domain Mapping Details
-                </Typography>
+              </Typography>
+              <Stack spacing={2.5} sx={{ px: 2, py: 1.5 }}>
+                <Box display='flex'>
                 <Typography fontSize={12}>
                   Accountability: {section.accountability || "--"}
                 </Typography>
@@ -130,6 +133,11 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                 <Typography fontSize={12}>
                   Deliverable: {section.deliverable || "--"}
                 </Typography>
+                </Box>
+              </Stack>
+
+                
+                
 
                 <Typography fontWeight={500} mt={2}>
                   T&C Obligations

@@ -42,6 +42,7 @@ const DateRangeInput = ({ value, onChange }) => {
       padding: "0 8px",
       cursor: "pointer",
       borderRadius: "4px",
+      height: '34px'
     },
   }}
 />

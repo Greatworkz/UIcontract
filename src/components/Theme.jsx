@@ -30,6 +30,9 @@ const theme = createTheme({
     },
 
     MuiInputBase: {
+      defaultProps: {
+        disableUnderline: true,
+      },
       styleOverrides: {
         root: {
           border: '1px solid #E5E5E5',
@@ -39,7 +42,7 @@ const theme = createTheme({
           backgroundColor: '#fff',
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',
-          minHeight: '48px',
+          minHeight: '30px',
           '&:focus-within': {
             borderColor: '#D1E9FF', //1976d2
           },

@@ -55,16 +55,35 @@ const Login = () => {
           </Typography>
 
           <Box component="form" onSubmit={handleLogin} noValidate>
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              id="email"
-              label="Email"
-              name="email"
-              type="email"
-              placeholder='Enter your email'
-            />
+          <TextField
+  margin="normal"
+  fullWidth
+  required
+  id="email"
+  label="Email"
+  name="email"
+  type="email"
+  placeholder="Enter your email"
+  InputProps={{
+    disableUnderline: true,
+    sx: {
+      border: "1px solid #D1E9FF",
+      borderRadius: "8px",
+      height: "48px",
+      padding: "0px", // remove internal padding
+      "& input": {
+        padding: "12px 16px", // apply padding inside the input
+      },
+    },
+  }}
+  sx={{
+    width: "314px",
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: "none", // remove default outline
+    },
+  }}
+/>
+
             {/* <TextField
               margin="normal"
               fullWidth
@@ -75,29 +94,46 @@ const Login = () => {
               type="password"
               placeholder='Enter your password'
             /> */}
-
 <TextField
-      margin="normal"
-      fullWidth
-      required
-      id="password"
-      name="password"
-      type={showPassword ? 'text' : 'password'}
-      placeholder="Enter your password"
-      label="Password"
-      
-      // slotProps={{
-      //   input: {
-      //     endAdornment: (
-      //       <InputAdornment position="end">
-      //         <IconButton onClick={handleTogglePassword} edge="end">
-      //           {showPassword ? <VisibilityOff /> : <Visibility />}
-      //         </IconButton>
-      //       </InputAdornment>
-      //     )
-      //   }
-      // }}
-    />
+  margin="normal"
+  fullWidth
+  required
+  id="password"
+  name="password"
+  type={showPassword ? "text" : "password"}
+  placeholder="Enter your password"
+  label="Password"
+  variant="standard" // use "standard" variant to control underline
+  InputProps={{
+    disableUnderline: true,
+    endAdornment: (
+      <InputAdornment position="center">
+        <IconButton onClick={handleTogglePassword} edge="center">
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+    sx: {
+      border: "1px solid #D1E9FF",
+      borderRadius: "8px",
+      height: "48px",
+      padding: 0,
+      "& input": {
+        padding: "12px 16px",
+      },
+    },
+  }}
+  sx={{
+    width: "314px",
+    "& .MuiInputBase-root": {
+      backgroundColor: "#fff",
+    },
+    "& .MuiInputBase-input": {
+      fontSize: "14px",
+      fontFamily: "Inter, sans-serif",
+    },
+  }}
+/>
 
             <Button
             type="submit"
