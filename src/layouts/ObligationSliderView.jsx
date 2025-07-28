@@ -8,22 +8,24 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Button,Stack,Checkbox,Select,MenuItem
+  Button,
+  Stack,
+  Checkbox,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ModalSection from "../components/ModalSection";
-import BotSvg from "../assets/icons/BOT.svg"
-const ViewDocDetails = [
-  { label: '', key: ''}
-]
+import BotSvg from "../assets/icons/BOT.svg";
+const ViewDocDetails = [{ label: "", key: "" }];
 
-const CustomerDetails = [ 
-  {label : 'Customer Name', value: 'ALG Glbal Limited'},
-  {label : 'Document Name', value: 'NDA_2024_Analysis_Report.pdf'},
-  {label : 'Contract Type', value: 'Non-Disclosure Agreements (NDAs)'},
-  {label : 'Selected Obligations', value: '02'}
- ]
+const CustomerDetails = [
+  { label: "Customer Name", value: "ALG Glbal Limited" },
+  { label: "Document Name", value: "NDA_2024_Analysis_Report.pdf" },
+  { label: "Contract Type", value: "Non-Disclosure Agreements (NDAs)" },
+  { label: "Selected Obligations", value: "02" },
+];
 const ObligationSliderView = ({ open, onClose, page }) => {
   if (!page) {
     return null;
@@ -56,9 +58,9 @@ const ObligationSliderView = ({ open, onClose, page }) => {
               color="#F57C00"
               fontWeight="bold"
             >
-              {page.confidence} CONFIDENCE 
+              {page.confidence} CONFIDENCE
             </Box>
-            <img src={BotSvg} alt=""  style={{ width: 16, height: 16 }}/>
+            <img src={BotSvg} alt="" style={{ width: 16, height: 16 }} />
             <Box flex={1} textAlign="right">
               <IconButton size="small" onClick={onClose}>
                 <CloseIcon sx={{ color: "#FF5252" }} />
@@ -68,16 +70,26 @@ const ObligationSliderView = ({ open, onClose, page }) => {
 
           <Box>
             <Typography variant="body2" color="text.secondary" mt={0.5}>
-              Section: {page.section} 
-              SubSections: {page.subsections} 
+              Section: {page.section}
+              SubSections: {page.subsections}
               Parent: {page.parent || "N/A"}
             </Typography>
           </Box>
         </Box>
 
         <Divider sx={{ my: 2 }} />
-        <Typography variant="subtitle2" sx={{ textAlign: 'end',fontWeight: 600,color: '#2268E9',cursor: 'pointer' }}
-         onClick={() => setMappingModalOpen(true)} >Map Domain</Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            textAlign: "end",
+            fontWeight: 600,
+            color: "#2268E9",
+            cursor: "pointer",
+          }}
+          onClick={() => setMappingModalOpen(true)}
+        >
+          Map Domain
+        </Typography>
 
         {Array.isArray(page.sections) && page.sections.length > 0 ? (
           page.sections.map((section, index) => (
@@ -103,24 +115,29 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                   fontSize: "15px",
                 }}
               >
-               <Box display="flex" alignItems="center">
-                <Checkbox
-                  checked={!!selectedSections[index]}
-                  onChange={() => handleCheckboxChange(index)}
-                  size="small"
-                  sx={{ mr: 1,color: '#E5E5E5' }}
-                />
-                <Typography variant="subtitle2" sx={{ fontSize: '14px', fontWeight: 400 }}>
-                  {section.title || `Section ${index + 1}`}
-                </Typography>
-              </Box>
+                <Box display="flex" alignItems="center">
+                  <Checkbox
+                    checked={!!selectedSections[index]}
+                    onChange={() => handleCheckboxChange(index)}
+                    size="small"
+                    sx={{ mr: 1, color: "#E5E5E5" }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontSize: "14px", fontWeight: 400 }}
+                  >
+                    {section.title || `Section ${index + 1}`}
+                  </Typography>
+                </Box>
               </AccordionSummary>
               <AccordionDetails sx={{ px: 2, py: 1 }}>
-              <Typography fontSize={13} fontWeight={500} sx={{ color: '#061445',fontWeight: 600}}>
+                <Typography
+                  fontSize={13}
+                  fontWeight={500}
+                  sx={{ color: "#061445", fontWeight: 600 }}
+                >
                   OB - Domain Mapping Details
-              </Typography>
-              <Stack spacing={2.5} sx={{ px: 2, py: 1.5 }}>
-                <Box display='flex'>
+                </Typography>
                 <Typography fontSize={12}>
                   Accountability: {section.accountability || "--"}
                 </Typography>
@@ -133,11 +150,6 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                 <Typography fontSize={12}>
                   Deliverable: {section.deliverable || "--"}
                 </Typography>
-                </Box>
-              </Stack>
-
-                
-                
 
                 <Typography fontWeight={500} mt={2}>
                   T&C Obligations
@@ -198,10 +210,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
 
             {/* Right - Obligation Details */}
             <Box flex={1.2}>
-              <Typography
-                variant="h6"
-                sx={{ minWidth: 140, color: "#60698F" }}
-              >
+              <Typography variant="h6" sx={{ minWidth: 140, color: "#60698F" }}>
                 T&C Obligations
               </Typography>
               <Typography variant="body2" mb={2}>
@@ -225,7 +234,6 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                 </Typography>
               </Stack>
 
-
               <Divider sx={{ my: 2 }} />
 
               <Stack spacing={1.5} p={1}>
@@ -248,72 +256,88 @@ const ObligationSliderView = ({ open, onClose, page }) => {
       </Box>
 
       <Box>
-        <ModalSection title='OB-Domain Mapping Details'
+        <ModalSection
+          title="OB-Domain Mapping Details"
           open={MappingmodalOpen}
-          onClose={() => setMappingModalOpen(false)}>
-            <Stack spacing={2.5} sx={{ px: 2, py: 1.5 }}>
-              {CustomerDetails.map((item, idx) => (
-                <Box key={idx} display="flex">
-                  <Typography
-                    variant="body2"
-                    sx={{ minWidth: 140, color: "#60698F" }}
-                  >
-                    {item.label}
-                  </Typography>
-                  <Typography variant="body2" sx={{ ml: 1 }}>
-                    {item.value}
-                  </Typography>
-                </Box>
-              ))}
-            </Stack>
-            <Typography sx={{fontWeight: 600,marginTop: '10px'}}> Mapping Details </Typography>
-            <Stack spacing={2.5} sx={{ px: 2, py: 1.5 }}>
-                {[
-                  {
-                    label: 'Accountability',
-                    options: ['Legal Team', 'Finance Dept', 'Operations', 'Procurement'],
-                  },
-                  {
-                    label: 'Severity',
-                    options: ['Low', 'Medium', 'High', 'Critical'],
-                  },
-                  {
-                    label: 'Frequency',
-                    options: ['One-time', 'Monthly', 'Quarterly', 'Annually'],
-                  },
-                  {
-                    label: 'Deliverable',
-                    options: ['Compliance Report', 'Invoice Summary', 'Benchmarking Doc'],
-                  },
-                ].map((field, idx) => (
-                  <Box key={idx} display="flex" alignItems="center">
-                    <Typography
-                      variant="body2"
-                      sx={{ minWidth: 140, color: "#60698F", fontWeight: 500 }}
-                    >
-                      {field.label}
-                    </Typography>
-                    <Select
-                      fullWidth
-                      size="small"
-                      defaultValue=""
-                      sx={{ ml: 1 }}
-                    >
-                      <MenuItem value="" disabled>Select</MenuItem>
-                      {field.options.map((option, i) => (
-                        <MenuItem key={i} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                ))}
-              </Stack>
-              <Divider sx={{ my: 2 }}  />
-              <Box display='flex' gap={1}>
-                <Button variant="outlined" sx={{ backgroundColor: '#2268E9',color: '#fff'}}>Map</Button>
-                <Button variant="outlined">Cancel</Button>
+          onClose={() => setMappingModalOpen(false)}
+        >
+          <Stack spacing={2.5} sx={{ px: 2, py: 1.5 }}>
+            {CustomerDetails.map((item, idx) => (
+              <Box key={idx} display="flex">
+                <Typography
+                  variant="body2"
+                  sx={{ minWidth: 140, color: "#60698F" }}
+                >
+                  {item.label}
+                </Typography>
+                <Typography variant="body2" sx={{ ml: 1 }}>
+                  {item.value}
+                </Typography>
               </Box>
+            ))}
+          </Stack>
+          <Typography sx={{ fontWeight: 600, marginTop: "10px" }}>
+            {" "}
+            Mapping Details{" "}
+          </Typography>
+          <Stack spacing={2.5} sx={{ px: 2, py: 1.5 }}>
+            {[
+              {
+                label: "Accountability",
+                options: [
+                  "Legal Team",
+                  "Finance Dept",
+                  "Operations",
+                  "Procurement",
+                ],
+              },
+              {
+                label: "Severity",
+                options: ["Low", "Medium", "High", "Critical"],
+              },
+              {
+                label: "Frequency",
+                options: ["One-time", "Monthly", "Quarterly", "Annually"],
+              },
+              {
+                label: "Deliverable",
+                options: [
+                  "Compliance Report",
+                  "Invoice Summary",
+                  "Benchmarking Doc",
+                ],
+              },
+            ].map((field, idx) => (
+              <Box key={idx} display="flex" alignItems="center">
+                <Typography
+                  variant="body2"
+                  sx={{ minWidth: 140, color: "#60698F", fontWeight: 500 }}
+                >
+                  {field.label}
+                </Typography>
+                <Select fullWidth size="small" defaultValue="" sx={{ ml: 1 }}>
+                  <MenuItem value="" disabled>
+                    Select
+                  </MenuItem>
+                  {field.options.map((option, i) => (
+                    <MenuItem key={i} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+            ))}
+          </Stack>
+          <Divider sx={{ my: 2 }} />
+          <Box display="flex" gap={1}>
+            <Button
+              variant="outlined"
+              sx={{ backgroundColor: "#2268E9", color: "#fff" }}
+            >
+              Map
+            </Button>
+            <Button variant="outlined">Cancel</Button>
+          </Box>
         </ModalSection>
       </Box>
     </Drawer>

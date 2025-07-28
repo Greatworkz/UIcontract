@@ -66,7 +66,7 @@ const CustomNavbar = () => {
       {/* Top Navbar */}
       <AppBar
         position="static"
-        sx={{  backgroundColor: "#061445", height: "60px" }} // px: 2, py: 2
+        sx={{ backgroundColor: "#061445", height: "60px" }} // px: 2, py: 2
       >
         <Toolbar>
           <Box display="flex" alignItems="center" flexGrow={1}>
@@ -102,13 +102,13 @@ const CustomNavbar = () => {
                   color: "#fff",
                   border: "none",
                   "& .MuiOutlinedInput-notchedOutline": {
-                     border: "none",
+                    border: "none",
                   },
                   // '&:hover .MuiOutlinedInput-notchedOutline': {
                   //   borderColor: '#fff',
                   // },
                   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                     border: "none",
+                    border: "none",
                   },
                 },
               }}
@@ -138,6 +138,14 @@ const CustomNavbar = () => {
             >
               <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
               <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleMenuClose();
+                  navigate("/");
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
 
             <IconButton sx={{ color: "#fff" }}>
@@ -162,8 +170,8 @@ const CustomNavbar = () => {
           backgroundColor: "#091C5E",
           color: "#fff",
           boxShadow: "none",
-          paddingBottom: '0px',
-              paddingTop: '0px'
+          paddingBottom: "0px",
+          paddingTop: "0px",
           // height: '60px'
         }}
       >
@@ -180,7 +188,7 @@ const CustomNavbar = () => {
               fontWeight: 500,
               textTransform: "none",
               fontSize: "14px",
-              
+
               // minHeight: "0px",
               // px: 2,
               // borderRadius: "6px", // optional for rounded look
@@ -188,7 +196,6 @@ const CustomNavbar = () => {
             "& .Mui-selected": {
               backgroundColor: "#1570EF",
               color: "#fff",
-
             },
           }}
         >

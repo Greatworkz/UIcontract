@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
 import {
@@ -16,105 +16,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DateRangeInput from "../components/DateRange";
-const mockContracts = [
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "Confidential_Agreement_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-001",
-    "Update On": "10/01/2025 14:45:30",
-    "Status": "Completed",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "NDA_2024_Analysis_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-013",
-    "Update On": "04/06/2025 14:45:42",
-    "Status": "Active",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "Confidential_Agreement_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-001",
-    "Update On": "10/01/2025 14:45:30",
-    "Status": "Terminate",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "NDA_2024_Analysis_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-013",
-    "Update On": "04/06/2025 14:45:42",
-    "Status": "Active",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "Confidential_Agreement_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-001",
-    "Update On": "10/01/2025 14:45:30",
-    "Status": "Completed",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "NDA_2024_Analysis_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-013",
-    "Update On": "04/06/2025 14:45:42",
-    "Status": "Terminate",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "Confidential_Agreement_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-001",
-    "Update On": "10/01/2025 14:45:30",
-    "Status": "Completed",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "NDA_2024_Analysis_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-013",
-    "Update On": "04/06/2025 14:45:42",
-    "Status": "Active",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "Confidential_Agreement_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-001",
-    "Update On": "10/01/2025 14:45:30",
-    "Status": "Terminate",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "NDA_2024_Analysis_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-013",
-    "Update On": "04/06/2025 14:45:42",
-    "Status": "Active",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "Confidential_Agreement_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-001",
-    "Update On": "10/01/2025 14:45:30",
-    "Status": "Completed",
-  },
-  {
-    "Customer Name": "ALG Global Limited",
-    "Contract Type": "Non-Disclosure Agreement (NDAs)",
-    "File Name": "NDA_2024_Analysis_Report.pdf",
-    "Extraction Code": "NDA-2025-05-022-013",
-    "Update On": "04/06/2025 14:45:42",
-    "Status": "Terminate",
-  },
-];
-
+import { getObligationListApi } from "../Apis/ApiConfig";
 
 const Obligations = () => {
   const [tab, setTab] = React.useState("All");
@@ -123,15 +25,39 @@ const Obligations = () => {
     setTab(newValue);
   };
   const [dateRange, setDateRange] = useState([null, null]);
-  const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
-  const totalCount = 173;
+  const [obligation, setObligation] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  // const filteredContracts =
+  //   tab === "All"
+  //     ? mockContracts
+  //     : mockContracts.filter((c) => c.Status === tab);
 
-  const filteredContracts =
-    tab === "All"
-      ? mockContracts
-      : mockContracts.filter((c) => c.Status === tab);
-  console.log('=========',filteredContracts)
+  const fetchContracts = async () => {
+    setLoading(true);
+    try {
+      const response = await getObligationListApi({
+        status: tab !== "All" ? tab : undefined,
+        page: currentPage,
+        limit: rowsPerPage,
+      });
+      setObligation(response); // adjust based on actual API response shape
+      setTotalCount(response.totalCount || response.length);
+    } catch (err) {
+      console.error("Failed to fetch contracts", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchContracts();
+  }, [tab, currentPage]);
+
+  const filteredContracts = obligation; // directly use API-loaded data
+
   return (
     <Box sx={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       {/* First Card: Tabs */}
@@ -235,6 +161,7 @@ const Obligations = () => {
                 "Status",
               ]}
               rows={filteredContracts}
+              loading={loading}
               onRowClick={(row) => navigate(`/obligationView/${row.id}`)}
               onEdit={(row) => console.log("Edit", row)}
               onDelete={(row) => console.log("Delete", row)}

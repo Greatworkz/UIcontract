@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Card,
@@ -7,19 +7,46 @@ import {
   TextField,
   Button,
   IconButton,
-  InputAdornment
-} from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useNavigate } from 'react-router-dom';
+  InputAdornment,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
+import { TwoStepVerificationApi } from "../Apis/ApiConfig";
 
 const TwoStepVerification = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [VerificationDetails, setVerificationDetails] = useState({
+    email: "",
+    code: "",
+  });
 
-  const handleLogin = (e) => {
+  const handleVerification = async (e) => {
     e.preventDefault();
-    navigate('/obligations');
+
+    const details = {
+      email: VerificationDetails.email,
+      code: VerificationDetails.code,
+    };
+    try {
+      // setLoading(true);
+      const response = await TwoStepVerificationApi(details);
+    } catch (error) {
+      // Toast.error('An error occured during login');
+      console.log("========", error);
+      return;
+    } finally {
+      // setLoading(false)
+    }
+
+    // Need Handle Condition for based on responce
+    navigate("/obligations");
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setVerificationDetails((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleTogglePassword = () => {
@@ -29,32 +56,37 @@ const TwoStepVerification = () => {
   return (
     <Box
       sx={{
-        maxWidth: '100vw',
-        height: '100vh',
-        backgroundColor: '#061445',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        maxWidth: "100vw",
+        height: "100vh",
+        backgroundColor: "#061445",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Card
         sx={{
-          width: '418px',
-          fontSize: '16px',
+          width: "418px",
+          fontSize: "16px",
           px: 4,
           py: 4,
-          borderRadius: '20px',
+          borderRadius: "20px",
         }}
       >
         <CardContent>
           <Typography
             align="center"
-            sx={{ fontFamily: 'Poppins', fontSize: '28px', fontWeight: 600, mb: 1 }}
+            sx={{
+              fontFamily: "Poppins",
+              fontSize: "28px",
+              fontWeight: 600,
+              mb: 1,
+            }}
           >
             Login to your account
           </Typography>
 
-          <Box component="form" onSubmit={handleLogin} noValidate>
+          <Box component="form" onSubmit={handleVerification} noValidate>
             <TextField
               margin="normal"
               fullWidth
@@ -64,7 +96,8 @@ const TwoStepVerification = () => {
               name="email"
               type="email"
               placeholder="Enter your email"
-
+              value={VerificationDetails.email}
+              onChange={handleChange}
               InputProps={{
                 disableUnderline: true,
                 sx: {
@@ -91,9 +124,11 @@ const TwoStepVerification = () => {
               required
               id="password"
               name="password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder=".  .  .  ."
               label="Enter Code"
+              value={VerificationDetails.code}
+              onChange={handleChange}
               InputProps={{
                 disableUnderline: true,
                 endAdornment: (
@@ -131,14 +166,14 @@ const TwoStepVerification = () => {
               variant="contained"
               sx={{
                 mt: 3,
-                fontSize: '16px',
-                backgroundColor: '#1570EF',
-                textTransform: 'none',
+                fontSize: "16px",
+                backgroundColor: "#1570EF",
+                textTransform: "none",
                 fontWeight: 600,
-                borderRadius: '8px',
-                height: '52px',
-                '&:hover': {
-                  backgroundColor: '#175CD3',
+                borderRadius: "8px",
+                height: "52px",
+                "&:hover": {
+                  backgroundColor: "#175CD3",
                 },
               }}
             >
@@ -151,9 +186,9 @@ const TwoStepVerification = () => {
             align="center"
             sx={{
               mt: 3,
-              color: '#1976d2',
-              fontSize: '16px',
-              cursor: 'pointer',
+              color: "#1976d2",
+              fontSize: "16px",
+              cursor: "pointer",
             }}
             onClick={() => navigate(-1)} // Go back
           >

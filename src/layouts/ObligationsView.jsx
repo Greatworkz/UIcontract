@@ -1,183 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Typography,
   Grid,
-  Chip,
-  useTheme,
-  useMediaQuery,
-  Stack,
+  Typography,
+  Card,
+  CardContent,
   Table,
-  TableHead,
   TableBody,
-  TableRow,
   TableCell,
-  TextField,
-  MenuItem,
+  TableHead,
+  TableRow,
   Checkbox,
-  IconButton,
   Button,
-  Divider,Radio,
-  RadioGroup,FormControlLabel
+  CircularProgress,
+  IconButton,
+  Chip,
+  Stack,
+  Divider,
+  TextField,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  MenuItem,
 } from "@mui/material";
-import CardSection from "../components/CardSection";
+import { useParams } from "react-router-dom";
+import {
+  getPagesData,
+  getContractDetails,
+  getMetricsData,
+  GetCustomerDetails,
+  GetsObligationChartData,
+} from "../Apis/ApiConfig";
 import ChartSection from "../components/ChartSection";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
 import MetricSection from "../components/MatricSection";
+import CardSection from "../components/CardSection";
 import ThemedTabs, { ThemedTab } from "../components/TabSection";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ObligationSliderView from "./ObligationSliderView";
 import ModalSection from "../components/ModalSection";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 import TotalClassSvg from "../assets/icons/Total classes.svg";
 import ConfidenceSvg from "../assets/icons/Confidence.svg";
 import HighConfidenceSvg from "../assets/icons/Highly Confidence.svg";
 import TotalPagesSvg from "../assets/icons/Total pages.svg";
-import BotSvg from "../assets/icons/BOT.svg"
-const Matricks = [
-  { label: "Total Classes", value: 34, icon: TotalClassSvg },
-  { label: "Confidence", value: 14, icon: ConfidenceSvg },
-  { label: "High Confidence", value: 19, icon: HighConfidenceSvg },
-  { label: "Total Pages", value: 36, icon: TotalPagesSvg },
-  { label: "Processed By", value: "Open Ai", icon: BotSvg },
-];
+import BotSvg from "../assets/icons/BOT.svg";
 
-const contractDetails = {
-  customer_name: "ALG Glibal Limited",
-  extraction_code: "NDA-2025-05-022-013",
-  uploaded_file: "NDA_2024_Analysis_Report.pdf",
-  uploaded_on: "04/06/2025 03:33:24",
-  document_type: "Non-Disclosure Agreements",
-  start_date: "23/06/2025",
-  end_date: "23/08/2025",
-  duration: "60 Days",
+const iconMap = {
+  "Total Classes": TotalClassSvg,
+  Confidence: ConfidenceSvg,
+  "High Confidence": HighConfidenceSvg,
+  "Total Pages": TotalPagesSvg,
+  "Processed By": BotSvg,
 };
 
-const basicDetails = [
-  { label: "Customer Name", value: contractDetails.customer_name },
-  { label: "Extraction Code", value: contractDetails.extraction_code },
-  { label: "Uploaded File", value: contractDetails.uploaded_file },
-  { label: "Uploaded On", value: contractDetails.uploaded_on },
-];
+// const obligationChartData = [
+//   { label: "Highly Confidence", value: 45, color: "#dc3545" },
+//   { label: "Confidence", value: 35, color: "#ffc107" },
+// ];
 
-const contractMeta = [
-  { label: "Document Type", value: contractDetails.document_type },
-  { label: "Start Date", value: contractDetails.start_date, color: "green" },
-  { label: "End Date", value: contractDetails.end_date, color: "green" },
-  { label: "Duration", value: contractDetails.duration },
-];
-
-const obligationChartData = [
-  { label: "Highly Confidence", value: 45, color: "#dc3545" },
-  { label: "Confidence", value: 35, color: "#ffc107" },
-];
-
-const pageData = [
-  {
-    id: 1,
-    title: "Page 1",
-    section: "1.0",
-    subsections: 6,
-    mapped: "3/6",
-    confidence: "90%",
-    description:
-      "This schedules 5 defines the way in which benchmarking shall be implemented under this agreement",
-    image: "https://i.pravatar.cc/100?u=page1",
-    sections: [
-      {
-        title: 'Section 3.1',
-        accountability: '',
-        severity: '',
-        frequency: '',
-        deliverable: '',
-        obligation: 'This schedules 5 defines the way in which benchmarking shall be implemented...'
-      },
-      {
-        title: 'Section 3.2',
-        accountability: '',
-        severity: '',
-        frequency: '',
-        deliverable: '',
-        obligation: 'This schedules 5 defines the way in which benchmarking shall be implemented...'
-      },
-      {
-        title: 'Section 3.3',
-        accountability: '',
-        severity: '',
-        frequency: '',
-        deliverable: '',
-        obligation: 'This schedules 5 defines the way in which benchmarking shall be implemented...'
-      },
-    ]
-  },
-  {
-    id: 2,
-    title: "Page 2",
-    section: "2.0",
-    subsections: 4,
-    mapped: "3/6",
-    confidence: "90%",
-    description: "This schedules 5 defines the way in which benchmarking",
-    image: "https://i.pravatar.cc/100?u=page2",
-    sections: [
-      {
-        title: 'Section 3.1',
-        accountability: '',
-        severity: '',
-        frequency: '',
-        deliverable: '',
-        obligation: 'This schedules 5 defines the way in which benchmarking shall be implemented...'
-      },
-      {
-        title: 'Section 3.2',
-        accountability: '',
-        severity: '',
-        frequency: '',
-        deliverable: '',
-        obligation: 'This schedules 5 defines the way in which benchmarking shall be implemented...'
-      },
-    ]
-  },
-];
-
-const CustomerDetails = [ 
-  {label : 'Customer Name', value: 'ALG Glbal Limited'},
-  {label : 'Document Name', value: 'NDA_2024_Analysis_Report.pdf'},
-  {label : 'Contract Type', value: 'Non-Disclosure Agreements (NDAs)'},
-  {label : 'Selected Obligations', value: '02'}
- ]
-
- 
 const ObligationView = () => {
+  // const { contractId } = useParams();
+  const [pageData, setPageData] = useState(null);
+  const [contractData, setContractData] = useState(null);
+  const [metricsData, setMetricsData] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [date, setDate] = useState("2025-06-06");
+  const [obligationChartData, setObligationChartData] = useState(null);
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
-
-  const [date, setDate] = useState('2025-06-06');
-  const [status, setStatus] = useState({
-    obSubmitted: 'no',
-    obComplied: 'yes',
-    slaImpact: 'yes',
-    billable: 'yes',
-    kpiNonCompliance: 'no',
-    hasIssue: 'no',
-    financialImpact: 'yes',
-    hasRisk: 'no'
-  });
+  const [selectedPage, setSelectedPage] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [UpdatemodalOpen, setUpdateModalOpen] = useState(false);
 
   const handleChange = (field) => (e) => {
     setStatus((prev) => ({ ...prev, [field]: e.target.value }));
   };
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  const [selectedPage, setSelectedPage] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [UpdatemodalOpen, setUpdateModalOpen] = useState(false);
 
   const handleOpenDrawer = (page) => {
     setSelectedPage(page);
@@ -189,45 +93,119 @@ const ObligationView = () => {
     setSelectedPage(null);
   };
 
+  useEffect(() => {
+    // if (!contractId) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const pageResult = await getPagesData();
+        const contractResult = await getContractDetails();
+        const metricsResult = await getMetricsData();
+        const customerResult = await GetCustomerDetails();
+        const chatdata = await GetsObligationChartData();
+        const withIcons = metricsResult.map((item) => ({
+          ...item,
+          icon: iconMap[item.label] || null,
+        }));
+
+        setPageData(pageResult);
+        setContractData(contractResult);
+        setMetricsData(withIcons);
+        setCustomerData(customerResult);
+        setObligationChartData(chatdata);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const basicDetails = [
+    { label: "Customer Name", value: contractData?.customer_name || "-" },
+    { label: "Extraction Code", value: contractData?.extraction_code || "-" },
+    { label: "Uploaded File", value: contractData?.uploaded_file || "-" },
+    { label: "Uploaded On", value: contractData?.uploaded_on || "-" },
+  ];
+
+  const contractMeta = [
+    { label: "Document Type", value: contractData?.document_type || "-" },
+    { label: "Start Date", value: contractData?.start_date || "-" },
+    { label: "End Date", value: contractData?.end_date || "-" },
+    { label: "Duration", value: contractData?.duration || "-" },
+  ];
+
+  if (loading) {
+    return (
+      <Box p={3} display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!contractData || !pageData) {
+    return (
+      <Box p={3}>
+        <Typography>Unable to load contract or page data.</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box px={{ xs: 2, sm: 3, md: 4, lg: 5, xl: 6 }} py={3}>
-       {/* Header */}
-  <Box display="flex" flexDirection="column" mb={3}>
-    <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
-      {/* Back Arrow */}
-      <IconButton size="small"> {/* You can define this */}
-        <ArrowBackIosIcon fontSize="small" />
-      </IconButton>
+      {/* Header */}
+      <Box display="flex" flexDirection="column" mb={3}>
+        <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+          {/* Back Arrow */}
+          <IconButton size="small">
+            {" "}
+            {/* You can define this */}
+            <ArrowBackIosIcon fontSize="small" />
+          </IconButton>
 
-      {/* Customer Name */}
-      <Typography variant="h6" fontWeight="bold">
-        {contractDetails.customer_name}
-      </Typography>
+          {/* Customer Name */}
+          <Typography variant="h6" fontWeight="bold">
+            {contractData.customer_name}
+          </Typography>
 
-      {/* Chip - square and colored */}
-      <Chip
-        label="ACTIVE"
-        size="small"
-        sx={{
-          borderRadius: '3px', // Square shape
-          backgroundColor: '#C5E9D1', // Custom color
-          color: '#008631', // Text color
-          fontWeight: 500,
-          px: 1.5,
-          border: '1px'
-        }}
-      />
-    </Box>
+          {/* Chip - square and colored */}
+          <Chip
+            label="ACTIVE"
+            size="small"
+            sx={{
+              borderRadius: "3px", // Square shape
+              backgroundColor: "#C5E9D1", // Custom color
+              color: "#008631", // Text color
+              fontWeight: 500,
+              px: 1.5,
+              border: "1px",
+            }}
+          />
+        </Box>
 
-    {/* Subtext */}
-    <Typography variant="body2" color="text.secondary" mt={0.5} sx={{ fontSize: '12px' , fontWeight: 500, color: '#60698F', ml:6,mt: 1}}>
-      {contractDetails.uploaded_file}
-    </Typography>
-  </Box> 
+        {/* Subtext */}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          mt={0.5}
+          sx={{
+            fontSize: "12px",
+            fontWeight: 500,
+            color: "#60698F",
+            ml: 6,
+            mt: 1,
+          }}
+        >
+          {contractData.uploaded_file}
+        </Typography>
+      </Box>
 
       {/* Metric Cards */}
       <Grid container spacing={2} mb={2}>
-        {Matricks.map((metric, index) => (
+        {metricsData.map((metric, index) => (
           <Grid size={{ xs: 6, sm: 4, md: 2.4, lg: 2.4, xl: 2.4 }} key={index}>
             <MetricSection
               title={metric.label}
@@ -247,11 +225,24 @@ const ObligationView = () => {
                 <Box key={idx} display="flex">
                   <Typography
                     variant="body2"
-                    sx={{ minWidth: 140, color: "#60698F" , fontSize: '13px',fontWeight: 500}}
+                    sx={{
+                      minWidth: 140,
+                      color: "#60698F",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                    }}
                   >
                     {item.label}
                   </Typography>
-                  <Typography variant="body2" sx={{ ml: 1,color: "#21263C" , fontSize: '13px',fontWeight: 500 }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      ml: 1,
+                      color: "#21263C",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                    }}
+                  >
                     {item.value}
                   </Typography>
                 </Box>
@@ -267,11 +258,24 @@ const ObligationView = () => {
                 <Box key={idx} display="flex">
                   <Typography
                     variant="body2"
-                    sx={{ minWidth: 180, color: "#60698F",fontSize: '13px',fontWeight: 500 }}
+                    sx={{
+                      minWidth: 180,
+                      color: "#60698F",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                    }}
                   >
                     {item.label}
                   </Typography>
-                  <Typography variant="body2" sx={{ ml: 1,color: "#21263C" , fontSize: '13px',fontWeight: 500 }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      ml: 1,
+                      color: "#21263C",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                    }}
+                  >
                     {item.value}
                   </Typography>
                 </Box>
@@ -289,7 +293,7 @@ const ObligationView = () => {
 
       <Box sx={{ mt: "20px" }}>
         <CardSection>
-          <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2, }}>
+          <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2 }}>
             <ThemedTabs value={tabIndex} onChange={handleTabChange}>
               <ThemedTab label="Sections" />
               <ThemedTab label="Pages" />
@@ -325,22 +329,21 @@ const ObligationView = () => {
               </Grid>
 
               {/* Table */}
-              <Table  sx={{ overflowX: "auto" }}>
+              <Table sx={{ overflowX: "auto" }}>
                 <TableHead>
-                <TableRow>
-                <TableCell
-                  padding="checkbox"
-                  sx={{
-                    borderColor: '#E5E5E5',
-                    backgroundColor: '#F9FAFF', // Needed for radius visibility
-                    borderRadius: '3px',
-                  }}
-                >
-                  {/* Optional: checkbox or leave empty */}
-                </TableCell>
-                {/* Add other header cells here */}
-              </TableRow>
-
+                  <TableRow>
+                    <TableCell
+                      padding="checkbox"
+                      sx={{
+                        borderColor: "#E5E5E5",
+                        backgroundColor: "#F9FAFF", // Needed for radius visibility
+                        borderRadius: "3px",
+                      }}
+                    >
+                      {/* Optional: checkbox or leave empty */}
+                    </TableCell>
+                    {/* Add other header cells here */}
+                  </TableRow>
                 </TableHead>
                 <TableBody>
                   {pageData.map((page) => (
@@ -407,7 +410,7 @@ const ObligationView = () => {
                         <Button
                           variant="text"
                           size="medium"
-                          sx={{ textTransform: "none",fontWeight: 600 }}
+                          sx={{ textTransform: "none", fontWeight: 600 }}
                           onClick={() => handleOpenDrawer(page)}
                         >
                           View SubSections
@@ -415,10 +418,14 @@ const ObligationView = () => {
                       </TableCell>
 
                       <TableCell>
-                      <Button
+                        <Button
                           variant="text"
                           size="medium"
-                          sx={{ textTransform: "none",color:'#000',fontWeight: 600 }}
+                          sx={{
+                            textTransform: "none",
+                            color: "#000",
+                            fontWeight: 600,
+                          }}
                           onClick={() => setUpdateModalOpen(true)}
                         >
                           update
@@ -434,7 +441,11 @@ const ObligationView = () => {
           {tabIndex === 2 && <Box mt={2}>Confidence content</Box>}
         </CardSection>
       </Box>
-      <ObligationSliderView open={drawerOpen} onClose={handleCloseDrawer} page={selectedPage} />
+      <ObligationSliderView
+        open={drawerOpen}
+        onClose={handleCloseDrawer}
+        page={selectedPage}
+      />
 
       <Box>
         <ModalSection
@@ -445,7 +456,7 @@ const ObligationView = () => {
           <Box sx={{ px: 2, py: 1.5, width: 420 }}>
             {/* Customer Info */}
             <Stack spacing={1.5}>
-              {CustomerDetails.map((item, idx) => (
+              {customerData.map((item, idx) => (
                 <Box key={idx} display="flex">
                   <Typography
                     variant="body2"
@@ -531,14 +542,17 @@ const ObligationView = () => {
               >
                 Map
               </Button>
-              <Button variant="outlined" size="small" onClick={() => setUpdateModalOpen(false)}>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => setUpdateModalOpen(false)}
+              >
                 Cancel
               </Button>
             </Box>
           </Box>
         </ModalSection>
       </Box>
-
     </Box>
   );
 };
