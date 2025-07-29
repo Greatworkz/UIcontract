@@ -2,9 +2,13 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   components: {
-    Typography: {
-      fontFamily: 'Inter, sans-serif',
-      color: '#21263C'
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Inter, sans-serif',
+          color: '#21263C',
+        },
+      },
     },
 
     MuiTextField: {
@@ -14,6 +18,11 @@ const theme = createTheme({
           disableUnderline: true,
         },
       },
+      styleOverrides: {
+        root: {
+          fontFamily: 'Inter, sans-serif',
+        },
+      },
     },
 
     MuiOutlinedInput: {
@@ -21,6 +30,7 @@ const theme = createTheme({
         root: {
           height: '35px',
           fontSize: '14px',
+          fontFamily: 'Inter, sans-serif',
           '& input': {
             padding: '8px 10px',
             fontSize: '14px',
@@ -42,9 +52,9 @@ const theme = createTheme({
           backgroundColor: '#fff',
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',
-          minHeight: '30px',
+          minHeight: '34px',
           '&:focus-within': {
-            borderColor: '#D1E9FF', //1976d2
+            borderColor: '#D1E9FF',
           },
         },
         input: {
@@ -77,15 +87,56 @@ const theme = createTheme({
         root: {
           fontFamily: 'Inter, sans-serif',
           maxHeight: '34px',
+          width: 'auto'
         },
         select: {
           padding: '4px 10px',
           fontSize: '13px',
           backgroundColor: '#fff',
           borderRadius: '8px',
+          fontFamily: 'Inter, sans-serif',
         },
         icon: {
           color: '#495057',
+        },
+      },
+    },
+
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          '& .MuiTabs-indicator': {
+            height: '3px',
+            borderRadius: '2px',
+            backgroundColor: '#2268E9',
+            width: 'fit-content',
+            fontWeight: 600,
+            fontFamily: 'Inter, sans-serif',
+          },
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontSize: '13px',
+          fontWeight: 400,
+          textTransform: 'none',
+          fontFamily: 'Inter, sans-serif',
+          color: '#061445',
+          width: 'auto',
+          '&.Mui-selected': {
+            fontWeight: 600,
+            color: '#21263C',
+             fontFamily: 'Inter, sans-serif',
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Inter, sans-serif',
         },
       },
     },

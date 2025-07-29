@@ -14,7 +14,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { LoginApi } from "../Apis/ApiConfig";
-
+import LogoSvg from "../assets/icons/logo.svg";
 const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -61,8 +61,12 @@ const Login = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
       }}
     >
+      <Box sx={{ mb: 4 }}>
+        <img src={LogoSvg} width="200" alt="Logo" />
+      </Box>
       <Card
         sx={{
           width: "418px",

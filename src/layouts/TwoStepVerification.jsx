@@ -14,6 +14,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { TwoStepVerificationApi } from "../Apis/ApiConfig";
 
+import LogoSvg from "../assets/icons/logo.svg";
 const TwoStepVerification = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -62,8 +63,12 @@ const TwoStepVerification = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
       }}
     >
+      <Box sx={{ mb: 4 }}>
+        <img src={LogoSvg} width="200" alt="Logo" />
+      </Box>
       <Card
         sx={{
           width: "418px",

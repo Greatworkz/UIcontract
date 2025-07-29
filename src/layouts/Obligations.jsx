@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DateRangeInput from "../components/DateRange";
 import { getObligationListApi } from "../Apis/ApiConfig";
+import filterIconSvg from '../assets/icons/filter.svg';
 
 const Obligations = () => {
   const [tab, setTab] = React.useState("All");
@@ -56,13 +57,17 @@ const Obligations = () => {
     fetchContracts();
   }, [tab, currentPage]);
 
-  const filteredContracts = obligation; // directly use API-loaded data
+  // const filteredContracts = obligation; // directly use API-loaded data
+  const filteredContracts =
+    tab === "All"
+      ? obligation
+      : obligation.filter((c) => c.Status === tab);
 
   return (
     <Box sx={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
       {/* First Card: Tabs */}
       <Box sx={{ mb: 3 }}>
-        <CardSection title="Extracted Obligation List">
+        <CardSection title="Extracted Obligation List" sx={{ pb: 0 }}>
           <Tabs
             value={tab}
             onChange={handleTabChange}
@@ -70,22 +75,32 @@ const Obligations = () => {
             indicatorColor="primary"
             sx={{
               mt: 1,
+              pb:0,
               "& .MuiTab-root": {
-                fontSize: "14px",
-                fontWeight: 500,
+                fontSize: "13px",
+                fontWeight: 400,
                 textTransform: "none",
                 fontFamily: "Inter, sans-serif",
-                px: 2,
+                // px: 2,
+                color: '#061445',
+                minWidth: "auto",
+              },
+              "& .Mui-selected": {
+                fontWeight: 600,
               },
               "& .MuiTabs-indicator": {
                 height: "3px",
                 borderRadius: "2px",
+                backgroundColor: "#2268E9",
+                width: "fit-content",
+                fontWeight: 600
               },
             }}
           >
             <Tab label="All" value="All" />
             <Tab label="Active" value="Active" />
             <Tab label="Completed" value="Completed" />
+            <Tab label="Terminated" value="Terminated" />
           </Tabs>
         </CardSection>
       </Box>
@@ -96,8 +111,11 @@ const Obligations = () => {
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
             <Grid item xs={12} md={4}>
               <Typography
-                sx={{ color: "#000", fontWeight: 600, fontSize: "14px" }}
+                sx={{ display: "flex",
+                  alignItems: "center", color: "#061445", fontWeight: 600, fontSize: "14px" }}
               >
+                <img src={filterIconSvg} alt="" style={{ width: 13, height: 14,marginRight: 5, mr: 0.5,
+        display: "inline-block",  }} />
                 Filter By :
               </Typography>
             </Grid>
