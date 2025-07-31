@@ -14,17 +14,23 @@ const ThemedTabs = ({ value, onChange, children, ...props }) => {
         color: '#21263C',
         fontWeight: 400,
         height: '52px',
+        borderBottom: '1px solid #DCDCEF',
         '& .MuiTab-root': {
           fontSize: '14px',
           fontWeight: 400,
           textTransform: 'none',
           fontFamily: 'Inter, sans-serif',
           px: 2,
-          
+          '&.Mui-selected': {
+            fontWeight: 600, // selected tab gets bolder font
+          },
         },
         '& .MuiTabs-indicator': {
           height: '3px',
-          borderRadius: '2px',
+          // borderRadius: '2px',
+          borderTopLeftRadius: '30px',
+          borderTopRightRadius: '30px',
+          width: '10px'
         },
       }}
       {...props}

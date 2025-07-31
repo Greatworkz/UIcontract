@@ -26,7 +26,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useLocation, useNavigate } from "react-router-dom";
-import LogoSvg from '../assets/icons/logo.svg';
+import LogoSvg from "../assets/icons/logo.svg";
 const tabRoutes = [
   { label: "Home", path: "/home" },
   { label: "Contracts", path: "/contracts", include: ["/contract/add"] },
@@ -61,10 +61,18 @@ const CustomNavbar = () => {
   return (
     <>
       {/* Top Bar */}
-      <AppBar position="static" sx={{ backgroundColor: "#061445", height: "60px" }}>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "#061445", height: "60px" }}
+      >
         <Toolbar>
           <Box display="flex" alignItems="center" flexGrow={1}>
-            <img src={LogoSvg} alt="Logo" width="119" style={{ marginRight: 8 }} />
+            <img
+              src={LogoSvg}
+              alt="Logo"
+              width="119"
+              style={{ marginRight: 8 }}
+            />
             {/* <Typography variant="h6" sx={{ fontWeight: "bold", color: "#fff" }}>
               Contract
             </Typography> */}
@@ -74,13 +82,14 @@ const CustomNavbar = () => {
           {!isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <TextField
-                variant="outlined"
+                // variant="outlined"
                 size="small"
                 placeholder="Search..."
                 InputProps={{
+                  disableUnderline: true,
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#ccc" }} />
+                      <SearchIcon sx={{ color: "#98999B" }} />
                     </InputAdornment>
                   ),
                   sx: {
@@ -89,8 +98,16 @@ const CustomNavbar = () => {
                     height: "30px",
                     width: "222px",
                     color: "#fff",
+                    border: "none",
+                    padding: 1,
                     "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": { border: "none" },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
+                    "& input::placeholder": {
+                      color: "#98999B",
+                      opacity: 1,
+                    },
                   },
                 }}
                 inputProps={{ style: { color: "#fff" } }}
@@ -109,7 +126,11 @@ const CustomNavbar = () => {
                 Energica Pvt.Lim... <ExpandMoreIcon fontSize="small" />
               </Typography>
 
-              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
                 <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
                 <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
                 <MenuItem
@@ -126,18 +147,34 @@ const CustomNavbar = () => {
                 <NotificationsNoneIcon />
               </IconButton>
 
-              <Avatar alt="User" src="https://via.placeholder.com/32" sx={{ width: 32, height: 32 }} />
+              <Avatar
+                alt="User"
+                src="https://via.placeholder.com/32"
+                sx={{ width: 32, height: 32 }}
+              />
             </Box>
           )}
 
           {/* Mobile Hamburger Menu */}
           {isMobile && (
             <>
-              <IconButton edge="end" color="inherit" onClick={handleDrawerToggle}>
+              <IconButton
+                edge="end"
+                color="inherit"
+                onClick={handleDrawerToggle}
+              >
                 <MenuIcon />
               </IconButton>
-              <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
-                <Box sx={{ width: 240 }} role="presentation" onClick={handleDrawerToggle}>
+              <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={handleDrawerToggle}
+              >
+                <Box
+                  sx={{ width: 240 }}
+                  role="presentation"
+                  onClick={handleDrawerToggle}
+                >
                   <List>
                     {tabRoutes.map((tab, index) => (
                       <ListItem key={index} disablePadding>

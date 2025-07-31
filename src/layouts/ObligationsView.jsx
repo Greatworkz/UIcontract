@@ -44,14 +44,15 @@ import ModalSection from "../components/ModalSection";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
-import TotalClassSvg from "../assets/icons/Total classes.svg";
-import ConfidenceSvg from "../assets/icons/Confidence.svg";
+import TotalClassSvg from "../assets/oblication-icon/total_classes.svg";
+import ConfidenceSvg from "../assets/oblication-icon/confidence.svg";
 import filterIconSvg from "../assets/icons/filter.svg";
-import BotSvg from "../assets/icons/BOT 2.svg";
-import BlueBotSvg from "../assets/icons/BOT 1.svg";
+import BotSvg from "../assets/oblication-icon/bot_orange.svg";
+import BlueBotSvg from "../assets/oblication-icon/bot_blue.svg";
 import personSvg from "../assets/icons/person.svg";
 import CopySvg from "../assets/icons/Copy.svg";
 import VectorSvg from "../assets/icons/Vector.svg";
+import ArrowSvg from "../assets/oblication-icon/arrow.svg";
 
 const iconMap = {
   "Total Classes": TotalClassSvg,
@@ -183,11 +184,17 @@ const ObligationView = () => {
                   mt: "18px",
                 }}
               >
-                <ArrowBackIosIcon
+                {/* <ArrowBackIosIcon
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "16px",
                     color: "#60698F",
+                    fontWeight: 600
                   }}
+                /> */}
+                <img
+                  src={ArrowSvg} // import your svg or use path
+                  alt="icon"
+                  style={{ width: "100%", height: "100%" }}
                 />
               </IconButton>
 
@@ -220,11 +227,12 @@ const ObligationView = () => {
                     size="small"
                     sx={{
                       borderRadius: "3px",
-                      backgroundColor: "#C5E9D1",
+                      backgroundColor: "#DAFFE7",
                       color: "#008631",
-                      fontWeight: 500,
+                      fontWeight: 600,
                       px: 1.5,
                       border: "1px solid #C5E9D1",
+                      letterSpacing: "1px",
                     }}
                   />
                 </Box>
@@ -265,21 +273,27 @@ const ObligationView = () => {
           <Grid container spacing={2}>
             {/* First Card */}
             <Grid size={{ xs: 12, sm: 12, md: 4, lg: 4, xl: 4 }}>
-              <CardSection
+              <Box
                 sx={{
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
+                  border: "1px solid #0A18290D",
+                  borderRadius: "8px",
+                  backgroundColor: "#ffffff",
                 }}
               >
+                {/* Header */}
                 <Box
                   sx={{
-                    py: { xs: 1.5, sm: 1.5, md: 1 },
+                    py: { xs: 1.5, sm: 1.5, md: 2 },
                     px: 2,
                     borderTopLeftRadius: "6px",
                     borderTopRightRadius: "6px",
                     backgroundColor: "#FAFAFD",
                     color: "#061445",
+                    // borderBottom: "1px solid #0A18290D",
+                    // padding: '10px'
                   }}
                 >
                   <Typography sx={{ fontSize: "14px", fontWeight: 600 }}>
@@ -315,8 +329,6 @@ const ObligationView = () => {
                             fontSize: "13px",
                             fontWeight: 500,
                             whiteSpace: "nowrap",
-                            // overflow: "scroll",
-                            // textOverflow: "ellipsis",
                           }}
                           title={item.value}
                         >
@@ -326,26 +338,32 @@ const ObligationView = () => {
                     ))}
                   </Stack>
                 </Box>
-              </CardSection>
+              </Box>
             </Grid>
 
             {/* Second Card - Same logic applies */}
             <Grid size={{ xs: 12, sm: 12, md: 4, lg: 4, xl: 4 }}>
-              <CardSection
+              <Box
                 sx={{
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
+                  border: "1px solid #0A18290D",
+                  borderRadius: "8px",
+                  backgroundColor: "#ffffff",
                 }}
               >
+                {/* Header */}
                 <Box
                   sx={{
-                    py: { xs: 1.5, sm: 2, md: 1 },
+                    py: { xs: 1.5, sm: 1.5, md: 2 },
                     px: 2,
                     borderTopLeftRadius: "6px",
                     borderTopRightRadius: "6px",
                     backgroundColor: "#FAFAFD",
                     color: "#061445",
+                    // borderBottom: "1px solid #0A18290D",
+                    // padding: '10px'
                   }}
                 >
                   <Typography sx={{ fontSize: "14px", fontWeight: 600 }}>
@@ -353,6 +371,7 @@ const ObligationView = () => {
                   </Typography>
                 </Box>
 
+                {/* Scrollable Body */}
                 <Box sx={{ flexGrow: 1, overflow: "auto", px: 2, py: 1.5 }}>
                   <Stack spacing={2.5}>
                     {contractMeta.map((item, idx) => (
@@ -380,8 +399,6 @@ const ObligationView = () => {
                             fontSize: "13px",
                             fontWeight: 500,
                             whiteSpace: "nowrap",
-                            // overflow: "hidden",
-                            // textOverflow: "ellipsis",
                           }}
                           title={item.value}
                         >
@@ -391,7 +408,7 @@ const ObligationView = () => {
                     ))}
                   </Stack>
                 </Box>
-              </CardSection>
+              </Box>
             </Grid>
 
             {/* Third Chart Card */}
@@ -408,151 +425,182 @@ const ObligationView = () => {
 
           {/* Tabs & Table */}
 
-          <Box sx={{ mt: "20px" }}>
-            <CardSection>
-              <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2 }}>
-                <ThemedTabs value={tabIndex} onChange={handleTabChange}>
-                  <ThemedTab label="Sections" />
-                  <ThemedTab label="Pages" />
-                  <ThemedTab label="Confidence" />
-                </ThemedTabs>
+          <Box
+            sx={{
+              mt: "20px",
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              // p: 2,
+              border: "1px solid #0A18290D",
+            }}
+          >
+            <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2 }}>
+              <ThemedTabs value={tabIndex} onChange={handleTabChange}>
+                <ThemedTab label="Sections" />
+                <ThemedTab label="Pages" />
+                <ThemedTab label="Confidence" />
+              </ThemedTabs>
+            </Box>
+
+            {tabIndex === 0 && (
+              <Box p={2} mt={2}>
+                Section content
               </Box>
+            )}
 
-              {tabIndex === 0 && <Box mt={2}>Section content</Box>}
-
-              {tabIndex === 1 && (
-                <Box mt={2}>
-                  <Grid
-                    container
-                    spacing={2}
-                    alignItems="center"
-                    sx={{ mb: 3 }}
-                  >
-                    <Grid item xs={12} md={4}>
-                      <Typography
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          color: "#061445",
-                          fontWeight: 600,
-                          fontSize: "14px",
+            {tabIndex === 1 && (
+              <Box mt={2} p={2}>
+                <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
+                  <Grid item xs={12} md={4}>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#061445",
+                        fontWeight: 600,
+                        fontSize: "14px",
+                      }}
+                    >
+                      <img
+                        src={filterIconSvg}
+                        alt=""
+                        style={{
+                          width: 13,
+                          height: 14,
+                          marginRight: 5,
                         }}
-                      >
-                        <img
-                          src={filterIconSvg}
-                          alt=""
-                          style={{
-                            width: 13,
-                            height: 14,
-                            marginRight: 5,
-                            mr: 0.5,
-                            display: "inline-block",
-                          }}
-                        />
-                        Filter By :
-                      </Typography>
-                    </Grid>
-
-                    <Grid item xs={12} md={3}>
-                      <FormControl fullWidth>
-                        <TextField
-                          fullWidth
-                          placeholder="search content"
-                          // value={search}
-                          // onChange={(e) => setSearch(e.target.value)}
-                        />
-                      </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12} md={3}>
-                      <FormControl fullWidth>
-                        <Select defaultValue="All Confidence">
-                          <MenuItem value="All Confidence">
-                            All Confidence
-                          </MenuItem>
-                          <MenuItem value="90%">90%</MenuItem>
-                          <MenuItem value="80%">80%</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
+                      />
+                      Filter By :
+                    </Typography>
                   </Grid>
 
-                  {/* Table */}
-                  <Table sx={{ overflowX: "auto" }}>
-                    <TableBody>
-                      {pageData.map((page) => (
-                        <TableRow
-                          key={page.id}
-                          sx={{
-                            backgroundColor: "#fff",
-                            border: "1px solid #E7EEFC",
-                            borderRadius: "6px",
-                            overflow:'auto',
-                            // p: 2,
-                            my: 2, // spacing between rows (top & bottom margin)
-                            // display: "flex",
-                            justifyContent: "space-between",
-                            "& .hover-action-cell": {
-                              display: "none",
-                            },
-                            "&:hover .hover-action-cell": {
-                              display: "table-cell",
-                            },
-                          }}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
+                  <Grid item xs={12} md={3}>
+                    <FormControl fullWidth>
+                      <TextField fullWidth placeholder="search content" />
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12} md={3}>
+                    <FormControl fullWidth>
+                      <Select defaultValue="All Confidence">
+                        <MenuItem value="All Confidence">
+                          All Confidence
+                        </MenuItem>
+                        <MenuItem value="90%">90%</MenuItem>
+                        <MenuItem value="80%">80%</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+
+                {/* Table */}
+                <Table
+                  sx={{
+                    overflowX: "auto",
+                    "& td, & th": {
+                      border: "none",
+                    },
+                    "& .MuiTableCell-root": {
+                      border: "none",
+                    },
+                  }}
+                >
+                  <TableBody>
+                    {pageData.map((page) => (
+                      <TableRow
+                        key={page.id}
+                        sx={{
+                          display: "block",
+                          cursor: "pointer",
+                          borderRadius: "6px",
+                          border: "1px solid #E7EEFC",
+                          backgroundColor: "#FFFFFF",
+                          opacity: 1,
+                          mb: 2,
+                          "& .hover-action-cell": {
+                            display: "none",
+                          },
+                          "&:hover .hover-action-cell": {
+                            display: "table-cell",
+                          },
+                        }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            sx={{
+                              "& path": {
+                                stroke: "#E5E5E5",
+                                strokeWidth: 1,
+                              },
+                            }}
+                          />
+                        </TableCell>
+
+                        <TableCell>
+                          <img
+                            src={page.image}
+                            alt={page.title}
+                            style={{
+                              width: 60,
+                              height: 80,
+                              objectFit: "cover",
+                              borderRadius: 4,
+                            }}
+                          />
+                        </TableCell>
+
+                        <TableCell>
+                          <Typography
+                            sx={{
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              color: "#061445",
+                            }}
+                          >
+                            {page.title}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              color: "#60698F",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.2,
+                            }}
+                          >
+                            Section: {page.section}
+                            <Box
+                              component="span"
                               sx={{
-                                "& path": {
-                                  stroke: "#E5E5E5",
-                                  strokeWidth: 1,
-                                },
+                                width: "0px",
+                                height: "13px",
+                                borderLeft: "1px solid #F2F2FF",
                               }}
                             />
-                          </TableCell>
-
-                          <TableCell>
-                            <img
-                              src={page.image}
-                              alt={page.title}
-                              style={{
-                                width: 60,
-                                height: 80,
-                                objectFit: "cover",
-                                borderRadius: 4,
+                            SubSections: {page.subsections}
+                            <Box
+                              component="span"
+                              sx={{
+                                width: "0px",
+                                height: "13px",
+                                borderLeft: "1px solid #F2F2FF",
                               }}
                             />
-                          </TableCell>
-
-                          <TableCell>
-                            <Typography
-                              sx={{
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                color: "#061445",
-                              }}
-                            >
-                              {page.title}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#60698F",
-                              }}
-                            >
-                              Section: {page.section} &nbsp;&nbsp; SubSections:{" "}
-                              {page.subsections} &nbsp;&nbsp; Mapped:{" "}
-                              {page.mapped}
-                            </Typography>
+                            Mapped: {page.mapped}
+                          </Typography>
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            mt={2}
+                            gap={1.2}
+                          >
                             <img
                               src={BlueBotSvg}
-                              style={{ width: 14, height: 14, marginTop: 15 }}
+                              style={{ width: 20, height: 20 }}
                               alt=""
                             />
-                            &nbsp;&nbsp;
                             <Box
-                              mt={1}
                               display="inline-block"
                               bgcolor="#FFF3E0"
                               px={1}
@@ -562,55 +610,80 @@ const ObligationView = () => {
                               sx={{
                                 border: "1px solid #FFF1D3",
                                 fontWeight: 600,
+                                borderRadius: "3px",
+                                letterSpacing: "1px",
                               }}
                             >
                               {page.confidence} CONFIDENCE
                             </Box>
-                          </TableCell>
+                          </Box>
+                        </TableCell>
 
-                          <TableCell>
-                            <Typography
+                        <TableCell
+                          sx={{
+                            width: "900px",
+                            height: "70px",
+                            opacity: 1,
+                            border: "1px solid #F2F2FF",
+                            borderWidth: "1px",
+                            verticalAlign: "top",
+                          }}
+                        >
+
+                          <Typography
+                            sx={{
+                              color: "#60698F",
+                              fontSize: "13px",
+                              mb: 1,
+                              fontWeight: 500,
+                              display: "inline-block", // allows span + text in one line
+                            }}
+                          >
+                            Title
+                          </Typography>
+
+                          <Typography
+                            sx={{
+                              color: "#21263C",
+                              fontSize: "14px",
+                              fontWeight: 400,
+                              lineHeight: "20px",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              maxWidth: 400,
+                            }}
+                          >
+                            {page.description}
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell className="hover-action-cell">
+                          <Box display="flex" alignItems="center" gap={2}>
+                            {/* Icons */}
+                            <Box display="flex" alignItems="center" gap={1}>
+                              <img
+                                src={CopySvg}
+                                style={{ width: 14, height: 14 }}
+                                alt=""
+                              />
+                              <img
+                                src={VectorSvg}
+                                style={{ width: 14, height: 14 }}
+                                alt=""
+                              />
+                            </Box>
+                            <Box
+                              component="span"
                               sx={{
-                                color: "#60698F",
-                                fontSize: "13px",
-                                mb: 1,
-                                fontWeight: 500,
+                                width: "0px",
+                                height: "13px",
+                                borderLeft: "1px solid #ECECFF",
                               }}
-                            >
-                              Title
-                            </Typography>
-                            <Typography
-                              sx={{
-                                color: "#21263C",
-                                fontSize: "14px",
-                                fontWeight: 400,
-                              }}
-                            >
-                              {page.description}
-                            </Typography>
-                          </TableCell>
-
-                          <TableCell className="hover-action-cell">
-                            {/* <IconButton size="small" title="Copy">
-                            <ContentCopyIcon fontSize="small" />
-                          </IconButton>
-                          <IconButton size="small" title="Open">
-                            <OpenInNewIcon fontSize="small" />
-                          </IconButton> */}
-                            <img
-                              src={CopySvg}
-                              style={{ width: 14, height: 14 }}
-                              alt=""
                             />
-                            &nbsp;&nbsp;&nbsp;
-                            <img
-                              src={VectorSvg}
-                              style={{ width: 14, height: 14 }}
-                              alt=""
-                            />
-                          </TableCell>
-
-                          <TableCell className="hover-action-cell">
+                            {/* View SubSections Button */}
                             <Button
                               variant="text"
                               sx={{
@@ -618,14 +691,22 @@ const ObligationView = () => {
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 color: "#0080FE",
+                                minWidth: "max-content",
                               }}
                               onClick={() => handleOpenDrawer(page)}
                             >
                               View SubSections
                             </Button>
-                          </TableCell>
 
-                          <TableCell className="hover-action-cell">
+                            <Box
+                              component="span"
+                              sx={{
+                                width: "0px",
+                                height: "13px",
+                                borderLeft: "1px solid #ECECFF",
+                              }}
+                            />
+                            {/* Update Button */}
                             <Button
                               variant="text"
                               sx={{
@@ -633,21 +714,26 @@ const ObligationView = () => {
                                 fontWeight: 500,
                                 fontSize: "14px",
                                 color: "#21263C",
+                                minWidth: "max-content",
                               }}
                               onClick={() => setUpdateModalOpen(true)}
                             >
                               update
                             </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Box>
-              )}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            )}
 
-              {tabIndex === 2 && <Box mt={2}>Confidence content</Box>}
-            </CardSection>
+            {tabIndex === 2 && (
+              <Box mt={2} p={2}>
+                Confidence content
+              </Box>
+            )}
           </Box>
 
           <ObligationSliderView
@@ -662,40 +748,67 @@ const ObligationView = () => {
               open={UpdatemodalOpen}
               onClose={() => setUpdateModalOpen(false)}
             >
-              <Box sx={{ px: 2, py: 1.5, width: 420 }}>
+              <Box sx={{ px: 3.5, py: 3, overflow:'scroll' }}>
                 {/* Customer Info */}
-                <Stack spacing={1.5}>
+                <Stack spacing={2.5}>
                   {customerData.map((item, idx) => (
                     <Box key={idx} display="flex">
                       <Typography
-                        variant="body2"
-                        sx={{ minWidth: 160, color: "#60698F" }}
+                        sx={{
+                          minWidth: 140,
+                          color: "#60698F",
+                          fontSize: "13px",
+                          fontWeight: 500,
+                        }}
                       >
                         {item.label}
                       </Typography>
-                      <Typography variant="body2">{item.value}</Typography>
+                      <Typography
+                        sx={{
+                          minWidth: 140,
+                          color: "#21263C",
+                          fontSize: "13px",
+                          fontWeight: 500,
+                          ml: 1,
+                        }}
+                      >
+                        {item.value}
+                      </Typography>
                     </Box>
                   ))}
                 </Stack>
+                <Divider sx={{ my: 2, border: "1px solid #DCDCEF" }} />
 
-                <Divider sx={{ my: 2 }} />
-
-                {/* Section Title */}
-                <Typography variant="subtitle2" fontWeight={600} mb={1}>
-                  Status Update
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    fontSize: "14px",
+                    color: "#061445",
+                  }}
+                >
+                  {" "}
+                  Status Update{" "}
                 </Typography>
 
-                {/* Select Date */}
-                <Box mb={2}>
-                  <Typography variant="body2" mb={0.5}>
+                <Box mb={2} display="flex" alignItems="center" gap={2}>
+                  <Typography
+                    sx={{
+                      whiteSpace: "nowrap",
+                      color: "#061445",
+                      fontSize: "14px",
+                      fontWeight: 500,
+                    }}
+                  >
                     Select Date
                   </Typography>
                   <TextField
                     type="date"
-                    fullWidth
                     size="small"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
+                    sx={{ flexGrow: 1 }}
                   />
                 </Box>
 
@@ -717,7 +830,14 @@ const ObligationView = () => {
                     justifyContent="space-between"
                     mt={1}
                   >
-                    <Typography variant="body2" sx={{ flex: 1 }}>
+                    <Typography
+                      sx={{
+                        flex: 1,
+                        fontSize: "13px",
+                        fontWeight: 500,
+                        color: "#60698F",
+                      }}
+                    >
                       {item.label}
                     </Typography>
                     <RadioGroup
@@ -730,30 +850,55 @@ const ObligationView = () => {
                         value="yes"
                         control={<Radio size="small" />}
                         label="Yes"
+                        sx={{
+                          "& .MuiFormControlLabel-label": {
+                            color: "#21263C",
+                            fontSize: "13px",
+                            fontWeight: 500,
+                          },
+                        }}
                       />
                       <FormControlLabel
                         value="no"
                         control={<Radio size="small" />}
                         label="No"
+                        sx={{
+                          "& .MuiFormControlLabel-label": {
+                            color: "#21263C",
+                            fontSize: "13px",
+                            fontWeight: 500,
+                          },
+                        }}
                       />
                     </RadioGroup>
                   </Box>
                 ))}
 
-                <Divider sx={{ my: 2 }} />
+                <Divider sx={{ my: 2, border: "1px solid #DCDCEF" }} />
 
-                {/* Footer Buttons */}
-                <Box display="flex" justifyContent="flex-start" gap={2}>
+                <Box
+                  display="flex"
+                  gap={2}
+                  sx={{ fontSize: "13px", fontWeight: 400 }}
+                >
                   <Button
-                    variant="contained"
-                    size="small"
-                    sx={{ backgroundColor: "#2268E9", color: "#fff" }}
+                    variant="outlined"
+                    sx={{
+                      backgroundColor: "#2268E9",
+                      border: "1px solid #2268E9",
+                      color: "#fff",
+                      borderRadius: "6px",
+                    }}
                   >
                     Map
                   </Button>
                   <Button
                     variant="outlined"
-                    size="small"
+                    sx={{
+                      border: "1px solid #E5E5E5",
+                      color: "#061445",
+                      borderRadius: "6px",
+                    }}
                     onClick={() => setUpdateModalOpen(false)}
                   >
                     Cancel
@@ -788,8 +933,17 @@ const ObligationView = () => {
           >
             Save & Continue
           </Button>
-          <Button sx={{ border: '1px solid #E5E5E5',fontSize: "13px",
-              fontWeight: 400,backgroundColor: "#FFFFFF",color :'#061445'}}>Cancel</Button>
+          <Button
+            sx={{
+              border: "1px solid #E5E5E5",
+              fontSize: "13px",
+              fontWeight: 400,
+              backgroundColor: "#FFFFFF",
+              color: "#061445",
+            }}
+          >
+            Cancel
+          </Button>
         </Box>
       </Box>
     </Box>

@@ -1,41 +1,55 @@
 import React from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  IconButton,
-  Divider
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-
+import { Modal, Box, Typography, IconButton, Divider } from "@mui/material";
+import CloseSvg from "../assets/icons/Close.svg";
 const modalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "#fff",
-  boxShadow: 24,
-  borderRadius: 2,
-  p: 3,
-  maxWidth: 600,
-  width: "90%",
+  width: {
+    xs: "90%",  // for small devices
+    sm: "auto", // from sm and above
+  },
+  // width: "90%",
+  maxWidth: "850px",
+  maxHeight: "90vh",
+  overflowY: "auto",
+  // borderRadius: "8px",
+  // boxShadow: 24,
 };
 
 const ModalSection = ({ open, onClose, title, children }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-          <Typography variant="h6" fontWeight={600}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={1}
+          sx={{
+            backgroundColor: "#F1F4FF",
+            borderBottom: "1px solid #DCDCEF",
+            opacity: 1,
+            px: 2,
+            py: 1,
+            marginBottom: 0,
+          }}
+        >
+          <Typography
+            sx={{ fontSize: "14px", fontWeight: 600, color: "#061445" }}
+          >
             {title}
           </Typography>
           <IconButton onClick={onClose}>
-            <CloseIcon />
+            <img src={CloseSvg} alt="view" style={{ width: 16, height: 16 }} />
           </IconButton>
         </Box>
 
-        <Divider sx={{ mb: 2 }} />
-        {children}
+          <Box sx={{ maxHeight: "calc(90vh - 60px)", overflowY: "auto" }}>
+            {children}
+          </Box>
       </Box>
     </Modal>
   );

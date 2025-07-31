@@ -40,20 +40,35 @@ const TableSection = ({
   if (!Array.isArray(headers) || !Array.isArray(rows)) return null;
 
   return (
-    <TableContainer component={Paper} sx={{ width: "100%", overflowX: "auto",border: '1px solid #0A18290D' }}>
+    <TableContainer
+      component={Paper}
+      sx={{
+        width: "100%",
+        overflowX: "auto",
+        borderTop: "1px solid #0A18290D",
+        borderBottom: "1px solid #0A18290D",
+        borderLeft: "none",
+        borderRight: "none",
+        boxShadow: "none", // optional: remove Paper shadow
+      }}
+    >
       <Table size="small" aria-label="responsive table">
         <TableHead>
           <TableRow
             sx={{
               "& th": {
-                backgroundColor: "#FAFAFB", // Only header cell background
-                color: "#60698F", // Text color
+                backgroundColor: "#FAFAFB",
+                color: "#60698F",
                 fontWeight: 600,
                 py: 1,
                 px: 1,
-                borderBottom: "1px solid #E0E0E0", // Bottom divider
+                borderBottom: "1px solid #E0E0E0",
+                textTransform: "uppercase",
+                fontSize: "12px",
+                letterSpacing: '0.15em',
+                // verticalAlign: "middle",
               },
-              borderTop: "1px solid #E0E0E0", // Top divider before header
+              borderTop: "1px solid #E0E0E0",
             }}
           >
             {headers.map((header, idx) => (
@@ -84,14 +99,17 @@ const TableSection = ({
             rows.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
-                
+                align="left"
                 sx={{
                   cursor: "pointer",
+                  fontWeight: 500,
+                  
                   "&:hover": {
                     // backgroundColor: "#fff",
                     "& td": {
                       color: "#2268E9",
                       fontWeight: 500,
+                      background: '#F9FAFF',
                     },
                   },
                 }}
@@ -103,6 +121,7 @@ const TableSection = ({
                   return (
                     <TableCell
                       key={colIndex}
+                      align="left"
                       sx={{
                         py: 2,
                         px: 2,
@@ -129,7 +148,7 @@ const TableSection = ({
                   );
                 })}
 
-                <TableCell sx={{ py: 1, px: 2 }}>
+                <TableCell align="left" sx={{ py: 1, px: 2 }}>
                   <Box sx={{ display: "flex", gap: 1 }}>
                     <IconButton color="primary" onClick={() => onEdit?.(row)}>
                       <EditIcon fontSize="small" />

@@ -53,6 +53,7 @@ const theme = createTheme({
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',
           minHeight: '34px',
+          minWidth: '240px',
           '&:focus-within': {
             borderColor: '#D1E9FF',
           },
@@ -87,7 +88,7 @@ const theme = createTheme({
         root: {
           fontFamily: 'Inter, sans-serif',
           maxHeight: '34px',
-          width: 'auto'
+          minWidth: '240px'
         },
         select: {
           padding: '4px 10px',
@@ -137,6 +138,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'Inter, sans-serif',
+          textTransform: 'capitalize'
         },
       },
     },

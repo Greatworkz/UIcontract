@@ -13,11 +13,12 @@ import {
   Tab,
   Typography,
   Pagination,
+  Paper,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DateRangeInput from "../components/DateRange";
 import { getObligationListApi } from "../Apis/ApiConfig";
-import filterIconSvg from '../assets/icons/filter.svg';
+import filterIconSvg from "../assets/icons/filter.svg";
 
 const Obligations = () => {
   const [tab, setTab] = React.useState("All");
@@ -59,41 +60,89 @@ const Obligations = () => {
 
   // const filteredContracts = obligation; // directly use API-loaded data
   const filteredContracts =
-    tab === "All"
-      ? obligation
-      : obligation.filter((c) => c.Status === tab);
+    tab === "All" ? obligation : obligation.filter((c) => c.Status === tab);
 
   return (
-    <Box sx={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+    <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
       {/* First Card: Tabs */}
       <Box sx={{ mb: 3 }}>
-        <CardSection title="Extracted Obligation List" sx={{ pb: 0 }}>
+        <Box
+          sx={{
+            backgroundColor: "#ffffff",
+            width: "100%",
+            height: "58px",
+            position: "relative",
+            opacity: 1,
+            px: 2,
+            py: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 500,
+              fontStyle: "normal",
+              fontSize: "20px",
+              lineHeight: "30px",
+              letterSpacing: "0.2px",
+              color: "#061445",
+            }}
+          >
+            Extracted Obligation List
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: "#ffffff",
+            width: "100%",
+            height: "auto",
+            position: "relative",
+            opacity: 1,
+            px: 2,
+            border: "1px solid #F3F3F3",
+            boxShadow: "0px 2px 2px 0px #D3D6E14D",
+            display: "flex",
+          }}
+        >
           <Tabs
             value={tab}
             onChange={handleTabChange}
             textColor="primary"
             indicatorColor="primary"
+            TabIndicatorProps={{ style: { display: "none" } }} // hide default indicator
             sx={{
               mt: 1,
-              pb:0,
+              pb: 0,
               "& .MuiTab-root": {
                 fontSize: "13px",
                 fontWeight: 400,
                 textTransform: "none",
                 fontFamily: "Inter, sans-serif",
-                // px: 2,
-                color: '#061445',
+                color: "#061445",
                 minWidth: "auto",
+                position: "relative",
+                paddingX: 2,
+
+                // 👇 Custom short underline
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: 0,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "30px",
+                  height: "3px",
+                  backgroundColor: "transparent",
+                  borderRadius: "2px",
+                  transition: "all 0.3s ease",
+                },
+              },
+              // 👇 Active tab underline style
+              "& .Mui-selected::after": {
+                backgroundColor: "#2268E9",
               },
               "& .Mui-selected": {
                 fontWeight: 600,
-              },
-              "& .MuiTabs-indicator": {
-                height: "3px",
-                borderRadius: "2px",
-                backgroundColor: "#2268E9",
-                width: "fit-content",
-                fontWeight: 600
               },
             }}
           >
@@ -102,7 +151,7 @@ const Obligations = () => {
             <Tab label="Completed" value="Completed" />
             <Tab label="Terminated" value="Terminated" />
           </Tabs>
-        </CardSection>
+        </Box>
       </Box>
 
       {/* Second Card: Filters and Table */}
@@ -111,11 +160,25 @@ const Obligations = () => {
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
             <Grid item xs={12} md={4}>
               <Typography
-                sx={{ display: "flex",
-                  alignItems: "center", color: "#061445", fontWeight: 600, fontSize: "14px" }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#061445",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                }}
               >
-                <img src={filterIconSvg} alt="" style={{ width: 13, height: 14,marginRight: 5, mr: 0.5,
-        display: "inline-block",  }} />
+                <img
+                  src={filterIconSvg}
+                  alt=""
+                  style={{
+                    width: 13,
+                    height: 14,
+                    marginRight: 5,
+                    mr: 0.5,
+                    display: "inline-block",
+                  }}
+                />
                 Filter By :
               </Typography>
             </Grid>
@@ -125,7 +188,7 @@ const Obligations = () => {
                 <Select defaultValue="ALG Global Limited">
                   <MenuItem
                     value="ALG Global Limited"
-                    sx={{ fontSize: "13px" }}
+                    sx={{ fontSize: "13px", minWidth: "240px" }}
                   >
                     ALG Global Limited
                   </MenuItem>
@@ -165,6 +228,44 @@ const Obligations = () => {
               >
                 Clear Filter
               </Typography>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              md={4}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+              flexGrow={1}
+            >
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  color: "#061445",
+                  mr: 1,
+                }}
+              >
+                Sort By :
+              </Typography>
+              <FormControl>
+                <Select
+                  defaultValue="This Year"
+                  variant="standard"
+                  disableUnderline
+                  sx={{
+                    fontSize: "13px",
+                    minWidth: "180px",
+                  }}
+                >
+                  <MenuItem value="This Year">This Year</MenuItem>
+                  <MenuItem value="This Month">This Month</MenuItem>
+                  <MenuItem value="This Week">This Week</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
 
