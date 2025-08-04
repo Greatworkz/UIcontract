@@ -243,22 +243,32 @@ const Obligations = () => {
             >
               <Typography
                 sx={{
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  color: "#061445",
-                  mr: 1,
+                  fontWeight: 500,
+                  fontSize: "13px",
+                  color: "#60698F",
+                  // mr: 1,
                 }}
               >
                 Sort By :
               </Typography>
-              <FormControl>
+              <FormControl variant="standard">
                 <Select
                   defaultValue="This Year"
                   variant="standard"
                   disableUnderline
                   sx={{
                     fontSize: "13px",
-                    minWidth: "180px",
+                    minWidth: "10px",
+                    border: "none",
+                    boxShadow: "none",
+                    color: '#21263C',
+                    fontWeight: 500,
+                    "&::before, &::after": {
+                      display: "none",
+                    },
+                    "&:hover:not(.Mui-disabled)::before": {
+                      borderBottom: "none",
+                    },
                   }}
                 >
                   <MenuItem value="This Year">This Year</MenuItem>
@@ -292,7 +302,7 @@ const Obligations = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              mt: 2, // margin top
+              mt: 4, // margin top
             }}
           >
             {/* Right side - Total count */}

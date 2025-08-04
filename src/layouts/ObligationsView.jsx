@@ -24,6 +24,7 @@ import {
   MenuItem,
   FormControl,
   Select,
+  InputAdornment,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
@@ -53,6 +54,7 @@ import personSvg from "../assets/icons/person.svg";
 import CopySvg from "../assets/icons/Copy.svg";
 import VectorSvg from "../assets/icons/Vector.svg";
 import ArrowSvg from "../assets/oblication-icon/arrow.svg";
+import DateSvg from "../assets/icons/dateIcon.svg";
 
 const iconMap = {
   "Total Classes": TotalClassSvg,
@@ -231,23 +233,49 @@ const ObligationView = () => {
                       color: "#008631",
                       fontWeight: 600,
                       px: 1.5,
+                      py: 1,
+                      textAlign: "center",
                       border: "1px solid #C5E9D1",
                       letterSpacing: "1px",
                     }}
                   />
                 </Box>
 
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: "12px",
-                    fontWeight: 500,
-                    color: "#60698F",
-                    mt: 0.5,
-                  }}
-                >
-                  {contractData.uploaded_file}
-                </Typography>
+
+
+                <FormControl variant="standard">
+                  <Select
+                    value={contractData.uploaded_file}
+                    disableUnderline
+                    variant="standard"
+                    displayEmpty
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: 500,
+                      color: "#60698F",
+                      border: "none",
+                      boxShadow: "none",
+                      minWidth: "10px",
+                      padding: 0,
+                      "&::before, &::after": {
+                        display: "none",
+                      },
+                      "&:hover:not(.Mui-disabled)::before": {
+                        borderBottom: "none",
+                      },
+                      "& .MuiSelect-select": {
+                        padding: "0px !important", 
+                        minHeight: "unset",
+                        lineHeight: "normal",
+                      },
+                    }}
+                  >
+                    <MenuItem value={contractData.uploaded_file}>
+                      {contractData.uploaded_file}
+                    </MenuItem>
+                    {/* Add other options if needed */}
+                  </Select>
+                </FormControl>
               </Box>
             </Box>
           </Box>
@@ -434,7 +462,7 @@ const ObligationView = () => {
               border: "1px solid #0A18290D",
             }}
           >
-            <Box sx={{ borderBottom: "1px solid #e0e0e0", mb: 2 }}>
+            <Box sx={{ mb: 2 }}>
               <ThemedTabs value={tabIndex} onChange={handleTabChange}>
                 <ThemedTab label="Sections" />
                 <ThemedTab label="Pages" />
@@ -518,10 +546,11 @@ const ObligationView = () => {
                           opacity: 1,
                           mb: 2,
                           "& .hover-action-cell": {
-                            display: "none",
+                            // display: "none",
+                            visibility: "hidden",
                           },
                           "&:hover .hover-action-cell": {
-                            display: "table-cell",
+                            visibility: "visible",
                           },
                         }}
                       >
@@ -549,7 +578,7 @@ const ObligationView = () => {
                           />
                         </TableCell>
 
-                        <TableCell>
+                        <TableCell sx={{ width: "400px" }}>
                           <Typography
                             sx={{
                               fontSize: "13px",
@@ -621,7 +650,7 @@ const ObligationView = () => {
 
                         <TableCell
                           sx={{
-                            width: "900px",
+                            width: "800px",
                             height: "70px",
                             opacity: 1,
                             border: "1px solid #F2F2FF",
@@ -629,7 +658,6 @@ const ObligationView = () => {
                             verticalAlign: "top",
                           }}
                         >
-
                           <Typography
                             sx={{
                               color: "#60698F",
@@ -653,7 +681,7 @@ const ObligationView = () => {
                               WebkitBoxOrient: "vertical",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
-                              maxWidth: 400,
+                              // maxWidth: 400,
                             }}
                           >
                             {page.description}
@@ -748,7 +776,7 @@ const ObligationView = () => {
               open={UpdatemodalOpen}
               onClose={() => setUpdateModalOpen(false)}
             >
-              <Box sx={{ px: 3.5, py: 3, overflow:'scroll' }}>
+              <Box sx={{ px: 3.5, py: 3.5 }}>
                 {/* Customer Info */}
                 <Stack spacing={2.5}>
                   {customerData.map((item, idx) => (
@@ -777,7 +805,7 @@ const ObligationView = () => {
                     </Box>
                   ))}
                 </Stack>
-                <Divider sx={{ my: 2, border: "1px solid #DCDCEF" }} />
+                <Divider sx={{ my: 2.5, border: "1px dotted #DCDCEF" }} />
 
                 <Typography
                   sx={{
@@ -792,7 +820,7 @@ const ObligationView = () => {
                   Status Update{" "}
                 </Typography>
 
-                <Box mb={2} display="flex" alignItems="center" gap={2}>
+                <Box mb={3} mt={3} display="flex" alignItems="center" gap={2}>
                   <Typography
                     sx={{
                       whiteSpace: "nowrap",
@@ -804,11 +832,32 @@ const ObligationView = () => {
                     Select Date
                   </Typography>
                   <TextField
-                    type="date"
+                    type="text"
                     size="small"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
+                    onFocus={(e) => (e.target.type = "date")}
+                    onBlur={(e) => (e.target.type = "text")}
+                    variant="standard" // required for disableUnderline to work
                     sx={{ flexGrow: 1 }}
+                    InputProps={{
+                      disableUnderline: true, // this removes the underline
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton disableRipple>
+                            <img
+                              src={DateSvg}
+                              alt="calendar"
+                              style={{ width: 18, height: 18 }}
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      sx: {
+                        fontSize: "13px",
+                        paddingRight: "8px",
+                      },
+                    }}
                   />
                 </Box>
 

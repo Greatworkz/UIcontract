@@ -128,7 +128,7 @@ const TwoStepVerification = () => {
               fullWidth
               required
               id="password"
-              name="password"
+              name="code"
               type={showPassword ? "text" : "password"}
               placeholder=".  .  .  ."
               label="Enter Code"

@@ -62,9 +62,11 @@ const ObligationSliderView = ({ open, onClose, page }) => {
     { label: "Severity:", value: "Not Assigned" },
     { label: "Deliverable:", value: "Not Assigned" },
   ];
+
+  const isAnySectionChecked = Object.values(selectedSections).some(Boolean);
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
-      <Box sx={{ width: 400, p: 3 }}>
+      <Box sx={{ width: 450, p: 3 }}>
         <Box justifyContent="space-between" alignItems="center">
           <Box display="flex" alignItems="center" gap={2}>
             <Typography sx={{ fontSize: "20px", fontWeight: 600 }}>
@@ -138,19 +140,21 @@ const ObligationSliderView = ({ open, onClose, page }) => {
         </Box>
 
         <Divider sx={{ my: 2, color: "#DCDCEF" }} />
-        <Typography
-          variant="subtitle2"
-          sx={{
-            textAlign: "end",
-            fontWeight: 600,
-            color: "#2268E9",
-            cursor: "pointer",
-          }}
-          onClick={() => setMappingModalOpen(true)}
-        >
-          Map Domain
-        </Typography>
-
+        {isAnySectionChecked && (
+          <Typography
+            variant="subtitle2"
+            sx={{
+              textAlign: "end",
+              fontWeight: 600,
+              color: "#2268E9",
+              cursor: "pointer",
+              mb: 1.5,
+            }}
+            onClick={() => setMappingModalOpen(true)}
+          >
+            Map Domain
+          </Typography>
+        )}
         {Array.isArray(page.sections) && page.sections.length > 0 ? (
           page.sections.map((section, index) => {
             const detailItems = [
@@ -174,6 +178,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                   fontFamily: "Inter, sans-serif",
                   fontSize: "14px",
                   mb: 2,
+                  boxShadow: "none",
                   "&:before": { display: "none" },
                 }}
               >
@@ -200,7 +205,11 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                   >
                     <Checkbox
                       checked={!!selectedSections[index]}
-                      onChange={() => handleCheckboxChange(index)}
+                      onChange={(e) => {
+                        e.stopPropagation(); 
+                        handleCheckboxChange(index);
+                      }}
+                      onClick={(e) => e.stopPropagation()} 
                       size="small"
                       sx={{
                         mr: 1,
@@ -270,7 +279,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                     <Divider
                       sx={{
                         mt: 2,
-                        borderTop: "1px dashed #DCDCEF",
+                        border: "1px dashed #DCDCEF",
                         opacity: 1,
                       }}
                     />
@@ -301,7 +310,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                     <Divider
                       sx={{
                         my: 2,
-                        borderTop: "1px dashed #DCDCEF",
+                        border: "1px dashed #DCDCEF",
                         opacity: 1,
                         transform: "rotate(0deg)",
                       }}
@@ -343,8 +352,9 @@ const ObligationSliderView = ({ open, onClose, page }) => {
         title="Test"
         open={modalOpen}
         onClose={() => setModalOpen(false)}
+        
       >
-        <Box display="flex" flexDirection={{ xs: "column", md: "row" }}>
+        <Box display="flex" flexDirection={{ xs: "column", md: "row" }} sx={{ minWidth: 900 }}>
           {/* Left - PDF Content + Image Preview */}
           <Box
             flex={1}
@@ -384,7 +394,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
           </Box>
 
           {/* Right - Obligation Details */}
-          <Box flex={1.2} sx={{ p: 2 }}>
+          <Box flex={1.2} sx={{ pl: 2,pr:2, }}>
             <Stack spacing={2.5} p={1}>
               {PdfModaldetails1.map((item, idx) => (
                 <Box key={idx} display="flex" flexWrap="nowrap" minWidth={0}>
@@ -407,7 +417,6 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                       whiteSpace: "normal",
                       wordBreak: "break-word",
                       flex: 1,
-                      
                     }}
                     title={item.value}
                   >
@@ -417,7 +426,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
               ))}
             </Stack>
 
-            <Divider sx={{ my: 2, border: "1px solid #DCDCEF" }} />
+            <Divider sx={{ my: 2, border: "1px dashed #DCDCEF" }} />
 
             <Stack spacing={2.5} p={1}>
               {PdfModaldetails2.map((item, idx) => (
@@ -484,9 +493,10 @@ const ObligationSliderView = ({ open, onClose, page }) => {
           title="OB-Domain Mapping Details"
           open={MappingmodalOpen}
           onClose={() => setMappingModalOpen(false)}
+          // sx={{minWidth: 500}}
         >
-          <Box sx={{ px: 3.5, py: 3 }}>
-            <Stack spacing={2.5} >
+          <Box sx={{ px: 3.5, py: 3 ,minWidth: 500}}>
+            <Stack spacing={2.5}>
               {CustomerDetails.map((item, idx) => (
                 <Box key={idx} display="flex">
                   <Typography
@@ -513,13 +523,21 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                 </Box>
               ))}
             </Stack>
-            <Divider sx={{ my: 2, border: "1px solid #DCDCEF" }} />
+            <Divider sx={{ my: 2.5, border: "1px solid #DCDCEF" }} />
 
-            <Typography sx={{ fontWeight: 600, marginTop: "10px",marginBottom: "10px",fontSize: '14px',color: '#061445' }}>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                marginTop: "10px",
+                marginBottom: "10px",
+                fontSize: "14px",
+                color: "#061445",
+              }}
+            >
               {" "}
               Mapping Details{" "}
             </Typography>
-            <Stack spacing={2.5} >
+            <Stack spacing={2.5}>
               {[
                 {
                   label: "Accountability",
@@ -549,7 +567,12 @@ const ObligationSliderView = ({ open, onClose, page }) => {
               ].map((field, idx) => (
                 <Box key={idx} display="flex" alignItems="center">
                   <Typography
-                    sx={{ minWidth: 140, color: "#60698F", fontWeight: 500 ,fontSize: '13px'}}
+                    sx={{
+                      minWidth: 140,
+                      color: "#60698F",
+                      fontWeight: 500,
+                      fontSize: "13px",
+                    }}
                   >
                     {field.label}
                   </Typography>
@@ -566,15 +589,33 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                 </Box>
               ))}
             </Stack>
-            <Divider sx={{ my: 2, border: "1px solid #DCDCEF" }} />
-            <Box display="flex" gap={1} sx={{fontSize: '13px',fontWeight: 400}}>
+            <Divider sx={{ my: 2.5, border: "1px solid #DCDCEF" }} />
+            <Box
+              display="flex"
+              gap={1}
+              sx={{ fontSize: "13px", fontWeight: 400, marginBottom: '25px',marginTop: '25px' }}
+            >
               <Button
                 variant="outlined"
-                sx={{ backgroundColor: "#2268E9",border : '1px solid #2268E9', color: "#fff", borderRadius: '6px'}}
+                sx={{
+                  backgroundColor: "#2268E9",
+                  border: "1px solid #2268E9",
+                  color: "#fff",
+                  borderRadius: "6px",
+                }}
               >
                 Map
               </Button>
-              <Button variant="outlined" sx={{ border : '1px solid #E5E5E5' , color: '#061445',borderRadius: '6px'}}>Cancel</Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  border: "1px solid #E5E5E5",
+                  color: "#061445",
+                  borderRadius: "6px",
+                }}
+              >
+                Cancel
+              </Button>
             </Box>
           </Box>
         </ModalSection>

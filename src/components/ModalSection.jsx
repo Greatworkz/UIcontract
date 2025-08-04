@@ -12,7 +12,7 @@ const modalStyle = {
     sm: "auto", // from sm and above
   },
   // width: "90%",
-  maxWidth: "850px",
+  // maxWidth: "900px",
   maxHeight: "90vh",
   overflowY: "auto",
   // borderRadius: "8px",
