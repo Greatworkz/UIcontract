@@ -25,6 +25,7 @@ import {
   FormControl,
   Select,
   InputAdornment,
+  Switch,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
@@ -56,6 +57,11 @@ import VectorSvg from "../assets/icons/Vector.svg";
 import ArrowSvg from "../assets/oblication-icon/arrow.svg";
 import DateSvg from "../assets/icons/dateIcon.svg";
 
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import ToggleGridSvg from "../assets/icons/ToggleGrid.svg";
+import ToggleListSvg from "../assets/icons/ToogleTable.svg";
+import TableSection from "../components/TableSection";
+
 const iconMap = {
   "Total Classes": TotalClassSvg,
   Confidence: ConfidenceSvg,
@@ -63,6 +69,8 @@ const iconMap = {
   "Total Pages": TotalClassSvg,
   "Processed By": BotSvg,
 };
+const headers = ["", "Image", "Page Info", "Description", "Actions"];
+
 
 const ObligationView = () => {
   // const { contractId } = useParams();
@@ -81,6 +89,8 @@ const ObligationView = () => {
   const [selectedPage, setSelectedPage] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [UpdatemodalOpen, setUpdateModalOpen] = useState(false);
+  // const [viewMode, setViewMode] = useState("grid");
+  const [isGridView, setIsGridView] = useState("grid");
 
   const handleChange = (field) => (e) => {
     setStatus((prev) => ({ ...prev, [field]: e.target.value }));
@@ -175,107 +185,150 @@ const ObligationView = () => {
               px: 2,
             }}
           >
-            <Box display="flex" alignItems="flex-start" sx={{ mt: 2 }}>
+            <Box
+              display="flex"
+              alignItems="flex-start"
+              justifyContent="space-between"
+              sx={{ mt: 2 }}
+            >
+              {/* LEFT: Back Arrow */}
               <IconButton
                 size="small"
                 sx={{
                   width: "14px",
                   height: "14px",
                   padding: 0,
-                  mr: 0.5,
                   mt: "18px",
                 }}
               >
-                {/* <ArrowBackIosIcon
-                  sx={{
-                    fontSize: "16px",
-                    color: "#60698F",
-                    fontWeight: 600
-                  }}
-                /> */}
                 <img
-                  src={ArrowSvg} // import your svg or use path
+                  src={ArrowSvg}
                   alt="icon"
                   style={{ width: "100%", height: "100%" }}
                 />
               </IconButton>
 
+              {/* CENTER: Person image + name + select */}
               <Box
-                component="img"
-                src={personSvg}
-                alt="Person Icon"
-                sx={{
-                  width: 56,
-                  height: 56,
-                  mr: 1,
-                }}
-              />
+                display="flex"
+                alignItems="flex-start"
+                flexGrow={1}
+                sx={{ mx: 2 }}
+              >
+                <Box
+                  component="img"
+                  src={personSvg}
+                  alt="Person Icon"
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    mr: 1,
+                  }}
+                />
 
-              <Box display="flex" flexDirection="column">
-                <Box display="flex" alignItems="center" flexWrap="wrap">
-                  <Typography
-                    sx={{
-                      fontSize: "15px",
-                      fontWeight: 600,
-                      color: "#21263C",
-                      mr: 1,
-                    }}
-                  >
-                    {contractData.customer_name}
-                  </Typography>
+                <Box display="flex" flexDirection="column">
+                  <Box display="flex" alignItems="center" flexWrap="wrap">
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        color: "#21263C",
+                        mr: 1,
+                      }}
+                    >
+                      {contractData.customer_name}
+                    </Typography>
 
-                  <Chip
-                    label="ACTIVE"
-                    size="small"
-                    sx={{
-                      borderRadius: "3px",
-                      backgroundColor: "#DAFFE7",
-                      color: "#008631",
-                      fontWeight: 600,
-                      px: 1.5,
-                      py: 1,
-                      textAlign: "center",
-                      border: "1px solid #C5E9D1",
-                      letterSpacing: "1px",
-                    }}
-                  />
+                    <Chip
+                      label="ACTIVE"
+                      size="small"
+                      sx={{
+                        borderRadius: "3px",
+                        backgroundColor: "#DAFFE7",
+                        color: "#008631",
+                        fontWeight: 600,
+                        px: 1.5,
+                        py: 1,
+                        textAlign: "center",
+                        border: "1px solid #C5E9D1",
+                        letterSpacing: "1px",
+                      }}
+                    />
+                  </Box>
+
+                  <FormControl variant="standard">
+                    <Select
+                      value={contractData.uploaded_file}
+                      disableUnderline
+                      variant="standard"
+                      displayEmpty
+                      sx={{
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        color: "#60698F",
+                        border: "none",
+                        boxShadow: "none",
+                        minWidth: "10px",
+                        padding: 0,
+                        "&::before, &::after": {
+                          display: "none",
+                        },
+                        "&:hover:not(.Mui-disabled)::before": {
+                          borderBottom: "none",
+                        },
+                        "& .MuiSelect-select": {
+                          padding: "0px !important",
+                          minHeight: "unset",
+                          lineHeight: "normal",
+                        },
+                      }}
+                    >
+                      <MenuItem value={contractData.uploaded_file}>
+                        {contractData.uploaded_file}
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                 </Box>
+              </Box>
 
+              <Box display="flex" gap={1} justifyContent="flex-end" mt={1}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    height: "34px",
+                    borderRadius: "6px",
+                    border: "1px solid #E5E5E5",
+                    opacity: 1,
+                    textTransform: "none",
+                    fontWeight: 400,
+                    fontSize: "13px",
+                    color: "#061445",
+                  }}
+                  onClick={() => console.log("Compare clicked")}
+                >
+                  Compare version
+                </Button>
 
-
-                <FormControl variant="standard">
-                  <Select
-                    value={contractData.uploaded_file}
-                    disableUnderline
-                    variant="standard"
-                    displayEmpty
-                    sx={{
-                      fontSize: "12px",
-                      fontWeight: 500,
-                      color: "#60698F",
-                      border: "none",
-                      boxShadow: "none",
-                      minWidth: "10px",
-                      padding: 0,
-                      "&::before, &::after": {
-                        display: "none",
-                      },
-                      "&:hover:not(.Mui-disabled)::before": {
-                        borderBottom: "none",
-                      },
-                      "& .MuiSelect-select": {
-                        padding: "0px !important", 
-                        minHeight: "unset",
-                        lineHeight: "normal",
-                      },
-                    }}
-                  >
-                    <MenuItem value={contractData.uploaded_file}>
-                      {contractData.uploaded_file}
-                    </MenuItem>
-                    {/* Add other options if needed */}
-                  </Select>
-                </FormControl>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    width: "fit-content",
+                    height: "34px",
+                    borderRadius: "6px",
+                    border: "1px solid #E5E5E5",
+                    opacity: 1,
+                    textTransform: "none",
+                    fontWeight: 400,
+                    fontSize: "13px",
+                    color: "#000000",
+                    minWidth: "auto",
+                  }}
+                  onClick={() => console.log("Cancel clicked")}
+                >
+                  X
+                </Button>
               </Box>
             </Box>
           </Box>
@@ -478,48 +531,121 @@ const ObligationView = () => {
 
             {tabIndex === 1 && (
               <Box mt={2} p={2}>
-                <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
-                  <Grid item xs={12} md={4}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    gap: 2,
+                    mb: 3,
+                  }}
+                >
+                  {/* Filter By */}
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <img
+                      src={filterIconSvg}
+                      alt=""
+                      style={{ width: 13, height: 14, marginRight: 5 }}
+                    />
                     <Typography
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
                         color: "#061445",
                         fontWeight: 600,
                         fontSize: "14px",
                       }}
                     >
-                      <img
-                        src={filterIconSvg}
-                        alt=""
-                        style={{
-                          width: 13,
-                          height: 14,
-                          marginRight: 5,
-                        }}
-                      />
                       Filter By :
                     </Typography>
-                  </Grid>
+                  </Box>
 
-                  <Grid item xs={12} md={3}>
-                    <FormControl fullWidth>
-                      <TextField fullWidth placeholder="search content" />
-                    </FormControl>
-                  </Grid>
+                  {/* Search Field */}
+                  <TextField
+                    placeholder="Search content"
+                    size="small"
+                    sx={{ minWidth: 200 }}
+                  />
 
-                  <Grid item xs={12} md={3}>
-                    <FormControl fullWidth>
-                      <Select defaultValue="All Confidence">
-                        <MenuItem value="All Confidence">
-                          All Confidence
-                        </MenuItem>
-                        <MenuItem value="90%">90%</MenuItem>
-                        <MenuItem value="80%">80%</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                </Grid>
+                  {/* Select */}
+                  <Select
+                    defaultValue="All Confidence"
+                    size="small"
+                    sx={{ minWidth: 180 }}
+                  >
+                    <MenuItem value="All Confidence">All Confidence</MenuItem>
+                    <MenuItem value="90%">90%</MenuItem>
+                    <MenuItem value="80%">80%</MenuItem>
+                  </Select>
+
+                  {/* Spacer to push toggle to the right */}
+                  <Box sx={{ flexGrow: 1 }} />
+
+                  <ToggleButtonGroup
+                    value={isGridView ? "grid" : "list"}
+                    exclusive
+                    onChange={(event, value) => {
+                      if (value !== null) {
+                        setIsGridView(value === "grid");
+                      }
+                    }}
+                    size="small"
+                    sx={{
+                      minWidth: 78,
+                      height: 34,
+                      backgroundColor: "#EBEAF2",
+                      borderRadius: "6px",
+                      alignItems: "center",
+                      p: 0.5,
+                    }}
+                  >
+                    <ToggleButton
+                      value="grid"
+                      sx={{
+                        px: 1.5,
+                        width: 36,
+                        height: 30,
+                        // backgroundColor: "#EBEAF2",
+                        // borderRadius: "6px",
+                        border: "none",
+                        "&.Mui-selected": {
+                          backgroundColor: "#FFFFFF !important",
+                          boxShadow: "0px 2px 4px 0px #181C2E0F",
+                          borderRadius: "4px",
+                          opacity: 1,
+                        },
+                      }}
+                    >
+                      <img
+                        src={ToggleGridSvg}
+                        alt="Grid"
+                        style={{ width: 12, height: 12 }}
+                      />
+                    </ToggleButton>
+
+                    <ToggleButton
+                      value="list"
+                      sx={{
+                        px: 1.5,
+                        width: 36,
+                        height: 30,
+                        // backgroundColor: "#EBEAF2",
+                        // borderRadius: "6px",
+                        border: "none",
+                        "&.Mui-selected": {
+                          backgroundColor: "#FFFFFF !important",
+                          boxShadow: "0px 2px 4px 0px #181C2E0F",
+                          borderRadius: "4px",
+                          opacity: 1,
+                        },
+                      }}
+                    >
+                      <img
+                        src={ToggleListSvg}
+                        alt="List"
+                        style={{ width: 16, height: 16 }}
+                      />
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </Box>
 
                 {/* Table */}
                 <Table
@@ -534,224 +660,474 @@ const ObligationView = () => {
                   }}
                 >
                   <TableBody>
-                    {pageData.map((page) => (
-                      <TableRow
-                        key={page.id}
-                        sx={{
-                          display: "block",
-                          cursor: "pointer",
-                          borderRadius: "6px",
-                          border: "1px solid #E7EEFC",
-                          backgroundColor: "#FFFFFF",
-                          opacity: 1,
-                          mb: 2,
-                          "& .hover-action-cell": {
-                            // display: "none",
-                            visibility: "hidden",
-                          },
-                          "&:hover .hover-action-cell": {
-                            visibility: "visible",
-                          },
-                        }}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            sx={{
-                              "& path": {
-                                stroke: "#E5E5E5",
-                                strokeWidth: 1,
-                              },
-                            }}
-                          />
-                        </TableCell>
-
-                        <TableCell>
-                          <img
-                            src={page.image}
-                            alt={page.title}
-                            style={{
-                              width: 60,
-                              height: 80,
-                              objectFit: "cover",
-                              borderRadius: 4,
-                            }}
-                          />
-                        </TableCell>
-
-                        <TableCell sx={{ width: "400px" }}>
-                          <Typography
-                            sx={{
-                              fontSize: "13px",
-                              fontWeight: 600,
-                              color: "#061445",
-                            }}
-                          >
-                            {page.title}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              color: "#60698F",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1.2,
-                            }}
-                          >
-                            Section: {page.section}
-                            <Box
-                              component="span"
-                              sx={{
-                                width: "0px",
-                                height: "13px",
-                                borderLeft: "1px solid #F2F2FF",
-                              }}
-                            />
-                            SubSections: {page.subsections}
-                            <Box
-                              component="span"
-                              sx={{
-                                width: "0px",
-                                height: "13px",
-                                borderLeft: "1px solid #F2F2FF",
-                              }}
-                            />
-                            Mapped: {page.mapped}
-                          </Typography>
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            mt={2}
-                            gap={1.2}
-                          >
-                            <img
-                              src={BlueBotSvg}
-                              style={{ width: 20, height: 20 }}
-                              alt=""
-                            />
-                            <Box
-                              display="inline-block"
-                              bgcolor="#FFF3E0"
-                              px={1}
-                              py={0.5}
-                              fontSize="10px"
-                              color="#996800"
-                              sx={{
-                                border: "1px solid #FFF1D3",
-                                fontWeight: 600,
-                                borderRadius: "3px",
-                                letterSpacing: "1px",
-                              }}
-                            >
-                              {page.confidence} CONFIDENCE
-                            </Box>
-                          </Box>
-                        </TableCell>
-
-                        <TableCell
+                    {isGridView ? (
+                      pageData.map((page) => (
+                        <TableRow
+                          key={page.id}
                           sx={{
-                            width: "800px",
-                            height: "70px",
+                            display: "block",
+                            cursor: "pointer",
+                            borderRadius: "6px",
+                            border: "1px solid #E7EEFC",
+                            backgroundColor: "#FFFFFF",
                             opacity: 1,
-                            border: "1px solid #F2F2FF",
-                            borderWidth: "1px",
-                            verticalAlign: "top",
+                            mb: 2,
+                            "& .hover-action-cell": {
+                              // display: "none",
+                              visibility: "hidden",
+                            },
+                            "&:hover .hover-action-cell": {
+                              visibility: "visible",
+                            },
                           }}
                         >
-                          <Typography
-                            sx={{
-                              color: "#60698F",
-                              fontSize: "13px",
-                              mb: 1,
-                              fontWeight: 500,
-                              display: "inline-block", // allows span + text in one line
-                            }}
-                          >
-                            Title
-                          </Typography>
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              sx={{
+                                "& path": {
+                                  stroke: "#E5E5E5",
+                                  strokeWidth: 1,
+                                },
+                              }}
+                            />
+                          </TableCell>
 
-                          <Typography
-                            sx={{
-                              color: "#21263C",
-                              fontSize: "14px",
-                              fontWeight: 400,
-                              lineHeight: "20px",
-                              display: "-webkit-box",
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: "vertical",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              // maxWidth: 400,
-                            }}
-                          >
-                            {page.description}
-                          </Typography>
-                        </TableCell>
+                          <TableCell>
+                            <img
+                              src={page.image}
+                              alt={page.title}
+                              style={{
+                                width: 60,
+                                height: 80,
+                                objectFit: "cover",
+                                borderRadius: 4,
+                              }}
+                            />
+                          </TableCell>
 
-                        <TableCell className="hover-action-cell">
-                          <Box display="flex" alignItems="center" gap={2}>
-                            {/* Icons */}
-                            <Box display="flex" alignItems="center" gap={1}>
+                          <TableCell sx={{ width: "400px" }}>
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#061445",
+                              }}
+                            >
+                              {page.title}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#60698F",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1.2,
+                              }}
+                            >
+                              Section: {page.section}
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #F2F2FF",
+                                }}
+                              />
+                              SubSections: {page.subsections}
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #F2F2FF",
+                                }}
+                              />
+                              Mapped: {page.mapped}
+                            </Typography>
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              mt={2}
+                              gap={1.2}
+                            >
                               <img
-                                src={CopySvg}
-                                style={{ width: 14, height: 14 }}
+                                src={BlueBotSvg}
+                                style={{ width: 20, height: 20 }}
                                 alt=""
                               />
-                              <img
-                                src={VectorSvg}
-                                style={{ width: 14, height: 14 }}
-                                alt=""
-                              />
+                              <Box
+                                display="inline-block"
+                                bgcolor="#FFF3E0"
+                                px={1}
+                                py={0.5}
+                                fontSize="10px"
+                                color="#996800"
+                                sx={{
+                                  border: "1px solid #FFF1D3",
+                                  fontWeight: 600,
+                                  borderRadius: "3px",
+                                  letterSpacing: "1px",
+                                }}
+                              >
+                                {page.confidence} CONFIDENCE
+                              </Box>
                             </Box>
-                            <Box
-                              component="span"
-                              sx={{
-                                width: "0px",
-                                height: "13px",
-                                borderLeft: "1px solid #ECECFF",
-                              }}
-                            />
-                            {/* View SubSections Button */}
-                            <Button
-                              variant="text"
-                              sx={{
-                                textTransform: "none",
-                                fontWeight: 500,
-                                fontSize: "14px",
-                                color: "#0080FE",
-                                minWidth: "max-content",
-                              }}
-                              onClick={() => handleOpenDrawer(page)}
-                            >
-                              View SubSections
-                            </Button>
+                          </TableCell>
 
-                            <Box
-                              component="span"
+                          <TableCell
+                            sx={{
+                              width: "800px",
+                              height: "70px",
+                              opacity: 1,
+                              border: "1px solid #F2F2FF",
+                              borderWidth: "1px",
+                              verticalAlign: "top",
+                            }}
+                          >
+                            <Typography
                               sx={{
-                                width: "0px",
-                                height: "13px",
-                                borderLeft: "1px solid #ECECFF",
+                                color: "#60698F",
+                                fontSize: "13px",
+                                mb: 1,
+                                fontWeight: 500,
+                                display: "inline-block", // allows span + text in one line
+                              }}
+                            >
+                              Title
+                            </Typography>
+
+                            <Typography
+                              sx={{
+                                color: "#21263C",
+                                fontSize: "14px",
+                                fontWeight: 400,
+                                lineHeight: "20px",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                // maxWidth: 400,
+                              }}
+                            >
+                              {page.description}
+                            </Typography>
+                          </TableCell>
+
+                          <TableCell className="hover-action-cell">
+                            <Box display="flex" alignItems="center" gap={2}>
+                              {/* Icons */}
+                              <Box display="flex" alignItems="center" gap={1}>
+                                <img
+                                  src={CopySvg}
+                                  style={{ width: 14, height: 14 }}
+                                  alt=""
+                                />
+                                <img
+                                  src={VectorSvg}
+                                  style={{ width: 14, height: 14 }}
+                                  alt=""
+                                />
+                              </Box>
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #ECECFF",
+                                }}
+                              />
+                              {/* View SubSections Button */}
+                              <Button
+                                variant="text"
+                                sx={{
+                                  textTransform: "none",
+                                  fontWeight: 500,
+                                  fontSize: "14px",
+                                  color: "#0080FE",
+                                  minWidth: "max-content",
+                                }}
+                                onClick={() => handleOpenDrawer(page)}
+                              >
+                                View SubSections
+                              </Button>
+
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #ECECFF",
+                                }}
+                              />
+                              {/* Update Button */}
+                              <Button
+                                variant="text"
+                                sx={{
+                                  textTransform: "none",
+                                  fontWeight: 500,
+                                  fontSize: "14px",
+                                  color: "#21263C",
+                                  minWidth: "max-content",
+                                }}
+                                onClick={() => setUpdateModalOpen(true)}
+                              >
+                                update
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <Table
+                        sx={{
+                          border: "1px solid #ECECFF",
+                          borderRadius: "8px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <TableHead>
+                          <TableRow sx={{ backgroundColor: "#F8F9FB", position: "sticky", top: 0, zIndex: 1 }}>
+                            {headers.map((header) => (
+                              <TableCell
+                                key={header}
+                                sx={{
+                                  fontWeight: 600,
+                                  fontSize: "13px",
+                                  color: "#21263C",
+                                  borderBottom: "1px solid #ECECFF",
+                                  padding: "12px 16px",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                {header}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {pageData.map((page) => (
+                        <TableRow
+                          key={page.id}
+                          sx={{
+                            // display: "block",
+                            cursor: "pointer",
+                            borderRadius: "6px",
+                            border: "1px solid #E7EEFC",
+                            backgroundColor: "#FFFFFF",
+                            opacity: 1,
+                            mb: 2,
+                            "& .hover-action-cell": {
+                              // display: "none",
+                              visibility: "hidden",
+                            },
+                            "&:hover .hover-action-cell": {
+                              visibility: "visible",
+                            },
+                          }}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              sx={{
+                                "& path": {
+                                  stroke: "#E5E5E5",
+                                  strokeWidth: 1,
+                                },
                               }}
                             />
-                            {/* Update Button */}
-                            <Button
-                              variant="text"
-                              sx={{
-                                textTransform: "none",
-                                fontWeight: 500,
-                                fontSize: "14px",
-                                color: "#21263C",
-                                minWidth: "max-content",
+                          </TableCell>
+
+                          <TableCell>
+                            <img
+                              src={page.image}
+                              alt={page.title}
+                              style={{
+                                width: 60,
+                                height: 80,
+                                objectFit: "cover",
+                                borderRadius: 4,
                               }}
-                              onClick={() => setUpdateModalOpen(true)}
+                            />
+                          </TableCell>
+
+                          <TableCell sx={{ width: "400px" }}>
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#061445",
+                              }}
                             >
-                              update
-                            </Button>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                              {page.title}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#60698F",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1.2,
+                              }}
+                            >
+                              Section: {page.section}
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #F2F2FF",
+                                }}
+                              />
+                              SubSections: {page.subsections}
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #F2F2FF",
+                                }}
+                              />
+                              Mapped: {page.mapped}
+                            </Typography>
+                            <Box
+                              display="flex"
+                              alignItems="center"
+                              mt={2}
+                              gap={1.2}
+                            >
+                              <img
+                                src={BlueBotSvg}
+                                style={{ width: 20, height: 20 }}
+                                alt=""
+                              />
+                              <Box
+                                display="inline-block"
+                                bgcolor="#FFF3E0"
+                                px={1}
+                                py={0.5}
+                                fontSize="10px"
+                                color="#996800"
+                                sx={{
+                                  border: "1px solid #FFF1D3",
+                                  fontWeight: 600,
+                                  borderRadius: "3px",
+                                  letterSpacing: "1px",
+                                }}
+                              >
+                                {page.confidence} CONFIDENCE
+                              </Box>
+                            </Box>
+                          </TableCell>
+
+                          <TableCell
+                            sx={{
+                              width: "800px",
+                              height: "70px",
+                              opacity: 1,
+                              border: "1px solid #F2F2FF",
+                              borderWidth: "1px",
+                              verticalAlign: "top",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                color: "#60698F",
+                                fontSize: "13px",
+                                mb: 1,
+                                fontWeight: 500,
+                                display: "inline-block", // allows span + text in one line
+                              }}
+                            >
+                              Title
+                            </Typography>
+
+                            <Typography
+                              sx={{
+                                color: "#21263C",
+                                fontSize: "14px",
+                                fontWeight: 400,
+                                lineHeight: "20px",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                // maxWidth: 400,
+                              }}
+                            >
+                              {page.description}
+                            </Typography>
+                          </TableCell>
+
+                          <TableCell className="hover-action-cell">
+                            <Box display="flex" alignItems="center" gap={2}>
+                              {/* Icons */}
+                              <Box display="flex" alignItems="center" gap={1}>
+                                <img
+                                  src={CopySvg}
+                                  style={{ width: 14, height: 14 }}
+                                  alt=""
+                                />
+                                <img
+                                  src={VectorSvg}
+                                  style={{ width: 14, height: 14 }}
+                                  alt=""
+                                />
+                              </Box>
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #ECECFF",
+                                }}
+                              />
+                              {/* View SubSections Button */}
+                              <Button
+                                variant="text"
+                                sx={{
+                                  textTransform: "none",
+                                  fontWeight: 500,
+                                  fontSize: "14px",
+                                  color: "#0080FE",
+                                  minWidth: "max-content",
+                                }}
+                                onClick={() => handleOpenDrawer(page)}
+                              >
+                                View SubSections
+                              </Button>
+
+                              <Box
+                                component="span"
+                                sx={{
+                                  width: "0px",
+                                  height: "13px",
+                                  borderLeft: "1px solid #ECECFF",
+                                }}
+                              />
+                              {/* Update Button */}
+                              <Button
+                                variant="text"
+                                sx={{
+                                  textTransform: "none",
+                                  fontWeight: 500,
+                                  fontSize: "14px",
+                                  color: "#21263C",
+                                  minWidth: "max-content",
+                                }}
+                                onClick={() => setUpdateModalOpen(true)}
+                              >
+                                update
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                        </TableBody>
+                      </Table>
+                    )}
                   </TableBody>
                 </Table>
               </Box>
