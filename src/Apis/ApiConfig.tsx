@@ -283,4 +283,114 @@ export const GetsObligationChartData = async () => {
     { label: "Highly Confidence", value: 45, color: "#dc3545" },
     { label: "Confidence", value: 35, color: "#ffc107" },
   ];
+};  
+
+// ---------------------*** Contract Page Api List ***--------------------------------------
+// Get Obligation List Api
+export const getContractListApi = async (params: any) => {
+  const API_URL = `${BaseUrl}/contract/list`;
+  try {
+    // const response = await axios.get(API_URL, { params });
+    // return response.data;
+    return [
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "Confidential_Agreement_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-001",
+        "Update On": "10/01/2025 14:45:30",
+        Status: "Completed",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "NDA_2024_Analysis_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-013",
+        "Update On": "04/06/2025 14:45:42",
+        Status: "Active",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "Confidential_Agreement_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-001",
+        "Update On": "10/01/2025 14:45:30",
+        Status: "Terminate",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "NDA_2024_Analysis_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-013",
+        "Update On": "04/06/2025 14:45:42",
+        Status: "Active",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "Confidential_Agreement_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-001",
+        "Update On": "10/01/2025 14:45:30",
+        Status: "Completed",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "NDA_2024_Analysis_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-013",
+        "Update On": "04/06/2025 14:45:42",
+        Status: "Terminate",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "Confidential_Agreement_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-001",
+        "Update On": "10/01/2025 14:45:30",
+        Status: "Completed",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "NDA_2024_Analysis_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-013",
+        "Update On": "04/06/2025 14:45:42",
+        Status: "Active",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "Confidential_Agreement_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-001",
+        "Update On": "10/01/2025 14:45:30",
+        Status: "Terminate",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "NDA_2024_Analysis_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-013",
+        "Update On": "04/06/2025 14:45:42",
+        Status: "Active",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "Confidential_Agreement_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-001",
+        "Update On": "10/01/2025 14:45:30",
+        Status: "Completed",
+      },
+      {
+        "Customer Name": "ALG Global Limited",
+        "Contract Type": "Non-Disclosure Agreement (NDAs)",
+        "File Name": "NDA_2024_Analysis_Report.pdf",
+        "Extraction Code": "NDA-2025-05-022-013",
+        "Update On": "04/06/2025 14:45:42",
+        Status: "Terminate",
+      },
+    ];
+  } catch (error) {
+    throw error;
+  }
 };

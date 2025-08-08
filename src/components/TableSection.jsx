@@ -44,6 +44,7 @@ const TableSection = ({
       component={Paper}
       sx={{
         width: "100%",
+        minHeight: "100px",
         overflowX: "auto",
         borderTop: "1px solid #0A18290D",
         borderBottom: "1px solid #0A18290D",
@@ -65,7 +66,7 @@ const TableSection = ({
                 borderBottom: "1px solid #E0E0E0",
                 textTransform: "uppercase",
                 fontSize: "12px",
-                letterSpacing: '0.15em',
+                letterSpacing: "0.15em",
                 // verticalAlign: "middle",
               },
               borderTop: "1px solid #E0E0E0",
@@ -76,20 +77,24 @@ const TableSection = ({
                 {header}
               </TableCell>
             ))}
-            <TableCell sx={{ fontWeight: "bold", py: 2, px: 2 }}>
-              Actions
-            </TableCell>
+            {(onEdit || onDelete) && (
+              <TableCell sx={{ fontWeight: "bold", py: 2, px: 2 }}>
+                Actions
+              </TableCell>
+            )}
           </TableRow>
         </TableHead>
 
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={headers.length + 1} sx={{ fontSize: "13px" }}>
+              <TableCell
+                colSpan={headers.length + (onEdit || onDelete ? 1 : 0)}
+                sx={{ fontSize: "13px" }}
+              >
                 <Typography
                   align="center"
-                  color="text.secondary"
-                  sx={{ fontSize: "13px" }}
+                  sx={{ fontSize: "13px", color: "#60698F", fontWeight: 500 }}
                 >
                   No data available
                 </Typography>
@@ -103,13 +108,13 @@ const TableSection = ({
                 sx={{
                   cursor: "pointer",
                   fontWeight: 500,
-                  
+
                   "&:hover": {
                     // backgroundColor: "#fff",
                     "& td": {
                       color: "#2268E9",
                       fontWeight: 500,
-                      background: '#F9FAFF',
+                      background: "#F9FAFF",
                     },
                   },
                 }}
@@ -148,16 +153,34 @@ const TableSection = ({
                   );
                 })}
 
-                <TableCell align="left" sx={{ py: 1, px: 2 }}>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <IconButton color="primary" onClick={() => onEdit?.(row)}>
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton color="error" onClick={() => onDelete?.(row)}>
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
-                </TableCell>
+                {(onEdit || onDelete) && (
+                  <TableCell align="left" sx={{ py: 1, px: 2 }}>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      {onEdit && (
+                        <IconButton
+                          color="primary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onEdit(row);
+                          }}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                      )}
+                      {onDelete && (
+                        <IconButton
+                          color="error"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete(row);
+                          }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      )}
+                    </Box>
+                  </TableCell>
+                )}
               </TableRow>
             ))
           )}

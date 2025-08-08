@@ -7,18 +7,15 @@ import {
   FormControl,
   Select,
   MenuItem,
-  TextField,
   Box,
-  Tabs,
-  Tab,
   Typography,
   Pagination,
-  Paper,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DateRangeInput from "../components/DateRange";
 import { getObligationListApi } from "../Apis/ApiConfig";
 import filterIconSvg from "../assets/icons/filter.svg";
+import HeaderTabSection from "../components/HeaderTabSection";
 
 const Obligations = () => {
   const [tab, setTab] = React.useState("All");
@@ -32,10 +29,6 @@ const Obligations = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  // const filteredContracts =
-  //   tab === "All"
-  //     ? mockContracts
-  //     : mockContracts.filter((c) => c.Status === tab);
 
   const fetchContracts = async () => {
     setLoading(true);
@@ -45,7 +38,7 @@ const Obligations = () => {
         page: currentPage,
         limit: rowsPerPage,
       });
-      setObligation(response); // adjust based on actual API response shape
+      setObligation(response);
       setTotalCount(response.totalCount || response.length);
     } catch (err) {
       console.error("Failed to fetch contracts", err);
@@ -58,103 +51,12 @@ const Obligations = () => {
     fetchContracts();
   }, [tab, currentPage]);
 
-  // const filteredContracts = obligation; // directly use API-loaded data
   const filteredContracts =
     tab === "All" ? obligation : obligation.filter((c) => c.Status === tab);
 
   return (
     <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
-      {/* First Card: Tabs */}
-      <Box sx={{ mb: 3 }}>
-        <Box
-          sx={{
-            backgroundColor: "#ffffff",
-            width: "100%",
-            height: "58px",
-            position: "relative",
-            opacity: 1,
-            px: 2,
-            py: 2,
-          }}
-        >
-          <Typography
-            sx={{
-              fontFamily: "Inter, sans-serif",
-              fontWeight: 500,
-              fontStyle: "normal",
-              fontSize: "20px",
-              lineHeight: "30px",
-              letterSpacing: "0.2px",
-              color: "#061445",
-            }}
-          >
-            Extracted Obligation List
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            backgroundColor: "#ffffff",
-            width: "100%",
-            height: "auto",
-            position: "relative",
-            opacity: 1,
-            px: 2,
-            border: "1px solid #F3F3F3",
-            boxShadow: "0px 2px 2px 0px #D3D6E14D",
-            display: "flex",
-          }}
-        >
-          <Tabs
-            value={tab}
-            onChange={handleTabChange}
-            textColor="primary"
-            indicatorColor="primary"
-            TabIndicatorProps={{ style: { display: "none" } }} // hide default indicator
-            sx={{
-              mt: 1,
-              pb: 0,
-              "& .MuiTab-root": {
-                fontSize: "13px",
-                fontWeight: 400,
-                textTransform: "none",
-                fontFamily: "Inter, sans-serif",
-                color: "#061445",
-                minWidth: "auto",
-                position: "relative",
-                paddingX: 2,
-
-                // 👇 Custom short underline
-                "&::after": {
-                  content: '""',
-                  position: "absolute",
-                  bottom: 0,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "30px",
-                  height: "3px",
-                  backgroundColor: "transparent",
-                  borderRadius: "2px",
-                  transition: "all 0.3s ease",
-                },
-              },
-              // 👇 Active tab underline style
-              "& .Mui-selected::after": {
-                backgroundColor: "#2268E9",
-              },
-              "& .Mui-selected": {
-                fontWeight: 600,
-              },
-            }}
-          >
-            <Tab label="All" value="All" />
-            <Tab label="Active" value="Active" />
-            <Tab label="Completed" value="Completed" />
-            <Tab label="Terminated" value="Terminated" />
-          </Tabs>
-        </Box>
-      </Box>
-
-      {/* Second Card: Filters and Table */}
+    <HeaderTabSection title="Extracted Obligation List" tab={tab} handleTabChange={handleTabChange} />
       <Container maxWidth="xxl">
         <CardSection>
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>

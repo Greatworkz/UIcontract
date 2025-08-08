@@ -28,6 +28,7 @@ function App() {
         <Route path="/obligationView/:id" element={<ObligationView/>} />
         <Route path="/contracts" element={<ContractList />} />
         <Route path="/contract/add" element={<ContractAddEdit />} />
+        <Route path="/contract/edit/:id" element={<ContractAddEdit />} />
       </Route>
     </Routes>
   )

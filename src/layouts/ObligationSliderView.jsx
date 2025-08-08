@@ -178,6 +178,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                   fontFamily: "Inter, sans-serif",
                   fontSize: "14px",
                   mb: 2,
+                  // backgroundColor: "#FAFAFD",
                   boxShadow: "none",
                   "&:before": { display: "none" },
                 }}
@@ -186,6 +187,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                   expandIcon={<ExpandMoreIcon />}
                   sx={{
                     fontWeight: 600,
+                    backgroundColor: "#FAFAFD",
                     color: "#333",
                     fontSize: "15px",
                     "& .MuiAccordionSummary-content.Mui-expanded": {
@@ -199,7 +201,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
                     sx={{
                       borderTopLeftRadius: "6px",
                       borderTopRightRadius: "6px",
-                      backgroundColor: "#FAFAFD",
+                     
                       opacity: 1,
                     }}
                   >
@@ -349,7 +351,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
       </Box>
 
       <ModalSection
-        title="Test"
+        title="Documents"
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         
@@ -394,7 +396,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
           </Box>
 
           {/* Right - Obligation Details */}
-          <Box flex={1.2} sx={{ pl: 2,pr:2, }}>
+          <Box flex={1.2} sx={{ pl: 2,pr:2,mt:3 }}>
             <Stack spacing={2.5} p={1}>
               {PdfModaldetails1.map((item, idx) => (
                 <Box key={idx} display="flex" flexWrap="nowrap" minWidth={0}>
@@ -467,7 +469,7 @@ const ObligationSliderView = ({ open, onClose, page }) => {
           px={3}
           py={2}
           borderTop="1px solid #DCDCEF"
-          mt={2}
+          // mt={2}
         >
           <Button
             variant="outlined"

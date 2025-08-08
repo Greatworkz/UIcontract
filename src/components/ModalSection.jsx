@@ -7,12 +7,13 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "#fff",
-  width: {
+  minWidth: {
     xs: "90%",  // for small devices
-    sm: "auto", // from sm and above
+    sm: "510px", // from sm and above
   },
   // width: "90%",
   // maxWidth: "900px",
+  // minWidth: '510px',
   maxHeight: "90vh",
   overflowY: "auto",
   // borderRadius: "8px",

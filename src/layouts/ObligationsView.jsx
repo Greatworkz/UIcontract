@@ -36,16 +36,10 @@ import {
   GetsObligationChartData,
 } from "../Apis/ApiConfig";
 import ChartSection from "../components/ChartSection";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-
 import MetricSection from "../components/MatricSection";
-import CardSection from "../components/CardSection";
 import ThemedTabs, { ThemedTab } from "../components/TabSection";
 import ObligationSliderView from "./ObligationSliderView";
 import ModalSection from "../components/ModalSection";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-
 import TotalClassSvg from "../assets/oblication-icon/total_classes.svg";
 import ConfidenceSvg from "../assets/oblication-icon/confidence.svg";
 import filterIconSvg from "../assets/icons/filter.svg";
@@ -60,7 +54,6 @@ import DateSvg from "../assets/icons/dateIcon.svg";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import ToggleGridSvg from "../assets/icons/ToggleGrid.svg";
 import ToggleListSvg from "../assets/icons/ToogleTable.svg";
-import TableSection from "../components/TableSection";
 
 const iconMap = {
   "Total Classes": TotalClassSvg,
@@ -171,9 +164,9 @@ const ObligationView = () => {
     <Box
       display="flex"
       flexDirection="column"
-      minHeight="100vh" // ensures full height of the screen
+      minHeight="100vh"
     >
-      {/* Your main content goes here */}
+
       <Box flex="1">
         <Box display="flex" flexDirection="column">
           <Box
@@ -213,7 +206,7 @@ const ObligationView = () => {
                 display="flex"
                 alignItems="flex-start"
                 flexGrow={1}
-                sx={{ mx: 2 }}
+                sx={{ mr: 2 }}
               >
                 <Box
                   component="img"
@@ -511,7 +504,6 @@ const ObligationView = () => {
               mt: "20px",
               backgroundColor: "#fff",
               borderRadius: "8px",
-              // p: 2,
               border: "1px solid #0A18290D",
             }}
           >

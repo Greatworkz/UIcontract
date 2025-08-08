@@ -48,12 +48,14 @@ const theme = createTheme({
           border: '1px solid #E5E5E5',
           borderRadius: '8px',
           padding: '6px 10px',
-          fontSize: '14px',
+          fontSize: '13px',
           backgroundColor: '#fff',
           fontFamily: 'Inter, sans-serif',
           transition: 'all 0.2s ease-in-out',
           minHeight: '34px',
           minWidth: '240px',
+          color: '#21263C',
+          fontWeight: 500,
           '&:focus-within': {
             borderColor: '#D1E9FF',
           },
@@ -138,7 +140,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'Inter, sans-serif',
-          textTransform: 'capitalize'
+          textTransform: 'none'
         },
       },
     },
