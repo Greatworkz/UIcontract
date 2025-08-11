@@ -152,7 +152,7 @@ const ContractAddEdit = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
 
-  const [DocumentModalopen, setDocumentModal] = useState(true);
+  const [DocumentModalopen, setDocumentModal] = useState(false);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber] = useState(1);
 
