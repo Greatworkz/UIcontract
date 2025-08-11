@@ -26,13 +26,14 @@ const CardSection = ({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        border: "1px solid #0A18290D",
+        border: "1px solid #EBECEF",
         borderRadius: "8px",
         backgroundColor: "#ffffff",
       }}
     >
       {title && (
-        <Box
+        <Box sx={{ p:1}}>
+          <Box
           sx={{
             py: { xs: 1.5, sm: 1.5, md: 2 },
             px: 2,
@@ -72,12 +73,14 @@ const CardSection = ({
                 fontSize: "13px",
                 lineHeight: "1",
                 letterSpacing: "0.2px",
+                backgroundColor: '#fff'
               }}
               onClick={onHeaderActionClick}
             >
               {headerActionLabel}
             </Button>
           )}
+        </Box>
         </Box>
       )}
 

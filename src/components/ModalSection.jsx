@@ -3,13 +3,20 @@ import { Modal, Box, Typography, IconButton, Divider } from "@mui/material";
 import CloseSvg from "../assets/icons/Close.svg";
 const modalStyle = {
   position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  // top: "35%",
+  left: {
+    xs: "0%",  // for small devices
+    sm: "0%",
+    md: "25%",
+    lg: "30%"
+  },
+  display: 'block',
+  // transform: "translate(-50%, -50%)",
   bgcolor: "#fff",
   minWidth: {
     xs: "90%",  // for small devices
-    sm: "510px", // from sm and above
+    sm: "90%",
+    md: "510px" // from md and above
   },
   // width: "90%",
   // maxWidth: "900px",
