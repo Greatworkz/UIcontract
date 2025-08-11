@@ -291,70 +291,69 @@ const ContractAddEdit = () => {
       </Tabs> */}
 
         <Box sx={{ p: 3 }}>
-        <Stepper
-  activeStep={activeStep}
-  connector={<ColorConnector />}
-  sx={{
-    mb: 3,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width:{
-      sm: '100%',
-      md: '80%',
-      lg: '60%',
-      xl: '40%'
-    },
-    "& .MuiStep-root": {
-      display: "inline-flex",
-      alignItems: "center",
-      padding: 0,
-      minWidth: "auto",
-    },
-    "& .MuiStepLabel-root": {
-      margin: 0,
-      padding: 0,
-    },
-    "& .MuiStepConnector-root": {
-      margin: 0,
-    },
-  }}
->
-  {steps.map((label, index) => (
-    <Step
-      key={label}
-      onClick={() => handleStepClick(index)}
-      sx={{
-        display: "inline-flex",
-        alignItems: "center",
-        padding: 0,
-        minWidth: "auto",
-      }}
-    >
-      <StepLabel
-        StepIconComponent={ColorStepIcon}
-        sx={{
-          display: "inline-flex",
-          alignItems: "center",
-          "& .MuiStepLabel-label": {
-            color:
-              activeStep === index
-                ? "#2268E9 !important"
-                : completedSteps.includes(index)
-                ? "#308002 !important"
-                : "#60698F !important",
-            fontWeight: '600 !important',
-            fontSize: "14px",
-          },
-        }}
-      >
-        {label}
-      </StepLabel>
-    </Step>
-  ))}
-</Stepper>
-
+          <Stepper
+            activeStep={activeStep}
+            connector={<ColorConnector />}
+            sx={{
+              mb: 3,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              width: {
+                sm: "100%",
+                md: "80%",
+                lg: "60%",
+                xl: "40%",
+              },
+              "& .MuiStep-root": {
+                display: "inline-flex",
+                alignItems: "center",
+                padding: 0,
+                minWidth: "auto",
+              },
+              "& .MuiStepLabel-root": {
+                margin: 0,
+                padding: 0,
+              },
+              "& .MuiStepConnector-root": {
+                margin: 0,
+              },
+            }}
+          >
+            {steps.map((label, index) => (
+              <Step
+                key={label}
+                onClick={() => handleStepClick(index)}
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: 0,
+                  minWidth: "auto",
+                }}
+              >
+                <StepLabel
+                  StepIconComponent={ColorStepIcon}
+                  sx={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    "& .MuiStepLabel-label": {
+                      color:
+                        activeStep === index
+                          ? "#2268E9 !important"
+                          : completedSteps.includes(index)
+                          ? "#308002 !important"
+                          : "#60698F !important",
+                      fontWeight: "600 !important",
+                      fontSize: "14px",
+                    },
+                  }}
+                >
+                  {label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
 
           {activeStep === 0 && (
             <Box>
@@ -692,7 +691,7 @@ const ContractAddEdit = () => {
                     <Grid>
                       <img src={personSvg} alt="" srcset="" />
                     </Grid>
-                    <Grid size={{ xs: 10, sm: 5,  md: 2.5, lg: 2.4, xl: 2  }}>
+                    <Grid size={{ xs: 10, sm: 5, md: 2.5, lg: 2.4, xl: 2 }}>
                       <Typography sx={commonNameStyle}>
                         {msaInfo.supplierName}
                       </Typography>
@@ -828,7 +827,7 @@ const ContractAddEdit = () => {
           )}
           {activeStep === 2 && (
             <Box>
-               <Box mb={3}>
+              <Box mb={3}>
                 <CardSection
                   title="MSA Information"
                   showArrow
@@ -844,7 +843,7 @@ const ContractAddEdit = () => {
                     <Grid>
                       <img src={personSvg} alt="" srcset="" />
                     </Grid>
-                    <Grid size={{ xs: 10, sm: 5,  md: 2.5, lg: 2.4, xl: 2  }}>
+                    <Grid size={{ xs: 10, sm: 5, md: 2.5, lg: 2.4, xl: 2 }}>
                       <Typography sx={commonNameStyle}>
                         {msaInfo.supplierName}
                       </Typography>
@@ -1149,7 +1148,9 @@ const ContractAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         MSA Value (TCV)
                       </Typography>
-                      <Typography sx={{ ...commonValueStyle,color: "#078600"}}>
+                      <Typography
+                        sx={{ ...commonValueStyle, color: "#078600" }}
+                      >
                         $1,250,000.00
                       </Typography>
                     </Grid>
@@ -1195,7 +1196,9 @@ const ContractAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         SOW Value (TCV)
                       </Typography>
-                      <Typography sx={{ ...commonValueStyle,color: "#078600"}}>
+                      <Typography
+                        sx={{ ...commonValueStyle, color: "#078600" }}
+                      >
                         $25,000.00
                       </Typography>
                     </Grid>
@@ -1299,7 +1302,9 @@ const ContractAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         MSA Value (TCV)
                       </Typography>
-                      <Typography sx={{ ...commonValueStyle,color: "#078600"}}>
+                      <Typography
+                        sx={{ ...commonValueStyle, color: "#078600" }}
+                      >
                         1,250,000.00
                       </Typography>
                     </Grid>
@@ -1345,7 +1350,9 @@ const ContractAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         SOW Value (TCV)
                       </Typography>
-                      <Typography sx={{ ...commonValueStyle,color: "#078600"}}>
+                      <Typography
+                        sx={{ ...commonValueStyle, color: "#078600" }}
+                      >
                         $25,000.00
                       </Typography>
                     </Grid>
@@ -1421,19 +1428,22 @@ const ContractAddEdit = () => {
           }}
         >
           <Box display="flex" justifyContent="flex-start" gap={2}>
-          <Button
-              sx={{
-                border: "1px solid #2268E9",
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#FFFFFF",
-                color: "#2268E9",
-                borderRadius: '6px'
-              }}
-              onClick={handleBack}
-            >
-             {'<'} Previous
-            </Button>
+            {activeStep !== 0 && (
+              <Button
+                sx={{
+                  border: "1px solid #2268E9",
+                  fontSize: "13px",
+                  fontWeight: 400,
+                  backgroundColor: "#FFFFFF",
+                  color: "#2268E9",
+                  borderRadius: "6px",
+                }}
+                onClick={handleBack}
+              >
+                {"<"} Previous
+              </Button>
+            )}
+
             <Button
               sx={{
                 fontSize: "13px",
@@ -1454,7 +1464,7 @@ const ContractAddEdit = () => {
                 fontWeight: 400,
                 backgroundColor: "#FFFFFF",
                 color: "#061445",
-                borderRadius: '6px'
+                borderRadius: "6px",
               }}
             >
               Cancel
@@ -1669,13 +1679,13 @@ const ContractAddEdit = () => {
       </ModalSection>
 
       {/* Bussiness Case Modal */}
-      <ModalSection
+      {/* <ModalSection
         title="Business Case & Projects"
         open={BussinessCaseModalOpen}
         onClose={() => setBussinessCaseModalOpen(false)}
       >
         <Box sx={{ px: 3.5, py: 3.5 }}>
-          {/* Projects */}
+          
           <Typography
             sx={{ fontWeight: 600, fontSize: "14px", color: "#061445" }}
           >
@@ -1735,14 +1745,14 @@ const ContractAddEdit = () => {
             }}
           />
 
-          {/* Investment */}
+          
           <Typography
             sx={{ fontWeight: 600, fontSize: "14px", color: "#061445" }}
           >
             Investment
           </Typography>
 
-          {/* First Time Investment */}
+         
           {[
             { label: "First time Investment" },
             { label: "Recurring Investment | Year 1" },
@@ -1810,12 +1820,12 @@ const ContractAddEdit = () => {
             </Grid>
           ))}
         </Box>
-      </ModalSection>
+      </ModalSection> */}
 
       {/* Deliverable Modal */}
 
       <ModalSection
-        title="Scope of Service"
+        title="New Deliverable"
         open={DeliverablemodalOpen}
         onClose={() => setDeliverablemodalOpen(false)}
       >
