@@ -36,6 +36,7 @@ import ThemedTabs, { ThemedTab } from "../components/TabSection";
 import { styled } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { Document, Page, pdfjs } from "react-pdf";
+import DeleteSvg from "../assets/icons/delete.svg";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 const steps = [
   "Select Project SOW",
@@ -2069,31 +2070,119 @@ const ContractAddEdit = () => {
             sx={{
               flex: 1,
               bgcolor: "#f5f5f5",
-              p: 2,
+              p: 0, // Remove extra padding, we'll control inside
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              overflow: "auto",
+              flexDirection: "column", // so header/content/footer stack vertically
             }}
           >
-            {/* <Document
-            file="/sample.pdf" // <-- replace with your file path
-            onLoadSuccess={onDocumentLoadSuccess}
-          >
-            <Page pageNumber={pageNumber} width={500} />
-          </Document> */}
+            {/* Header */}
+            <Box
+              sx={{
+                p: 2,
+
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                boxShadow: "0px 2px 4px 0px #00000040",
+              }}
+            >
+              <span sx={{ fontWeight: 500, fontSize: 16 }}>
+                NDA_2024_Analysis_Report.pdf
+              </span>
+              {/* Example header action */}
+              <Typography
+                sx={{
+                  cursor: "pointer",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: '#2268E9',
+                  p: 0,
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                Add Document
+                <img
+                  src={DeleteSvg}
+                  alt=""
+                  style={{
+                    width: 11,
+                    height: 13,
+                    marginLeft: 25,
+                    mr: 0.5,
+                    display: "inline-block",
+                  }}
+                />
+              </Typography>
+              
+              
+            </Box>
+
+            {/* Main Content */}
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "auto",
+                p: 2,
+              }}
+            >
+              {/* Replace with your PDF viewer */}
+              {/* <Document file="/sample.pdf" onLoadSuccess={onDocumentLoadSuccess}>
+        <Page pageNumber={pageNumber} width={500} />
+      </Document> */}
+            </Box>
+
+            {/* Footer */}
+            <Box
+              sx={{
+                p: 1.5,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                boxShadow: " 0px -1px 4px 0px #00000040",
+                backgroundColor: '#fff'
+              }}
+            >
+              <Typography sx={{ color: '#DCDCDC',fontSize: '16px',fontWeight: 500}}>
+              PDF viewer Controls
+              </Typography>
+            </Box>
           </Box>
 
           {/* Right: Form */}
+
           <Box
             sx={{
               width: "600px",
-              p: 3,
+              p: "2px",
               bgcolor: "#fff",
               borderLeft: "1px solid #ddd",
             }}
           >
-            <Grid container spacing={2}>
+            <Box
+              sx={{
+                py: { xs: 1.5, sm: 1.5, md: 2 },
+                px: 2,
+                borderTopLeftRadius: "6px",
+                borderTopRightRadius: "6px",
+                backgroundColor: "#EBEBFC",
+                color: "#061445",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ fontSize: "18px", fontWeight: 600 }}>
+                Uploaded Document Information
+              </Typography>
+            </Box>
+
+            <Grid container spacing={2} sx={{ p: 3 }}>
               <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                 <Typography sx={{ ...commonLabelStyle }}>
                   MSA Schedule
@@ -2123,7 +2212,7 @@ const ContractAddEdit = () => {
                     borderStyle: "dashed",
                     borderColor: "#E5E5E5",
                     borderWidth: "1px",
-                    my: 2,
+                    my: 1,
                   }}
                 />
               </Grid>
@@ -2161,7 +2250,7 @@ const ContractAddEdit = () => {
                     borderStyle: "dashed",
                     borderColor: "#E5E5E5",
                     borderWidth: "1px",
-                    my: 2,
+                    my: 1,
                   }}
                 />
               </Grid>
@@ -2194,7 +2283,7 @@ const ContractAddEdit = () => {
                     borderStyle: "dashed",
                     borderColor: "#E5E5E5",
                     borderWidth: "1px",
-                    my: 2,
+                    my: 1,
                   }}
                 />
               </Grid>
