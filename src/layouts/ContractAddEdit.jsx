@@ -20,6 +20,9 @@ import {
   Pagination,
   stepConnectorClasses,
   StepConnector,
+  Dialog,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -31,6 +34,9 @@ import EditSvg from "../assets/icons/edit.svg";
 import ModalSection from "../components/ModalSection";
 import ThemedTabs, { ThemedTab } from "../components/TabSection";
 import { styled } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 const steps = [
   "Select Project SOW",
   "Business Case",
@@ -144,6 +150,17 @@ const ContractAddEdit = () => {
   const [BussinessCaseModalOpen, setBussinessCaseModalOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
+
+  const [DocumentModalopen, setDocumentModal] = useState(true);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber] = useState(1);
+
+  const handleClose = () => setDocumentModal(false);
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep((prev) => prev + 1);
@@ -1217,7 +1234,7 @@ const ContractAddEdit = () => {
                   title="SOW Document List"
                   showArrow
                   headerActionLabel="+ Add Document"
-                  // onHeaderActionClick={() => setScopemodalOpen(true)}
+                  onHeaderActionClick={() => setDocumentModal(true)}
                 >
                   <Box>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
@@ -1679,12 +1696,12 @@ const ContractAddEdit = () => {
       </ModalSection>
 
       {/* Bussiness Case Modal */}
-      {/* <ModalSection
+      <ModalSection
         title="Business Case & Projects"
         open={BussinessCaseModalOpen}
         onClose={() => setBussinessCaseModalOpen(false)}
       >
-        <Box sx={{ px: 3.5, py: 3.5 }}>
+        {/* <Box sx={{ px: 3.5, py: 3.5 }}>
           
           <Typography
             sx={{ fontWeight: 600, fontSize: "14px", color: "#061445" }}
@@ -1752,7 +1769,7 @@ const ContractAddEdit = () => {
             Investment
           </Typography>
 
-         
+          
           {[
             { label: "First time Investment" },
             { label: "Recurring Investment | Year 1" },
@@ -1819,8 +1836,113 @@ const ContractAddEdit = () => {
               </Grid>
             </Grid>
           ))}
+        </Box> */}
+
+        <Box sx={{ px: 3.5, py: 3.5 }}>
+          <Typography
+            sx={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 600,
+              fontSize: "14px",
+              lineHeight: "18px",
+              letterSpacing: 0,
+              verticalAlign: "middle",
+              color: "#061445",
+            }}
+          >
+            Projects
+          </Typography>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Project Expected Time for ROI
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Project | NPV | Invest Rate
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+
+          <Divider
+            sx={{
+              borderStyle: "dashed",
+              borderColor: "#DCDCEF",
+              borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Typography
+            sx={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 600,
+              fontSize: "14px",
+              lineHeight: "18px",
+              letterSpacing: 0,
+              verticalAlign: "middle",
+              color: "#061445",
+            }}
+          >
+            Investment
+          </Typography>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              First time Investment
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Recurring Investment | Year 1
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Recurring Investment | Year 2
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+          <Divider
+            sx={{
+              borderStyle: "solid",
+              borderColor: "#DCDCEF",
+              // borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Box display="flex" justifyContent="flex-start" gap={2}>
+            <Button
+              sx={{
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#2268E9",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                textTransform: "none",
+              }}
+            >
+              Save and Update
+            </Button>
+            <Button
+              sx={{
+                border: "1px solid #E5E5E5",
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#FFFFFF",
+                color: "#061445",
+              }}
+              onClick={() => setBussinessCaseModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
         </Box>
-      </ModalSection> */}
+      </ModalSection>
 
       {/* Deliverable Modal */}
 
@@ -1854,7 +1976,7 @@ const ContractAddEdit = () => {
           </Box>
           <Divider
             sx={{
-              borderStyle: "solid",
+              borderStyle: "dashed",
               borderColor: "#DCDCEF",
               borderWidth: "1px",
               my: 2,
@@ -1915,6 +2037,224 @@ const ContractAddEdit = () => {
           </Box>
         </Box>
       </ModalSection>
+
+      {/* Add Document Modal */}
+
+      <Dialog fullScreen open={DocumentModalopen} onClose={handleClose}>
+        {/* Top blue header */}
+        <AppBar sx={{ position: "relative", bgcolor: "#061445" }}>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: 500,
+                fontSize: "20px",
+                color: "#fff",
+                lineHeight: "30px",
+                letterSpacing: 0.2,
+              }}
+            >
+              Add New Document
+            </Typography>
+            <IconButton edge="end" color="inherit" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
+        {/* Content area */}
+        <Box sx={{ display: "flex", height: "100%" }}>
+          {/* Left: PDF Preview */}
+          <Box
+            sx={{
+              flex: 1,
+              bgcolor: "#f5f5f5",
+              p: 2,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              overflow: "auto",
+            }}
+          >
+            {/* <Document
+            file="/sample.pdf" // <-- replace with your file path
+            onLoadSuccess={onDocumentLoadSuccess}
+          >
+            <Page pageNumber={pageNumber} width={500} />
+          </Document> */}
+          </Box>
+
+          {/* Right: Form */}
+          <Box
+            sx={{
+              width: "600px",
+              p: 3,
+              bgcolor: "#fff",
+              borderLeft: "1px solid #ddd",
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  MSA Schedule
+                </Typography>
+                <Select fullWidth defaultValue="select" size="small">
+                  <MenuItem value="select">Select</MenuItem>
+                  <MenuItem value=""></MenuItem>
+                </Select>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  MSA Schedule Code
+                </Typography>
+                <TextField fullWidth placeholder="" value="" />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  MSA Schedule
+                </Typography>
+                <TextField fullWidth placeholder="" value="" />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Divider
+                  sx={{
+                    borderStyle: "dashed",
+                    borderColor: "#E5E5E5",
+                    borderWidth: "1px",
+                    my: 2,
+                  }}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>Schedule #</Typography>
+                <TextField fullWidth placeholder="" value="" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  Document Type
+                </Typography>
+                <Select fullWidth defaultValue="select" size="small">
+                  <MenuItem value="select">Select</MenuItem>
+                  <MenuItem value=""></MenuItem>
+                </Select>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  Document Version
+                </Typography>
+                <Select fullWidth defaultValue="select" size="small">
+                  <MenuItem value="select">Select</MenuItem>
+                  <MenuItem value=""></MenuItem>
+                </Select>
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>Version#</Typography>
+                <TextField fullWidth placeholder="" value="" />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Divider
+                  sx={{
+                    borderStyle: "dashed",
+                    borderColor: "#E5E5E5",
+                    borderWidth: "1px",
+                    my: 2,
+                  }}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  Document Name
+                </Typography>
+                <TextField fullWidth placeholder="" value="" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  Uploaded Date
+                </Typography>
+                <TextField fullWidth placeholder="" value="" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  Upload Status
+                </Typography>
+                <Select fullWidth defaultValue="select" size="small">
+                  <MenuItem value="select">Select</MenuItem>
+                  <MenuItem value=""></MenuItem>
+                </Select>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Divider
+                  sx={{
+                    borderStyle: "dashed",
+                    borderColor: "#E5E5E5",
+                    borderWidth: "1px",
+                    my: 2,
+                  }}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                <Typography sx={{ ...commonLabelStyle }}>
+                  Document Descriptions
+                </Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={5}
+                  placeholder=""
+                  value=""
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Divider
+                  sx={{
+                    borderStyle: "solid",
+                    borderColor: "#D3D6E14D",
+                    borderWidth: "1px",
+                    my: 2,
+                  }}
+                />
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                <Box display="flex" justifyContent="flex-start" gap={2}>
+                  <Button
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 400,
+                      backgroundColor: "#2268E9",
+                      color: "#FFFFFF",
+                      borderRadius: "6px",
+                      textTransform: "none",
+                    }}
+                  >
+                    Save and Update
+                  </Button>
+                  <Button
+                    sx={{
+                      border: "1px solid #E5E5E5",
+                      fontSize: "13px",
+                      fontWeight: 400,
+                      backgroundColor: "#FFFFFF",
+                      color: "#061445",
+                    }}
+                    // onClick={() => setDeliverablemodalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Dialog>
     </Box>
   );
 };
