@@ -21,6 +21,9 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'Inter, sans-serif',
+          "&.compact-input": {
+            minWidth: "unset"
+          }
         },
       },
     },
@@ -59,6 +62,9 @@ const theme = createTheme({
           '&:focus-within': {
             borderColor: '#D1E9FF',
           },
+          "&.compact-input": {
+            minWidth: "unset"
+          }
         },
         input: {
           padding: 0,

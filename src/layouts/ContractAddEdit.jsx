@@ -23,6 +23,7 @@ import {
   Dialog,
   AppBar,
   Toolbar,
+  InputBase,Checkbox, FormControlLabel
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -76,15 +77,37 @@ const commonValueStyle = {
   marginTop: "10px",
 };
 const adornmentRightStyle = {
-  height: "100%",
-  px: 1.5,
-  backgroundColor: "#F7F7FF",
-  border: "1px solid #E5E5E5",
-  borderTopRightRadius: "6px",
-  borderBottomRightRadius: "6px",
-  fontSize: "14px",
-  fontWeight: 400,
-  color: "#061445",
+  "& .MuiInputBase-root": {
+    padding: "0px !important", // remove padding from input root
+  },
+  "& .MuiInputAdornment-root": {
+    backgroundColor: "#F7F7FF",
+    padding: "16px",
+    display: "flex",
+    alignItems: "center",
+    fontSize: "14px",
+    fontWeight: 400,
+    color: "#061445 !important",
+    borderTopRightRadius: "4px",
+    borderBottomRightRadius: "4px",
+    border: "1px solid #E5E5E5",
+  },
+};
+
+const CompactInputs = {
+  ...adornmentRightStyle,
+  width: "125px",
+  "& .MuiOutlinedInput-root": {
+    minWidth: "auto !important",
+    width: "125px !important",
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    padding: 0,
+    color: "#061445 !important",
+    "& fieldset": {
+      border: "none",
+    },
+  },
 };
 
 const ColorConnector = styled(StepConnector)(({ theme }) => ({
@@ -377,9 +400,9 @@ const ContractAddEdit = () => {
             <Box>
               <Box mb={3}>
                 <CardSection title="Apply filters" showArrow>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} >
                     {/* Customer */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -390,6 +413,7 @@ const ContractAddEdit = () => {
                           fullWidth
                           defaultValue="ALG Global Limited"
                           size="small"
+                          
                         >
                           <MenuItem value="ALG Global Limited">
                             ALG Global Limited
@@ -399,7 +423,7 @@ const ContractAddEdit = () => {
                     </Grid>
 
                     {/* Geography */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -414,7 +438,7 @@ const ContractAddEdit = () => {
                     </Grid>
 
                     {/* Country */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -429,7 +453,7 @@ const ContractAddEdit = () => {
                     </Grid>
 
                     {/* Service Suite */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -446,7 +470,7 @@ const ContractAddEdit = () => {
                     </Grid>
 
                     {/* Supplier */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -466,7 +490,7 @@ const ContractAddEdit = () => {
                     </Grid>
 
                     {/* MSA Code */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -486,7 +510,7 @@ const ContractAddEdit = () => {
                     </Grid>
 
                     {/* Project Code */}
-                    <Grid size={FilterGrid}>
+                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
                         direction={{ xs: "column", md: "row" }}
                         alignItems={{ xs: "flex-start", md: "center" }}
@@ -1858,13 +1882,35 @@ const ContractAddEdit = () => {
             <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
               Project Expected Time for ROI
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                endAdornment: (
+                  <InputAdornment position="end" sx={{ bgcolor: "#F7F7FF" }}>
+                    Years
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
               Project | NPV | Invest Rate
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                endAdornment: (
+                  <InputAdornment position="end" sx={{ bgcolor: "#F7F7FF" }}>
+                    %
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
 
           <Divider
@@ -1889,24 +1935,130 @@ const ContractAddEdit = () => {
           >
             Investment
           </Typography>
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" flexWrap="wrap">
+            <Typography
+              sx={{
+                ...commonLabelStyle,
+                width: "200px",
+                mr: 4,
+              }}
+            >
               First time Investment
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+
+            <TextField
+              variant="outlined"
+              onChange={() => {}}
+              sx={{ ...CompactInputs,borderRight: "none",}}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    In
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <TextField
+              variant="outlined"
+              onChange={() => {}}
+              sx={CompactInputs}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    In
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+          <Box mb={3} mt={3} display="flex" alignItems="center" flexWrap="wrap">
+            <Typography
+              sx={{
+                ...commonLabelStyle,
+                width: "200px",
+                mr: 4,
+              }}
+            >
               Recurring Investment | Year 1
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+
+            {/* First Input */}
+            <TextField
+              variant="outlined"
+              onChange={() => {}}
+              sx={CompactInputs}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    In
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            {/* Second Input */}
+            <TextField
+              variant="outlined"
+              onChange={() => {}}
+              sx={{ ...CompactInputs,borderRight: "none",}}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    In
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" flexWrap="wrap">
+            <Typography
+              sx={{
+                ...commonLabelStyle,
+                width: "200px",
+                mr: 4,
+              }}
+            >
               Recurring Investment | Year 2
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+
+            {/* First Input */}
+            <TextField
+              variant="outlined"
+              onChange={() => {}}
+              sx={{ ...CompactInputs,borderRight: "none",}}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    In
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            {/* Second Input */}
+            <TextField
+              variant="outlined"
+              onChange={() => {}}
+              sx={CompactInputs}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    In
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
+
           <Divider
             sx={{
               borderStyle: "solid",
@@ -1974,6 +2126,24 @@ const ContractAddEdit = () => {
               Project Phase
             </Typography>
             <TextField fullWidth placeholder="" value="" />
+          </Box>
+          <Box  display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+            
+            </Typography>
+            <FormControlLabel
+  control={<Checkbox size="small" defaultChecked />}
+  label="Includes Milestones"
+  sx={{
+    margin: 0,
+    ".MuiTypography-root": {
+      fontSize: "14px",
+      color: "#061445",
+      fontWeight: 500
+        }
+  }}
+/>
+
           </Box>
           <Divider
             sx={{
@@ -2095,7 +2265,7 @@ const ContractAddEdit = () => {
                   cursor: "pointer",
                   fontSize: 16,
                   fontWeight: 500,
-                  color: '#2268E9',
+                  color: "#2268E9",
                   p: 0,
                   "&:hover": {
                     textDecoration: "underline",
@@ -2115,8 +2285,6 @@ const ContractAddEdit = () => {
                   }}
                 />
               </Typography>
-              
-              
             </Box>
 
             {/* Main Content */}
@@ -2145,11 +2313,13 @@ const ContractAddEdit = () => {
                 alignItems: "center",
                 gap: 2,
                 boxShadow: " 0px -1px 4px 0px #00000040",
-                backgroundColor: '#fff'
+                backgroundColor: "#fff",
               }}
             >
-              <Typography sx={{ color: '#DCDCDC',fontSize: '16px',fontWeight: 500}}>
-              PDF viewer Controls
+              <Typography
+                sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
+              >
+                PDF viewer Controls
               </Typography>
             </Box>
           </Box>
