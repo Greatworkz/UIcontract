@@ -25,6 +25,8 @@ const modalStyle = {
   overflowY: "auto",
   // borderRadius: "8px",
   // boxShadow: 24,
+  borderBottomLeftRadius: "4px",
+    borderBottomRightRadius: "4px",
 };
 
 const ModalSection = ({ open, onClose, title, children }) => {

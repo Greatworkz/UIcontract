@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
   Box,
   Typography,
@@ -23,7 +23,9 @@ import {
   Dialog,
   AppBar,
   Toolbar,
-  InputBase,Checkbox, FormControlLabel
+  InputBase,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -124,7 +126,7 @@ const ColorStepIconRoot = styled("div")(({ ownerState }) => ({
   backgroundColor: ownerState.active
     ? "#2268E9" // Active step color
     : ownerState.completed
-    ? "#308002" // ✅ Completed step color
+    ? "#308002" // Completed step color
     : "#434343", // Default color
   zIndex: 1,
   color: "#fff",
@@ -176,8 +178,31 @@ const ContractAddEdit = () => {
   const [completedSteps, setCompletedSteps] = useState([]);
 
   const [DocumentModalopen, setDocumentModal] = useState(false);
+  const [fileUrl, setFileUrl] = useState(""); // default PDF
+  const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(null);
-  const [pageNumber] = useState(1);
+
+  const fileInputRef = useRef(null);
+
+
+
+  const handleAddDocumentClick = () => {
+    fileInputRef.current.click(); // open file dialog
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileType = file.type;
+    if (fileType.includes("pdf") || fileType.includes("image")) {
+      const url = URL.createObjectURL(file);
+      setFileUrl(url);
+      setPageNumber(1);
+    } else {
+      alert("Please select a PDF or Image file");
+    }
+  };
 
   const handleClose = () => setDocumentModal(false);
 
@@ -400,7 +425,7 @@ const ContractAddEdit = () => {
             <Box>
               <Box mb={3}>
                 <CardSection title="Apply filters" showArrow>
-                  <Grid container spacing={2} >
+                  <Grid container spacing={2}>
                     {/* Customer */}
                     <Grid size={FilterGrid} sx={{ pl: 2 }}>
                       <Stack
@@ -413,7 +438,6 @@ const ContractAddEdit = () => {
                           fullWidth
                           defaultValue="ALG Global Limited"
                           size="small"
-                          
                         >
                           <MenuItem value="ALG Global Limited">
                             ALG Global Limited
@@ -1455,6 +1479,38 @@ const ContractAddEdit = () => {
                     </Grid>
                   </Box>
                 )}
+
+                {tabIndex === 1 && (
+                  <Box p={2}>
+                    <CardSection title="SOW Summary"></CardSection>
+                  </Box>
+                )}
+
+                {tabIndex === 2 && (
+                  <Box p={2}>
+                    <CardSection title="Service"></CardSection>
+                  </Box>
+                )}
+                {tabIndex === 3 && (
+                  <Box p={2}>
+                    <CardSection title="Deliverables"></CardSection>
+                  </Box>
+                )}
+                {tabIndex === 4 && (
+                  <Box p={2}>
+                    <CardSection title="Contract Documents"></CardSection>
+                  </Box>
+                )}
+                {tabIndex === 5 && (
+                  <Box p={2}>
+                    <CardSection title="OB Register"></CardSection>
+                  </Box>
+                )}
+                {tabIndex === 6 && (
+                  <Box p={2}>
+                    <CardSection title="TCV-ACV Analysisi"></CardSection>
+                  </Box>
+                )}
               </Box>
             </Box>
           )}
@@ -1950,7 +2006,7 @@ const ContractAddEdit = () => {
             <TextField
               variant="outlined"
               onChange={() => {}}
-              sx={{ ...CompactInputs,borderRight: "none",}}
+              sx={{ ...CompactInputs, borderRight: "none" }}
               InputProps={{
                 disableUnderline: true,
                 startAdornment: (
@@ -2005,7 +2061,7 @@ const ContractAddEdit = () => {
             <TextField
               variant="outlined"
               onChange={() => {}}
-              sx={{ ...CompactInputs,borderRight: "none",}}
+              sx={{ ...CompactInputs, borderRight: "none" }}
               InputProps={{
                 disableUnderline: true,
                 startAdornment: (
@@ -2032,7 +2088,7 @@ const ContractAddEdit = () => {
             <TextField
               variant="outlined"
               onChange={() => {}}
-              sx={{ ...CompactInputs,borderRight: "none",}}
+              sx={{ ...CompactInputs, borderRight: "none" }}
               InputProps={{
                 disableUnderline: true,
                 startAdornment: (
@@ -2127,23 +2183,22 @@ const ContractAddEdit = () => {
             </Typography>
             <TextField fullWidth placeholder="" value="" />
           </Box>
-          <Box  display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-            
-            </Typography>
+          <Box display="flex" alignItems="center" gap={4}>
+            <Typography
+              sx={{ ...commonLabelStyle, width: "150px" }}
+            ></Typography>
             <FormControlLabel
-  control={<Checkbox size="small" defaultChecked />}
-  label="Includes Milestones"
-  sx={{
-    margin: 0,
-    ".MuiTypography-root": {
-      fontSize: "14px",
-      color: "#061445",
-      fontWeight: 500
-        }
-  }}
-/>
-
+              control={<Checkbox size="small" defaultChecked />}
+              label="Includes Milestones"
+              sx={{
+                margin: 0,
+                ".MuiTypography-root": {
+                  fontSize: "14px",
+                  color: "#061445",
+                  fontWeight: 500,
+                },
+              }}
+            />
           </Box>
           <Divider
             sx={{
@@ -2237,92 +2292,107 @@ const ContractAddEdit = () => {
         <Box sx={{ display: "flex", height: "100%" }}>
           {/* Left: PDF Preview */}
           <Box
-            sx={{
-              flex: 1,
-              bgcolor: "#f5f5f5",
-              p: 0, // Remove extra padding, we'll control inside
-              display: "flex",
-              flexDirection: "column", // so header/content/footer stack vertically
+      sx={{
+        flex: 1,
+        bgcolor: "#f5f5f5",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* Header */}
+      <Box
+        sx={{
+          p: 2,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0px 2px 4px 0px #00000040",
+        }}
+      >
+        <span style={{ fontWeight: 500, fontSize: 16 }}>
+          {fileUrl ? fileUrl.split("/").pop() : "No Document Selected"}
+        </span>
+
+        <Typography
+          sx={{
+            cursor: "pointer",
+            fontSize: 16,
+            fontWeight: 500,
+            color: "#2268E9",
+            "&:hover": { textDecoration: "underline" },
+          }}
+          onClick={handleAddDocumentClick}
+        >
+          Add Document
+          <img
+            src={DeleteSvg}
+            alt=""
+            style={{
+              width: 11,
+              height: 13,
+              marginLeft: 25,
+              display: "inline-block",
             }}
-          >
-            {/* Header */}
-            <Box
-              sx={{
-                p: 2,
+          />
+        </Typography>
 
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                boxShadow: "0px 2px 4px 0px #00000040",
-              }}
-            >
-              <span sx={{ fontWeight: 500, fontSize: 16 }}>
-                NDA_2024_Analysis_Report.pdf
-              </span>
-              {/* Example header action */}
-              <Typography
-                sx={{
-                  cursor: "pointer",
-                  fontSize: 16,
-                  fontWeight: 500,
-                  color: "#2268E9",
-                  p: 0,
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-              >
-                Add Document
-                <img
-                  src={DeleteSvg}
-                  alt=""
-                  style={{
-                    width: 11,
-                    height: 13,
-                    marginLeft: 25,
-                    mr: 0.5,
-                    display: "inline-block",
-                  }}
-                />
-              </Typography>
-            </Box>
+        {/* Hidden File Input */}
+        <input
+          type="file"
+          accept="application/pdf,image/*"
+          style={{ display: "none" }}
+          ref={fileInputRef}
+          onChange={handleFileChange}
+        />
+      </Box>
 
-            {/* Main Content */}
-            <Box
-              sx={{
-                flex: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                overflow: "auto",
-                p: 2,
-              }}
-            >
-              {/* Replace with your PDF viewer */}
-              {/* <Document file="/sample.pdf" onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} width={500} />
-      </Document> */}
-            </Box>
+      {/* Main Content */}
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "auto",
+          p: 2,
+        }}
+      >
+        {fileUrl?.endsWith(".pdf") ? (
+          <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+            <Page pageNumber={pageNumber} width={500} />
+          </Document>
+        ) : (
+          <img
+            src={fileUrl}
+            alt="Preview"
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
+          />
+        )}
+      </Box>
 
-            {/* Footer */}
-            <Box
-              sx={{
-                p: 1.5,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 2,
-                boxShadow: " 0px -1px 4px 0px #00000040",
-                backgroundColor: "#fff",
-              }}
-            >
-              <Typography
-                sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
-              >
-                PDF viewer Controls
-              </Typography>
-            </Box>
-          </Box>
+      {/* Footer */}
+      <Box
+        sx={{
+          p: 1.5,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          boxShadow: "0px -1px 4px 0px #00000040",
+          backgroundColor: "#fff",
+        }}
+      >
+        <Typography
+          sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
+        >
+          PDF Viewer Controls
+        </Typography>
+      </Box>
+    </Box>
 
           {/* Right: Form */}
 

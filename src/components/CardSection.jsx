@@ -32,7 +32,7 @@ const CardSection = ({
       }}
     >
       {title && (
-        <Box sx={{ p:1}}>
+        <Box sx={{ p: '4px' }}>
           <Box
           sx={{
             py: { xs: 1.5, sm: 1.5, md: 2 },
@@ -84,7 +84,7 @@ const CardSection = ({
         </Box>
       )}
 
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ p: 3,minHeight: '120px' }}>
         <Box sx={{ fontSize: "14px" }}>{children}</Box>
       </CardContent>
     </Card>
