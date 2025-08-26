@@ -1657,7 +1657,7 @@ const ObligationView = () => {
               open={FullComparemodalOpen}
               onClose={() => SetFullCompareModalOpen(false)}
             >
-              <Box sx={{ px: 3.5, py: 3.5 }}>
+              <Box sx={{ px: 3.5, py: 3.5 ,minWidth: 700}} >
                 <Grid container spacing={2} mb={2}>
                   <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6 }}>
                     {/* {SummaryData.map((metric, index) => (
