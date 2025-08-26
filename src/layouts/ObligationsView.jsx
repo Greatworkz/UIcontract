@@ -358,19 +358,59 @@ const ObligationView = () => {
                       handleSummary();
                       DropDownClose();
                     }}
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 500,
+                      fontStyle: "normal",
+                      fontSize: "13px",
+                      lineHeight: "100%",
+                      letterSpacing: "0px",
+                      verticalAlign: "middle",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#2268E9",
+                        color: "#fff",
+                      },
+                    }}
                   >
                     Full OB Summary
                   </MenuItem>
+
                   <MenuItem
-                    onClick={() => {
-                      DropDownClose();
+                    onClick={DropDownClose}
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 500,
+                      fontStyle: "normal",
+                      fontSize: "13px",
+                      lineHeight: "100%",
+                      letterSpacing: "0px",
+                      verticalAlign: "middle",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#2268E9",
+                        color: "#fff",
+                      },
                     }}
                   >
                     Compare OB
                   </MenuItem>
+
                   <MenuItem
-                    onClick={() => {
-                      DropDownClose();
+                    onClick={DropDownClose}
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 500,
+                      fontStyle: "normal",
+                      fontSize: "13px",
+                      lineHeight: "100%",
+                      letterSpacing: "0px",
+                      verticalAlign: "middle",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#2268E9",
+                        color: "#fff",
+                      },
                     }}
                   >
                     Download OB
@@ -1314,7 +1354,6 @@ const ObligationView = () => {
                   />
                 </Box>
 
-
                 {[
                   { label: "OB Submitted on Time", key: "obSubmitted" },
                   { label: "OB Complied", key: "obComplied" },
@@ -1439,13 +1478,12 @@ const ObligationView = () => {
                               sx={{ flex: 1 }}
                             />
                           </Box>
-                          
 
                           {/* Owner */}
                           <Box
                             display="flex"
                             alignItems="center"
-                            sx={{ width: "100%"}}
+                            sx={{ width: "100%" }}
                           >
                             <Typography
                               sx={{
@@ -1463,7 +1501,6 @@ const ObligationView = () => {
                               sx={{ flex: 1 }}
                             />
                           </Box>
-                      
 
                           {/* Timeline */}
                           <Box
@@ -1487,7 +1524,6 @@ const ObligationView = () => {
                               sx={{ flex: 1 }}
                             />
                           </Box>
-                      
 
                           {/* Category */}
                           <Box
@@ -1517,7 +1553,6 @@ const ObligationView = () => {
                               <MenuItem value="option3">Option 3</MenuItem>
                             </TextField>
                           </Box>
-                      
 
                           {/* Priority */}
                           <Box
@@ -1547,13 +1582,12 @@ const ObligationView = () => {
                               <MenuItem value="option3">Option 3</MenuItem>
                             </TextField>
                           </Box>
-                      
 
                           {/* Status */}
                           <Box
                             display="flex"
                             alignItems="center"
-                            sx={{ width: "100%", }}
+                            sx={{ width: "100%" }}
                           >
                             <Typography
                               sx={{
@@ -1577,7 +1611,6 @@ const ObligationView = () => {
                               <MenuItem value="option3">Option 3</MenuItem>
                             </TextField>
                           </Box>
-                      
                         </AccordionDetails>
                       )}
                     </Accordion>

@@ -786,6 +786,7 @@ const ContractList = () => {
                         borderRadius: "6px",
                         textTransform: "none",
                       }}
+                      onClick={() => navigate("/contract/add")}
                     >
                       Save & Continue
                     </Button>
