@@ -164,6 +164,20 @@ export const getMetricsData = async (id: any) => {
   ];
 };
 
+// Obligation View Page Apis
+export const getObligationSummary = async (id: any) => {
+  const API_URL = `${BaseUrl}/obligation/summary`;
+
+  // const response = await axios.get(API_URL,);
+  // return response.data;
+  return [
+    { label: "Total Attachments", value: '05' },
+    { label: "Total Classes", value: '34' },
+    { label: "Confidence", value: '14' },
+    { label: "Total Pages", value: '36' },
+  ];
+};
+
 export const getContractDetails = async () => {
   const API_URL = `${BaseUrl}/contract/details`;
 

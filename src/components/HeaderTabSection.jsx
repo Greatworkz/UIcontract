@@ -1,19 +1,21 @@
 import React from "react";
-import { Box, Typography, Tabs, Tab } from "@mui/material";
+import { Box, Typography, Tabs, Tab, Button } from "@mui/material";
 
-const HeaderTabSection = ({ title,tab, handleTabChange }) => {
+const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle }) => {
   return (
     <Box sx={{ mb: 3 }}>
-      {/* Title Section */}
+      {/* Title + Button Row */}
       <Box
         sx={{
           backgroundColor: "#ffffff",
           width: "100%",
           height: "58px",
-          position: "relative",
-          opacity: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between", // Title left, Button right
           px: 2,
           py: 2,
+          borderBottom: "1px solid #F3F3F3",
         }}
       >
         <Typography
@@ -26,8 +28,32 @@ const HeaderTabSection = ({ title,tab, handleTabChange }) => {
             color: "#061445",
           }}
         >
-        {title}
+          {title}
         </Typography>
+
+        {/* Right Side Button */}
+        {btnTitle && (
+          <Button
+            variant="contained"
+            sx={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 400,
+              fontStyle: "normal",
+              fontSize: "13px",
+              lineHeight: "20px",
+              letterSpacing: "0px",
+              textTransform: "none",
+              verticalAlign: "middle",
+              borderRadius: "6px",
+              px: 2.5,
+              py: 0.8,
+              backgroundColor: "#2268E9",
+            }}
+            onClick={onAddNew}
+          >
+            {btnTitle}
+          </Button>
+        )}
       </Box>
 
       {/* Tabs Section */}
@@ -35,11 +61,10 @@ const HeaderTabSection = ({ title,tab, handleTabChange }) => {
         sx={{
           backgroundColor: "#ffffff",
           width: "100%",
-          position: "relative",
           px: 2,
           border: "1px solid #F3F3F3",
+          borderTop: "none",
           boxShadow: "0px 2px 2px 0px #D3D6E14D",
-          display: "flex",
         }}
       >
         <Tabs
@@ -49,7 +74,6 @@ const HeaderTabSection = ({ title,tab, handleTabChange }) => {
           indicatorColor="primary"
           TabIndicatorProps={{ style: { display: "none" } }}
           sx={{
-            mt: 1,
             pb: 0,
             "& .MuiTab-root": {
               fontSize: "13px",
