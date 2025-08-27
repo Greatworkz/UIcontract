@@ -112,9 +112,9 @@ const ObligationView = () => {
     setAnchorEl(null);
   };
 
-  const handleChange = (field) => (e) => {
-    setStatus((prev) => ({ ...prev, [field]: e.target.value }));
-  };
+  // const handleChange = (field) => (e) => {
+  //   setStatus((prev) => ({ ...prev, [field]: e.target.value }));
+  // };
 
   const handleOpenDrawer = (page) => {
     setSelectedPage(page);
@@ -362,7 +362,7 @@ const ObligationView = () => {
                       fontFamily: "Inter",
                       fontWeight: 500,
                       fontStyle: "normal",
-                      fontSize: "13px",
+                      fontSize: "14px",
                       lineHeight: "100%",
                       letterSpacing: "0px",
                       verticalAlign: "middle",
@@ -382,7 +382,7 @@ const ObligationView = () => {
                       fontFamily: "Inter",
                       fontWeight: 500,
                       fontStyle: "normal",
-                      fontSize: "13px",
+                      fontSize: "14px",
                       lineHeight: "100%",
                       letterSpacing: "0px",
                       verticalAlign: "middle",
@@ -402,7 +402,7 @@ const ObligationView = () => {
                       fontFamily: "Inter",
                       fontWeight: 500,
                       fontStyle: "normal",
-                      fontSize: "13px",
+                      fontSize: "14px",
                       lineHeight: "100%",
                       letterSpacing: "0px",
                       verticalAlign: "middle",
@@ -1455,6 +1455,7 @@ const ObligationView = () => {
                             display: "flex",
                             flexDirection: "column",
                             gap: 2,
+                            p : 1
                           }}
                         >
                           <Box
@@ -1475,7 +1476,7 @@ const ObligationView = () => {
                             <TextField
                               size="small"
                               placeholder="Enter Reason"
-                              sx={{ flex: 1 }}
+                              // sx={{ flex: 1 }}
                             />
                           </Box>
 
@@ -1498,7 +1499,7 @@ const ObligationView = () => {
                             <TextField
                               size="small"
                               placeholder="Enter Owner"
-                              sx={{ flex: 1 }}
+                              // sx={{ flex: 1 }}
                             />
                           </Box>
 
@@ -1521,7 +1522,7 @@ const ObligationView = () => {
                             <TextField
                               size="small"
                               placeholder="Enter Timeline"
-                              sx={{ flex: 1 }}
+                              // sx={{ flex: 1 }}
                             />
                           </Box>
 
@@ -1545,7 +1546,7 @@ const ObligationView = () => {
                               select
                               size="small"
                               defaultValue=""
-                              sx={{ flex: 1 }}
+                              // sx={{ flex: 1 }}
                             >
                               <MenuItem value="">Select Category</MenuItem>
                               <MenuItem value="option1">Option 1</MenuItem>
@@ -1574,7 +1575,7 @@ const ObligationView = () => {
                               select
                               size="small"
                               defaultValue=""
-                              sx={{ flex: 1 }}
+                              // sx={{ flex: 1 }}
                             >
                               <MenuItem value="">Select Priority</MenuItem>
                               <MenuItem value="option1">Option 1</MenuItem>
@@ -1603,7 +1604,7 @@ const ObligationView = () => {
                               select
                               size="small"
                               defaultValue=""
-                              sx={{ flex: 1 }}
+                              // sx={{ flex: 1 }}
                             >
                               <MenuItem value="">Select Status</MenuItem>
                               <MenuItem value="option1">Option 1</MenuItem>
@@ -1713,7 +1714,8 @@ const ObligationView = () => {
                     <ChartSection
                       data={obligationChartData}
                       sx={{
-                        height: "250px", // this now works since ChartSection applies it
+                        height: "300px", // this now works since ChartSection applies it
+                        width: '100%'
                       }}
                     />
                   </Grid>

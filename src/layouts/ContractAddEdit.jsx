@@ -25,7 +25,7 @@ import {
   Toolbar,
   InputBase,
   Checkbox,
-  FormControlLabel,
+  FormControlLabel,Menu,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -41,6 +41,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Document, Page, pdfjs } from "react-pdf";
 import DeleteSvg from "../assets/icons/delete.svg";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+import MoreIcon from "../assets/oblication-icon/moreIcon.svg";
+import ContractForm from "./ContractForm";
+
 const steps = [
   "Select Project SOW",
   "Business Case",
@@ -184,7 +188,16 @@ const ContractAddEdit = () => {
 
   const fileInputRef = useRef(null);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const DropDown = Boolean(anchorEl);
+  const [openContractForm, setOpenContractForm] = useState(false);
+  const DropDownOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const DropDownClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleAddDocumentClick = () => {
     fileInputRef.current.click(); // open file dialog
@@ -345,7 +358,61 @@ const ContractAddEdit = () => {
                 </Typography>
               </Box>
             </Box>
+            <Box display="flex" gap={1} justifyContent="flex-end" mt={1}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    width: "fit-content",
+                    borderRadius: "6px",
+                    border: "1px solid #E5E5E5",
+                    opacity: 1,
+                    textTransform: "none",
+                    fontWeight: 400,
+                    color: "#000000",
+                    minWidth: "auto",
+                    padding: "9px",
+                  }}
+                  onClick={DropDownOpen}
+                >
+                  <img
+                    src={MoreIcon}
+                    alt="icon"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </Button>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={DropDown}
+                  onClose={DropDownClose}
+                >
+                  <MenuItem
+                    onClick={() => {
+                       setOpenContractForm(true)
+                      DropDownClose();
+                    }}
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 500,
+                      fontStyle: "normal",
+                      fontSize: "14px",
+                      lineHeight: "100%",
+                      letterSpacing: "0px",
+                      verticalAlign: "middle",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#2268E9",
+                        color: "#fff",
+                      },
+                    }}
+                  >
+                    Edit
+                  </MenuItem>
+                </Menu>
+              </Box>
           </Box>
+          
         </Box>
       </Box>
       <Box>
@@ -1782,142 +1849,6 @@ const ContractAddEdit = () => {
         open={BussinessCaseModalOpen}
         onClose={() => setBussinessCaseModalOpen(false)}
       >
-        {/* <Box sx={{ px: 3.5, py: 3.5 }}>
-          
-          <Typography
-            sx={{ fontWeight: 600, fontSize: "14px", color: "#061445" }}
-          >
-            Projects
-          </Typography>
-
-          <Grid container spacing={2} mt={2} alignItems="center">
-            <Grid item xs={12} md={4}>
-              <Typography sx={commonLabelStyle}>
-                Project Expected Time for ROI
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <TextField
-                size="small"
-                fullWidth
-                value="2"
-                InputProps={{
-                  disableUnderline: true,
-                  endAdornment: (
-                    <InputAdornment position="end" sx={adornmentRightStyle}>
-                      Years
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Typography sx={commonLabelStyle}>
-                Project | NPV | Invest Rate
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <TextField
-                size="small"
-                fullWidth
-                value="20"
-                InputProps={{
-                  disableUnderline: true,
-                  endAdornment: (
-                    <InputAdornment position="end" sx={adornmentRightStyle}>
-                      %
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
-
-          <Divider
-            sx={{
-              borderStyle: "dashed",
-              borderColor: "#E5E5E5",
-              borderWidth: "1px",
-              my: 3,
-            }}
-          />
-
-          
-          <Typography
-            sx={{ fontWeight: 600, fontSize: "14px", color: "#061445" }}
-          >
-            Investment
-          </Typography>
-
-          
-          {[
-            { label: "First time Investment" },
-            { label: "Recurring Investment | Year 1" },
-            { label: "Recurring Investment | Year 2" },
-          ].map((row, idx) => (
-            <Grid
-              container
-              spacing={2}
-              mt={2}
-              alignItems="center"
-              key={idx}
-              wrap="wrap"
-            >
-              <Grid item xs={12} md={4}>
-                <Typography sx={commonLabelStyle}>{row.label}</Typography>
-              </Grid>
-              <Grid item xs={12} md={8}>
-                <Grid container spacing={1}>
-                  <Grid item xs={3}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      value="In"
-                      InputProps={{
-                        disableUnderline: true,
-                        sx: { textAlign: "center" },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      value="0.00"
-                      InputProps={{
-                        disableUnderline: true,
-                        sx: { textAlign: "center" },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      value="In"
-                      InputProps={{
-                        disableUnderline: true,
-                        sx: { textAlign: "center" },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      value="18.00"
-                      InputProps={{
-                        disableUnderline: true,
-                        sx: { textAlign: "center" },
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          ))}
-        </Box> */}
 
         <Box sx={{ px: 3.5, py: 3.5 }}>
           <Typography
@@ -2584,6 +2515,12 @@ const ContractAddEdit = () => {
           </Box>
         </Box>
       </Dialog>
+
+
+      <ContractForm
+        open={openContractForm}
+        handleClose={() => setOpenContractForm(false)}
+      />
     </Box>
   );
 };

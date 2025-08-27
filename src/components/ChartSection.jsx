@@ -75,7 +75,7 @@ const ChartSection = ({ title, data = [], sx = {} }) => {
             <Tooltip />
             <Legend
               layout={isSmall ? "horizontal" : "vertical"}
-              align="right"
+              align={isSmall ? "center" : "right"}
               verticalAlign={isSmall ? "bottom" : "middle"}
               formatter={(value, entry) => (
                 <>
@@ -85,6 +85,7 @@ const ChartSection = ({ title, data = [], sx = {} }) => {
               )}
             />
           </PieChart>
+          
         </ResponsiveContainer>
       </Box>
     </Box>

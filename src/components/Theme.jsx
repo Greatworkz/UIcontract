@@ -60,7 +60,7 @@ const theme = createTheme({
           color: '#21263C',
           fontWeight: 500,
           '&:focus-within': {
-            borderColor: '#D1E9FF',
+            borderColor: '#A7D3FF'   //'#D1E9FF',
           },
           "&.compact-input": {
             minWidth: "unset"

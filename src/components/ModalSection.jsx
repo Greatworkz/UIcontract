@@ -21,7 +21,7 @@ const modalStyle = {
   // width: "90%",
   // maxWidth: "900px",
   // minWidth: '510px',
-  maxHeight: "90vh",
+  maxHeight: "90vh",  
   overflowY: "auto",
   // borderRadius: "8px",
   // boxShadow: 24,
