@@ -62,7 +62,8 @@ import ToggleGridSvg from "../assets/icons/ToggleGrid.svg";
 import ToggleListSvg from "../assets/icons/ToogleTable.svg";
 import MoreIcon from "../assets/oblication-icon/moreIcon.svg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import DateRangeInput from "../components/DateRange";
+import ModalChartSection from "../components/modalChartSection";
 const iconMap = {
   "Total Classes": TotalClassSvg,
   Confidence: ConfidenceSvg,
@@ -79,6 +80,17 @@ const SummaryiconMap = {
 };
 const headers = ["", "Image", "Page Info", "Description", "Actions"];
 
+const commonLabelStyle = {
+  color: "#60698F",
+  fontSize: "13px",
+  fontWeight: 500,
+  pr: 1,
+  minWidth: "100px", // 👈 fixed width for alignment
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+};
+
+
 const ObligationView = () => {
   // const { contractId } = useParams();
   const [pageData, setPageData] = useState(null);
@@ -90,7 +102,7 @@ const ObligationView = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [date, setDate] = useState("2025-06-06");
   const [obligationChartData, setObligationChartData] = useState(null);
-
+  const [dateRange, setDateRange] = useState([null, null]);
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
@@ -98,6 +110,8 @@ const ObligationView = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [UpdatemodalOpen, setUpdateModalOpen] = useState(false);
   const [FullComparemodalOpen, SetFullCompareModalOpen] = useState(false);
+
+  const [SelectedmodalOpen, SetSelectedmodalOpen] = useState(false);
 
   // const [viewMode, setViewMode] = useState("grid");
   const [isGridView, setIsGridView] = useState("grid");
@@ -115,6 +129,17 @@ const ObligationView = () => {
   // const handleChange = (field) => (e) => {
   //   setStatus((prev) => ({ ...prev, [field]: e.target.value }));
   // };
+
+  const [selectedIds, setSelectedIds] = React.useState([]);
+  const [note, setNote] = React.useState("");
+
+  const handleCheckboxChange = (id, checked) => {
+    if (checked) {
+      setSelectedIds((prev) => [...prev, id]);
+    } else {
+      setSelectedIds((prev) => prev.filter((item) => item !== id));
+    }
+  };
 
   const handleOpenDrawer = (page) => {
     setSelectedPage(page);
@@ -753,6 +778,58 @@ const ObligationView = () => {
                   </ToggleButtonGroup>
                 </Box>
 
+                <Box>
+                  {selectedIds.length > 0 && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        // p: 2,
+                        border: "1px solid #E7EEFC",
+                        borderRadius: "6px",
+                        backgroundColor: "#F8FAFF",
+                        gap: 2, // 👈 Adds space between each child
+                      }}
+                    >
+                      <Checkbox
+                        checked
+                        sx={{
+                          "& path": {
+                            stroke: "#E5E5E5",
+                            strokeWidth: 1,
+                          },
+                        }}
+                      />
+
+                      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+                        Selected : {selectedIds.length}
+                      </Typography>
+
+                      <Box
+                        component="span"
+                        sx={{
+                          width: "0px",
+                          height: "13px",
+                          borderLeft: "1px solid #F2F2FF",
+                        }}
+                      />
+
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          color: "#2268E9",
+                          cursor: "pointer",
+                          ml: 2,
+                        }}
+                        onClick={() => SetSelectedmodalOpen(true)}
+                      >
+                        Submit for Approval
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+
                 {/* Table */}
                 <Table
                   sx={{
@@ -789,6 +866,10 @@ const ObligationView = () => {
                         >
                           <TableCell padding="checkbox">
                             <Checkbox
+                              checked={selectedIds.includes(page.id)}
+                              onChange={(e) =>
+                                handleCheckboxChange(page.id, e.target.checked)
+                              }
                               sx={{
                                 "& path": {
                                   stroke: "#E5E5E5",
@@ -1042,6 +1123,13 @@ const ObligationView = () => {
                             >
                               <TableCell padding="checkbox">
                                 <Checkbox
+                                  checked={selectedIds.includes(page.id)}
+                                  onChange={(e) =>
+                                    handleCheckboxChange(
+                                      page.id,
+                                      e.target.checked
+                                    )
+                                  }
                                   sx={{
                                     "& path": {
                                       stroke: "#E5E5E5",
@@ -1455,7 +1543,7 @@ const ObligationView = () => {
                             display: "flex",
                             flexDirection: "column",
                             gap: 2,
-                            p : 1
+                            p: 1,
                           }}
                         >
                           <Box
@@ -1658,7 +1746,7 @@ const ObligationView = () => {
               open={FullComparemodalOpen}
               onClose={() => SetFullCompareModalOpen(false)}
             >
-              <Box sx={{ px: 3.5, py: 3.5 ,minWidth: 700}} >
+              <Box sx={{ px: 3.5, py: 3.5, minWidth: 700 }}>
                 <Grid container spacing={2} mb={2}>
                   <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6 }}>
                     {/* {SummaryData.map((metric, index) => (
@@ -1711,11 +1799,11 @@ const ObligationView = () => {
                     </Box>
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6 }}>
-                    <ChartSection
+                    <ModalChartSection
                       data={obligationChartData}
                       sx={{
-                        height: "300px", // this now works since ChartSection applies it
-                        width: '100%'
+                        height: "350px", // this now works since ChartSection applies it
+                        width: "100%",
                       }}
                     />
                   </Grid>
@@ -1743,6 +1831,99 @@ const ObligationView = () => {
               </Box>
             </ModalSection>
           </Box>
+
+          <ModalSection
+            title="Review Approval Details"
+            open={SelectedmodalOpen}
+            onClose={() => SetSelectedmodalOpen(false)}
+          >
+            <Box sx={{ px: 3.5, py: 3.5 }}>
+          {[
+            {
+              label: "Observation Approval",
+              input: (
+                <Select fullWidth defaultValue="" size="small">
+                  <MenuItem value="">Select</MenuItem>
+                  <MenuItem value="reject">Reject</MenuItem>
+                </Select>
+              ),
+            },
+            {
+              label: "Observation Approval Name",
+              input: (
+                <Select fullWidth defaultValue="" size="small">
+                  <MenuItem value="">Select</MenuItem>
+                  <MenuItem value="1">1</MenuItem>
+                </Select>
+              ),
+            },
+            {
+              label: "Observation Approval Date",
+              input: <DateRangeInput value={dateRange} onChange={setDateRange} />,
+            },
+            {
+              label: "Observation Comments",
+              input: (
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={5}
+                  value=""
+                />
+              ),
+            },
+          ].map((field, index) => (
+            <Box key={index} mb={3} display="flex" alignItems="center" gap={4}>
+              <Typography
+                sx={{
+                  ...commonLabelStyle,
+                  width: "150px",
+                  flexShrink: 0,
+                }}
+              >
+                {field.label}
+              </Typography>
+              <Box sx={{ flex: 1 }}>{field.input}</Box>
+            </Box>
+          ))}
+
+          <Divider
+            sx={{
+              borderStyle: "solid",
+              borderColor: "#DCDCEF",
+              my: 2,
+            }}
+          />
+
+          <Box display="flex" justifyContent="flex-start" gap={2}>
+            <Button
+              sx={{
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#2268E9",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                textTransform: "none",
+              }}
+            >
+              Submit
+            </Button>
+            <Button
+              sx={{
+                border: "1px solid #E5E5E5",
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#FFFFFF",
+                color: "#061445",
+              }}
+              onClick={() => SetSelectedmodalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+            
+          </ModalSection>
         </Box>
       </Box>
 

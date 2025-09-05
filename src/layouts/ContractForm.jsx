@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import FullScreenDialog from "../components/FullScreenDIalog"; // make sure this exists
 import CardSection from "../components/CardSection"; // the expandable section you already built
-
+import { useSnackbar } from "../utils/snackbar";
 const commonLabelStyle = {
   fontSize: "13px",
   fontWeight: 500,
@@ -22,6 +22,7 @@ const commonLabelStyle = {
 
 const ContractForm = ({ open, handleClose }) => {
   const navigate = useNavigate();
+  const snackbar = useSnackbar();
   const [formData, setFormData] = useState({
     customerName: "",
     supplierName: "",
@@ -56,6 +57,11 @@ const ContractForm = ({ open, handleClose }) => {
   const handleChange = (field) => (event) => {
     setFormData({ ...formData, [field]: event.target.value });
   };
+
+  const SubmitForm = () => {
+    snackbar.success("Data saved successfully!")
+    navigate("/contract/add")
+  }
 
   return (
     <FullScreenDialog
@@ -583,7 +589,7 @@ const ContractForm = ({ open, handleClose }) => {
             borderRadius: "6px",
             textTransform: "none",
           }}
-          onClick={() => navigate("/contract/add")}
+          onClick={SubmitForm}
         >
           Save & Continue
         </Button>

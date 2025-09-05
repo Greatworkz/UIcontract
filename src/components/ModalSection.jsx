@@ -3,31 +3,21 @@ import { Modal, Box, Typography, IconButton, Divider } from "@mui/material";
 import CloseSvg from "../assets/icons/Close.svg";
 const modalStyle = {
   position: "absolute",
-  // top: "35%",
-  left: {
-    xs: "0%",  // for small devices
-    sm: "0%",
-    md: "25%",
-    lg: "30%"
-  },
-  display: 'block',
-  // transform: "translate(-50%, -50%)",
+  top: "0%",                  // start near top of screen
+  left: "50%",                // center horizontally
+  transform: "translateX(-50%)", // only center horizontally
   bgcolor: "#fff",
   minWidth: {
-    xs: "90%",  // for small devices
+    xs: "90%",   // mobile full width
     sm: "90%",
-    md: "510px" // from md and above
+    md: "510px", // desktop fixed width
   },
-  // width: "90%",
-  // maxWidth: "900px",
-  // minWidth: '510px',
-  maxHeight: "90vh",  
+  maxHeight: "90vh",
   overflowY: "auto",
-  // borderRadius: "8px",
-  // boxShadow: 24,
   borderBottomLeftRadius: "4px",
-    borderBottomRightRadius: "4px",
+  borderBottomRightRadius: "4px",
 };
+
 
 const ModalSection = ({ open, onClose, title, children }) => {
   return (
