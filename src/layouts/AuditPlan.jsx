@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
 import {
@@ -26,7 +26,12 @@ import HeaderTabSection from "../components/HeaderTabSection";
 import filterIconSvg from "../assets/icons/filter.svg";
 import DateRangeInput from "../components/DateRange";
 import { getAuditPlanListApi } from "../Apis/ApiConfig";
-import ContractForm from "./ContractForm";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+
+import ModalSection from "../components/ModalSection";
 const commonLabelStyle = {
   color: "#3a436b", // #60698F
   fontSize: "13px",
@@ -35,7 +40,7 @@ const commonLabelStyle = {
   minWidth: "100px", // 👈 fixed width for alignment
   flexShrink: 0,
   whiteSpace: "nowrap",
-  marginBottom: '7px'
+  marginBottom: "7px",
 };
 
 const AuditPlan = () => {
@@ -54,6 +59,10 @@ const AuditPlan = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [openContractForm, setOpenContractForm] = useState(false);
+  const [auditmodalOpen, setAuditmodalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+
+  const inputRef = useRef(null);
 
   const fetchContracts = async () => {
     setLoading(true);
@@ -73,21 +82,17 @@ const AuditPlan = () => {
     }
   };
 
-
-  
-
-
   useEffect(() => {
     fetchContracts();
   }, [tab, currentPage]);
 
- 
-
   // const filteredContracts = contractList; // directly use API-loaded data
-  const filteredAuditPlan =  tab === "All" ? auditplanlist : auditplanlist.filter((c) => c.Status === tab);
+  const filteredAuditPlan =
+    tab === "All"
+      ? auditplanlist
+      : auditplanlist.filter((c) => c.Status === tab);
 
   console.log("Filtered Audit Plan:", filteredAuditPlan);
-
 
   return (
     <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
@@ -95,7 +100,7 @@ const AuditPlan = () => {
         title="Audit Plans"
         tab={tab}
         handleTabChange={handleTabChange}
-        onAddNew={() => setOpenContractForm(true)}
+        onAddNew={() => setAuditmodalOpen(true)}
         btnTitle="+ New Audit Plan"
       />
 
@@ -266,10 +271,132 @@ const AuditPlan = () => {
         </CardSection>
       </Container>
 
-      <Box>
-        <ContractForm  open={openContractForm}
-        handleClose={() => setOpenContractForm(false)}></ContractForm>
-      </Box>
+      <ModalSection
+        title="New Audit Plan"
+        open={auditmodalOpen}
+        onClose={() => setAuditmodalOpen(false)}
+      >
+        <Box sx={{ px: 3.5, py: 3.5 }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              fontSize: "14px",
+              color: "#061445",
+            }}
+          >
+            Mapping Details
+          </Typography>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={commonLabelStyle}>Customer Name</Typography>
+            <Select fullWidth defaultValue="" size="small">
+              <MenuItem value="">Select</MenuItem>
+              <MenuItem value="India">India</MenuItem>
+            </Select>
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
+            <Typography sx={commonLabelStyle}>Supplier Name</Typography>
+            <TextField fullWidth placeholder="" value="IT ADM SERIVE  FOR UK" />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
+            <Typography sx={commonLabelStyle}>MSA Code</Typography>
+            <TextField fullWidth placeholder="" value="ALG-GLOBAL-MSA-1093" />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
+            <TextField
+              fullWidth
+              placeholder=""
+              value="10/01/2021  To  09/03/2024"
+            />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
+            <Typography sx={commonLabelStyle}>Audit Plan Title</Typography>
+            <TextField
+              fullWidth
+              placeholder=""
+              value="ALG-GLOBAL-MSA-PRO-10023"
+            />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={commonLabelStyle}>Audit Durations</Typography>
+            <TextField
+              fullWidth
+              placeholder=""
+              value="10/01/2021  To  09/03/2024"
+            />
+          </Box>
+
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+              <Typography sx={commonLabelStyle}>Audit Durations</Typography>
+              <DatePicker
+                value={selectedDate}
+                onChange={(newValue) => setSelectedDate(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    inputRef={inputRef}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={() => inputRef.current?.focus()}>
+                            <CalendarTodayIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Box>
+          </LocalizationProvider> */}
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
+            <Typography sx={commonLabelStyle}>Auditors Name</Typography>
+            <TextField fullWidth placeholder="" value="ALG-GLOBAL-SOW-10023" />
+          </Box>
+
+          <Divider
+            sx={{
+              borderStyle: "solid",
+              borderColor: "#DCDCEF",
+              borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Box display="flex" justifyContent="flex-start" gap={2}>
+            <Button
+              sx={{
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#2268E9",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                textTransform: "none",
+              }}
+            >
+              Save and continue
+            </Button>
+            <Button
+              sx={{
+                border: "1px solid #E5E5E5",
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#FFFFFF",
+                color: "#061445",
+              }}
+              onClick={() => setAuditmodalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </ModalSection>
     </Box>
   );
 };
