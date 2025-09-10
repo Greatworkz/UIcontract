@@ -241,7 +241,7 @@ const AuditPlan = () => {
               ]}
               rows={filteredAuditPlan}
               loading={loading}
-              onRowClick={(row) => navigate(`/contract/edit/${row.id}`)}
+              onRowClick={(row) => navigate(`/auditplan/edit/${row.id}`)}
               onEdit={(row) => console.log("Edit", row)}
               onDelete={(row) => console.log("Delete", row)}
             />

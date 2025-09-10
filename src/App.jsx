@@ -10,6 +10,7 @@ import ContractAddEdit from "./layouts/ContractAddEdit";
 import TwoStepVerification from "./layouts/TwoStepVerification";
 import { SnackbarProvider } from "./utils/snackbar";
 import AuditPlan from "./layouts/AuditPlan";
+import AuditPlanAddEdit from "./layouts/AuditPlanAddEdit";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/contract/add" element={<ContractAddEdit />} />
           <Route path="/contract/edit/:id" element={<ContractAddEdit />} />
           <Route path="/auditplan" element={<AuditPlan />} />
+          <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />
 
         </Route>
       </Routes>
