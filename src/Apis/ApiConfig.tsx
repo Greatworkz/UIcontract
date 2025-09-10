@@ -408,3 +408,23 @@ export const getContractListApi = async (params: any) => {
     throw error;
   }
 };
+
+//  Get AUdit Plan List Api
+export const getAuditPlanListApi = async (params: any) => {
+  const API_URL = `${BaseUrl}/auditplan/list`;
+  try {
+    // const response = await axios.get(API_URL, { params });
+    // return response.data;
+    return [
+      {
+        "Customer Name": 'ALG Glbal Limited', "Audit plan Code": 'AUDIT 0021', "Audit Plan Title": 'Audit basic info', "Supplier Name": "NGTS", "MSA Code": 'NDA-2025-05-022-001',"Duration":'10/01/2025-10/01/2025',"Status": 'Active'
+      },
+      {
+        "Customer Name": 'XYZ Corporation', "Audit plan Code": 'AUDIT 0034', "Audit Plan Title": 'Comprehensive Audit Plan', "Supplier Name": "Tech Solutions", "MSA Code": 'MSA-2024-11-015-002',"Duration":'15/02/2025-15/08/2025',"Status": 'Completed'
+      },
+     
+    ];
+  } catch (error) {
+    throw error;
+  }
+}

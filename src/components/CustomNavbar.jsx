@@ -35,6 +35,9 @@ const tabRoutes = [
   { label: "Financial", path: "/financial" },
   { label: "Compliance", path: "/compliance" },
   { label: "Analytics", path: "/analytics" },
+  { label: "AuditPlan", path: "/auditplan" },
+
+
 ];
 
 const CustomNavbar = () => {

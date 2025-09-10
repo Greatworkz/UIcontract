@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -25,7 +25,9 @@ import {
   Toolbar,
   InputBase,
   Checkbox,
-  FormControlLabel,Menu,
+  FormControlLabel,
+  Menu,
+  TextareaAutosize
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -46,10 +48,11 @@ import MoreIcon from "../assets/oblication-icon/moreIcon.svg";
 import ContractForm from "./ContractForm";
 
 const steps = [
-  "Select Project SOW",
-  "Business Case",
-  "Deliverable",
-  "Documents",
+  "Audit Plan",
+  "Business Mapping",
+  "Process View",
+  "Stakeholders",
+  "Contract Documents",
   "Summary",
 ];
 const commonLabelStyle = {
@@ -155,7 +158,7 @@ function ColorStepIcon(props) {
 
 const FilterGrid = { xs: 12, sm: 6, md: 6, lg: 4, xl: 3 };
 
-const ContractAddEdit = () => {
+const AuditPlanAddEdit = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [contractData, setContractData] = useState(null);
   const [msaInfo, setMsaInfo] = useState({
@@ -165,7 +168,7 @@ const ContractAddEdit = () => {
     duration: "10/01/2021  To  09/03/2024" || "-- To --",
     projectCode: "ALG-GLOBAL-MSA-PRO-10023" || "--",
     projectName: "IT ADM Service" || "--",
-    sowCode: "ALG-GLOBAL-SOW-10023" || "--",
+    plancode: "ALG-GLOBAL-SOW-10023" || "--",
     sowProjectName: "IT ADM - ADS Service for US & UE" || "--",
   });
   const rowsPerPage = 10;
@@ -176,7 +179,8 @@ const ContractAddEdit = () => {
   const handleEditClick = () => alert("Edit clicked"); // Replace with modal/edit form logic
   const [MSAmodalOpen, setMSAmodalOpen] = useState(false);
   const [ScopemodalOpen, setScopemodalOpen] = useState(false);
-  const [DeliverablemodalOpen, setDeliverablemodalOpen] = useState(false);
+  const [processmodalOpen, setProcessModalOpen] = useState(false);
+  const [stockholdermodalopen,setStockholdermodalopen] =  useState(false)
   const [BussinessCaseModalOpen, setBussinessCaseModalOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
@@ -359,60 +363,55 @@ const ContractAddEdit = () => {
               </Box>
             </Box>
             <Box display="flex" gap={1} justifyContent="flex-end" mt={1}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    width: "fit-content",
-                    borderRadius: "6px",
-                    border: "1px solid #E5E5E5",
-                    opacity: 1,
-                    textTransform: "none",
-                    fontWeight: 400,
-                    color: "#000000",
-                    minWidth: "auto",
-                    padding: "9px",
-                  }}
-                  onClick={DropDownOpen}
-                >
-                  <img
-                    src={MoreIcon}
-                    alt="icon"
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                sx={{
+                  width: "fit-content",
+                  borderRadius: "6px",
+                  border: "1px solid #E5E5E5",
+                  opacity: 1,
+                  textTransform: "none",
+                  fontWeight: 400,
+                  color: "#000000",
+                  minWidth: "auto",
+                  padding: "9px",
+                }}
+                onClick={DropDownOpen}
+              >
+                <img
+                  src={MoreIcon}
+                  alt="icon"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Button>
 
-                <Menu
-                  anchorEl={anchorEl}
-                  open={DropDown}
-                  onClose={DropDownClose}
+              <Menu anchorEl={anchorEl} open={DropDown} onClose={DropDownClose}>
+                <MenuItem
+                  onClick={() => {
+                    setOpenContractForm(true);
+                    DropDownClose();
+                  }}
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: 500,
+                    fontStyle: "normal",
+                    fontSize: "14px",
+                    lineHeight: "100%",
+                    letterSpacing: "0px",
+                    verticalAlign: "middle",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#2268E9",
+                      color: "#fff",
+                    },
+                  }}
                 >
-                  <MenuItem
-                    onClick={() => {
-                       setOpenContractForm(true)
-                      DropDownClose();
-                    }}
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: 500,
-                      fontStyle: "normal",
-                      fontSize: "14px",
-                      lineHeight: "100%",
-                      letterSpacing: "0px",
-                      verticalAlign: "middle",
-                      color: "#000000",
-                      "&:hover": {
-                        backgroundColor: "#2268E9",
-                        color: "#fff",
-                      },
-                    }}
-                  >
-                    Edit
-                  </MenuItem>
-                </Menu>
-              </Box>
+                  Edit
+                </MenuItem>
+              </Menu>
+            </Box>
           </Box>
-          
         </Box>
       </Box>
       <Box>
@@ -437,7 +436,7 @@ const ContractAddEdit = () => {
                 sm: "100%",
                 md: "80%",
                 lg: "60%",
-                xl: "40%",
+                xl: "60%",
               },
               "& .MuiStep-root": {
                 display: "inline-flex",
@@ -490,140 +489,7 @@ const ContractAddEdit = () => {
 
           {activeStep === 0 && (
             <Box>
-              <Box mb={3}>
-                <CardSection title="Apply filters" showArrow>
-                  <Grid container spacing={2}>
-                    {/* Customer */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>Customer</Typography>
-                        <Select
-                          fullWidth
-                          defaultValue="ALG Global Limited"
-                          size="small"
-                        >
-                          <MenuItem value="ALG Global Limited">
-                            ALG Global Limited
-                          </MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-
-                    {/* Geography */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>Geography</Typography>
-                        <Select fullWidth defaultValue="" size="small">
-                          <MenuItem value="">Select</MenuItem>
-                          <MenuItem value="India">India</MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-
-                    {/* Country */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>Country</Typography>
-                        <Select fullWidth defaultValue="" size="small">
-                          <MenuItem value="">Select</MenuItem>
-                          <MenuItem value="India">India</MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-
-                    {/* Service Suite */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>
-                          Service Suite
-                        </Typography>
-                        <Select fullWidth defaultValue="" size="small">
-                          <MenuItem value="">Select</MenuItem>
-                          <MenuItem value="BPO">BPO</MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-
-                    {/* Supplier */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>Supplier</Typography>
-                        <Select
-                          fullWidth
-                          defaultValue="ALG Global Limited"
-                          size="small"
-                        >
-                          <MenuItem value="ALG Global Limited">
-                            ALG Global Limited
-                          </MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-
-                    {/* MSA Code */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>MSA Code</Typography>
-                        <Select
-                          fullWidth
-                          defaultValue="ALG-GLOBAL-MSA-1093"
-                          size="small"
-                        >
-                          <MenuItem value="ALG-GLOBAL-MSA-1093">
-                            ALG-GLOBAL-MSA-1093
-                          </MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-
-                    {/* Project Code */}
-                    <Grid size={FilterGrid} sx={{ pl: 2 }}>
-                      <Stack
-                        direction={{ xs: "column", md: "row" }}
-                        alignItems={{ xs: "flex-start", md: "center" }}
-                        spacing={1}
-                      >
-                        <Typography sx={commonLabelStyle}>
-                          Project Code
-                        </Typography>
-                        <Select
-                          fullWidth
-                          defaultValue="ALG-GLOBAL-MSA-PRO-10.."
-                          size="small"
-                        >
-                          <MenuItem value="ALG-GLOBAL-MSA-PRO-10..">
-                            ALG-GLOBAL-MSA-PRO-10..
-                          </MenuItem>
-                        </Select>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                </CardSection>
-              </Box>
+              <Box mb={3}></Box>
 
               {/* MSA Information Section */}
 
@@ -730,18 +596,20 @@ const ContractAddEdit = () => {
                           fontWeight: 600,
                         }}
                       >
-                        Audit Plan Code
-                      </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
-                      <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {msaInfo.sowCode}
+                        Audit plan
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
                       <Typography sx={commonLabelStyle}>
-                        Project Name
+                        Audit Plan Code
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.plancode}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan Duration
                       </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.sowProjectName}
@@ -751,63 +619,192 @@ const ContractAddEdit = () => {
                 </CardSection>
               </Box>
 
-              {/* Scope of Service Section */}
-              <Box mb={2}>
-                <CardSection
-                  title="Scope of Service"
-                  showArrow
-                  headerActionLabel="+ Add Scope"
-                  onHeaderActionClick={() => setScopemodalOpen(true)}
-                >
-                  <Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <img
-                        src={filterIconSvg}
-                        alt=""
-                        style={{ width: 13, height: 14, marginRight: 5 }}
-                      />
-                      <Typography
-                        sx={{
-                          color: "#061445",
-                          fontWeight: 600,
-                          fontSize: "14px",
-                        }}
-                      >
-                        Filter By :
-                      </Typography>
-                      {/* Search Field */}
-                      <TextField
-                        placeholder="Search content"
-                        size="small"
-                        sx={{ ml: 1 }}
-                      />
-                    </Box>
+              {/* Audit Plan Scope */}
+              <Box mb={3}>
+                <CardSection title="Audit plan Scope" showArrow>
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                      {/* <Grid item xs={12}> */}
 
-                    <Box sx={{ overflowX: "auto" }}>
-                      <Box sx={{ minWidth: 800 }}>
-                        <TableSection
-                          headers={[
-                            "CYCLE",
-                            "BU LOCATION",
-                            "BUSINESS UNIT",
-                            "LINE OF BUSINESS",
-                            "IT SERVIE SUITES",
-                            "SERVICE DELIVERY LOCATION",
-                          ]}
-                          rows={[]}
-                          onRowClick={(row) => console.log("Row Click", row)}
-                          // onEdit={(row) => console.log("Edit", row)}
-                          // onDelete={(row) => console.log("Delete", row)}
-                        />
-                      </Box>
-                    </Box>
-                  </Box>
+                      <Grid container spacing={3}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 4,
+                            mb: 2,
+                          }}
+                        >
+                          <Typography sx={commonLabelStyle}>
+                            VCC | Audit Type
+                          </Typography>
+                          {/* <FormControl fullWidth sx={textFieldStyle}> */}
+                          <Select
+                            // value={auditType}
+                            onChange={(e) => setAuditType(e.target.value)}
+                            displayEmpty
+                            renderValue={(selected) => selected || "Select"}
+                            sx={{
+                              mt: -1,
+                              backgroundColor: "#fff",
+                              "& .MuiSelect-select": {
+                                // color: auditType ? '#333' : '#999',
+                              },
+                            }}
+                          >
+                            <MenuItem value="">
+                              <em>Select</em>
+                            </MenuItem>
+                            <MenuItem value="internal">Internal Audit</MenuItem>
+                            <MenuItem value="external">External Audit</MenuItem>
+                            <MenuItem value="compliance">
+                              Compliance Audit
+                            </MenuItem>
+                            <MenuItem value="financial">
+                              Financial Audit
+                            </MenuItem>
+                          </Select>
+                          {/* </FormControl> */}
+                        </Box>
+
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 4,
+                          }}
+                        >
+                          <Typography sx={commonLabelStyle}>
+                            VCC | Auditor(s) Name
+                          </Typography>
+                          {/* <FormControl fullWidth sx={textFieldStyle}> */}
+                          <Select
+                            // value={auditorName}
+                            onChange={(e) => setAuditorName(e.target.value)}
+                            displayEmpty
+                            renderValue={(selected) => selected || "Select"}
+                            sx={{
+                              mt: -1,
+                              backgroundColor: "#fff",
+                              "& .MuiSelect-select": {
+                                // color: auditorName ? '#333' : '#999',
+                              },
+                            }}
+                          >
+                            <MenuItem value="">
+                              <em>Select</em>
+                            </MenuItem>
+                            <MenuItem value="john-doe">John Doe</MenuItem>
+                            <MenuItem value="jane-smith">Jane Smith</MenuItem>
+                            <MenuItem value="mike-johnson">
+                              Mike Johnson
+                            </MenuItem>
+                            <MenuItem value="sarah-wilson">
+                              Sarah Wilson
+                            </MenuItem>
+                          </Select>
+                          {/* </FormControl> */}
+                        </Box>
+                      </Grid>
+
+                      {/* Check */}
+                      {/* </Grid> */}
+
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 2,
+                        }}
+                      />
+
+                      <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Scope
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Audit Title
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Focus Area
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Objectives
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </CardSection>
               </Box>
             </Box>
           )}
 
-          
           {activeStep === 1 && (
             <Box>
               <Box mb={3}>
@@ -846,6 +843,7 @@ const ContractAddEdit = () => {
                         {msaInfo.msaCode}
                       </Typography>
                     </Grid>
+
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 3 }}>
                       <Typography sx={commonLabelStyle}>
                         MSA Duration
@@ -913,49 +911,26 @@ const ContractAddEdit = () => {
                           fontWeight: 600,
                         }}
                       >
-                        SOW Code
+                        Audit Plan
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>SOW Code</Typography>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan code
+                      </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.projectCode}
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
-                        Project Name
+                        Audit Plan Duration
                       </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.projectName}
                       </Typography>
                     </Grid>
                   </Grid>
-                </CardSection>
-              </Box>
-              <Box mb={3}>
-                <CardSection
-                  title="Business Case & Projects"
-                  showArrow
-                  headerActionLabel="+ Add Business Case"
-                  onHeaderActionClick={() => setBussinessCaseModalOpen(true)}
-                >
-                  <Box sx={{ overflowX: "auto", textAlign: "center" }}>
-                    <Box sx={{ minWidth: 800 }}>
-                      <Typography sx={commonLabelStyle}>
-                        No Data Found
-                      </Typography>
-                      {/* <TableSection
-                        headers={[
-                          
-                        ]}
-                        rows={[]}
-                        onRowClick={(row) => console.log("Row Click", row)}
-                        onEdit={(row) => console.log("Edit", row)}
-                        onDelete={(row) => console.log("Delete", row)}
-                      /> */}
-                    </Box>
-                  </Box>
                 </CardSection>
               </Box>
             </Box>
@@ -1065,18 +1040,20 @@ const ContractAddEdit = () => {
                           fontWeight: 600,
                         }}
                       >
-                        SOW Code
+                        Audit Plan
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>SOW Code</Typography>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan Code
+                      </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.projectCode}
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
-                        Project Name
+                        Audit plan Duration
                       </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.projectName}
@@ -1088,10 +1065,10 @@ const ContractAddEdit = () => {
 
               <Box mb={2}>
                 <CardSection
-                  title="Deliverables - Registered"
+                  title="Audit Process and Procedures Reviewed List"
                   showArrow
-                  headerActionLabel="+ Deliverable"
-                  onHeaderActionClick={() => setDeliverablemodalOpen(true)}
+                  headerActionLabel="+Add New Process"
+                  onHeaderActionClick={() => setProcessModalOpen(true)}
                 >
                   <Box>
                     <Box
@@ -1126,98 +1103,20 @@ const ContractAddEdit = () => {
                       </Box>
 
                       {/* Right Side */}
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 3 }}
-                      >
-                        {/* Item 1 */}
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            sx={{
-                              // width: 3,
-                              height: 9,
-                              border: "1px solid #00A838",
-                              mr: 1,
-                            }}
-                          />
-                          <Typography
-                            sx={{
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              color: "#757383",
-                            }}
-                          >
-                            Total Deliverable :{" "}
-                            <Box component="span" sx={{ color: "#21263C" }}>
-                              89
-                            </Box>
-                          </Typography>
-                        </Box>
-
-                        {/* Item 2 */}
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            sx={{
-                              // width: "1px",
-                              height: 9,
-                              border: "1px solid #FF0F8F",
-                              mr: 1,
-                            }}
-                          />
-                          <Typography
-                            sx={{
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              color: "#757383",
-                            }}
-                          >
-                            Total Deliverables with Milestones :{" "}
-                            <Box component="span" sx={{ color: "#21263C" }}>
-                              132
-                            </Box>
-                          </Typography>
-                        </Box>
-
-                        {/* Item 3 */}
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                          <Box
-                            sx={{
-                              // width: "1px",
-                              height: 9,
-                              border: "1px solid #FF0F8F",
-                              mr: 1,
-                            }}
-                          />
-                          <Typography
-                            sx={{
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              color: "#757383",
-                            }}
-                          >
-                            Total Deliverables without Mile stones :{" "}
-                            <Box component="span" sx={{ color: "#21263C" }}>
-                              132
-                            </Box>
-                          </Typography>
-                        </Box>
-                      </Box>
                     </Box>
 
                     <Box sx={{ overflowX: "auto" }}>
                       <Box sx={{ minWidth: 800 }}>
                         <TableSection
                           headers={[
-                            "DELIVERABLE ID",
-                            "PROJECT PHASE",
-                            "DELIVERABLE DATE",
-                            "MILESTONE CODE",
-                            "MILESTONE AMOUNT",
-                            "DUE DATE",
+                            "DOMAIN NAME",
+                            "PROCESS AND PROCEDURES REVIEWED",
+                            "DURATION",
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
-                          onEdit={(row) => console.log("Edit", row)}
-                          onDelete={(row) => console.log("Delete", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
                         />
                       </Box>
                     </Box>
@@ -1236,27 +1135,37 @@ const ContractAddEdit = () => {
                       </Typography>
 
                       {/* Left side - Pagination */}
-                      <Pagination
+                      {/* <Pagination
                         count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
                         page={currentPage}
                         onChange={(e, page) => setCurrentPage(page)}
                         size="small"
-                      />
+                      /> */}
                     </Box>
                   </Box>
                 </CardSection>
               </Box>
             </Box>
           )}
-          {activeStep === 3 && (
+           {activeStep === 3 && (
             <Box>
               <Box mb={3}>
-                <CardSection title="Documents" showArrow>
+                <CardSection
+                  title="MSA Information"
+                  showArrow
+                  headerActionLabel={
+                    <>
+                      <img src={EditSvg} alt="Edit" width={10} height={12} />
+                      &nbsp; Edit
+                    </>
+                  }
+                  onHeaderActionClick={() => setMSAmodalOpen(true)}
+                >
                   <Grid container spacing={2} alignItems="center">
                     <Grid>
                       <img src={personSvg} alt="" srcset="" />
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
+                    <Grid size={{ xs: 10, sm: 5, md: 2.5, lg: 2.4, xl: 2 }}>
                       <Typography sx={commonNameStyle}>
                         {msaInfo.supplierName}
                       </Typography>
@@ -1264,34 +1173,25 @@ const ContractAddEdit = () => {
                         Supplier Name
                       </Typography>
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>MSA Title</Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.msaTitle}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>MSA Code</Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.msaCode}
                       </Typography>
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 3 }}>
                       <Typography sx={commonLabelStyle}>
                         MSA Duration
                       </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.duration}
                       </Typography>
-                    </Grid>
-
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>
-                        MSA Value (TCV)
-                      </Typography>
-                      <Typography
-                        sx={{ ...commonValueStyle, color: "#078600" }}
-                      >
-                        $1,250,000.00
-                      </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>TCV -ACV</Typography>
-                      <Typography sx={commonValueStyle}>2.00%</Typography>
                     </Grid>
                   </Grid>
 
@@ -1303,8 +1203,9 @@ const ContractAddEdit = () => {
                       my: 2,
                     }}
                   />
+
                   <Grid container spacing={2}>
-                    <Grid size={{ xs: 6, sm: 4, md: 2.7, lg: 2.6, xl: 2.4 }}>
+                    <Grid size={{ xs: 6, sm: 4, md: 3.2, lg: 2.9, xl: 2.4 }}>
                       <Typography
                         sx={{
                           color: "#061445",
@@ -1312,36 +1213,63 @@ const ContractAddEdit = () => {
                           fontWeight: 600,
                         }}
                       >
-                        SOW Code
+                        Project
                       </Typography>
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
-                      <Typography sx={commonLabelStyle}>SOW Code</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {msaInfo.sowCode}
-                      </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
-                      <Typography sx={commonLabelStyle}>SOW Title</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {msaInfo.sowProjectName}
-                      </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
-                        SOW Value (TCV)
+                        Project Code
                       </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectCode}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Project Name
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectName}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Divider
+                    sx={{
+                      borderStyle: "dashed",
+                      borderColor: "#E5E5E5",
+                      borderWidth: "1px",
+                      my: 2,
+                    }}
+                  />
+
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 6, sm: 4, md: 3.2, lg: 2.9, xl: 2.4 }}>
                       <Typography
-                        sx={{ ...commonValueStyle, color: "#078600" }}
+                        sx={{
+                          color: "#061445",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
                       >
-                        $25,000.00
+                        Audit Plan
                       </Typography>
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
-                        Contract Staus
+                        Audit Plan Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>Active</Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectCode}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Audit plan Duration
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectName}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </CardSection>
@@ -1349,52 +1277,84 @@ const ContractAddEdit = () => {
 
               <Box mb={2}>
                 <CardSection
-                  title="SOW Document List"
+                  title="Stakeholders List"
                   showArrow
-                  headerActionLabel="+ Add Document"
-                  onHeaderActionClick={() => setDocumentModal(true)}
+                  headerActionLabel="+Add Stockholder"
+                  onHeaderActionClick={() => setStockholdermodalopen(true)}
                 >
                   <Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <img
-                        src={filterIconSvg}
-                        alt=""
-                        style={{ width: 13, height: 14, marginRight: 5 }}
-                      />
-                      <Typography
-                        sx={{
-                          color: "#061445",
-                          fontWeight: 600,
-                          fontSize: "14px",
-                        }}
-                      >
-                        Filter By :
-                      </Typography>
-                      {/* Search Field */}
-                      <TextField
-                        placeholder="Search content"
-                        size="small"
-                        sx={{ ml: 1 }}
-                      />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
                     </Box>
 
                     <Box sx={{ overflowX: "auto" }}>
                       <Box sx={{ minWidth: 800 }}>
                         <TableSection
                           headers={[
-                            "CUSTOMER",
-                            "SUPPLIER",
-                            "SOW",
-                            "SCHEDULE",
-                            "SCHEDULE",
-                            "DOCUMENT NAME",
+                            "STOCKHOLDER NAME",
+                            "DESIGNATION",
+                            "COMPANY",
+                            "CONTACT DETAILS",
+                            "DURATION"
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
-                          onEdit={(row) => console.log("Edit", row)}
-                          onDelete={(row) => console.log("Delete", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
                         />
                       </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
                     </Box>
                   </Box>
                 </CardSection>
@@ -1659,25 +1619,37 @@ const ContractAddEdit = () => {
           </Typography>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={commonLabelStyle}>Supplier Name</Typography>
-            <Select fullWidth defaultValue="" size="small">
+            <Select fullWidth defaultValue="" size="small" sx={{ ml: 5 }}>
               <MenuItem value="">Select</MenuItem>
               <MenuItem value="India">India</MenuItem>
             </Select>
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={commonLabelStyle}>MSA Titel</Typography>
-            <TextField fullWidth placeholder="" value="IT ADM SERIVE  FOR UK" />
+            <Typography sx={commonLabelStyle}>MSA Code</Typography>
+            <TextField
+              fullWidth
+              placeholder=""
+              value="ALG-GLOBAL-MSA-1093"
+              sx={{ ml: 5 }}
+            />
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={commonLabelStyle}>MSA Code</Typography>
-            <TextField fullWidth placeholder="" value="ALG-GLOBAL-MSA-1093" />
+            <Typography sx={commonLabelStyle}>MSA Titel</Typography>
+            <TextField
+              fullWidth
+              placeholder=""
+              value="IT ADM SERIVE  FOR UK"
+              sx={{ ml: 5 }}
+            />
           </Box>
+
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={commonLabelStyle}>MSA Duration</Typography>
             <TextField
               fullWidth
               placeholder=""
               value="10/01/2021  To  09/03/2024"
+              sx={{ ml: 5 }}
             />
           </Box>
 
@@ -1687,17 +1659,8 @@ const ContractAddEdit = () => {
               fullWidth
               placeholder=""
               value="ALG-GLOBAL-MSA-PRO-10023"
+              sx={{ ml: 5 }}
             />
-          </Box>
-
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={commonLabelStyle}>Project Name</Typography>
-            <TextField fullWidth placeholder="" value="IT ADM Service" />
-          </Box>
-
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={commonLabelStyle}>SOW Code</Typography>
-            <TextField fullWidth placeholder="" value="ALG-GLOBAL-SOW-10023" />
           </Box>
 
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
@@ -1705,8 +1668,19 @@ const ContractAddEdit = () => {
             <TextField
               fullWidth
               placeholder=""
-              value="IT ADM - ADS Service for  US & UE"
+              value="IT ADM Service"
+              sx={{ ml: 5 }}
             />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
+            <TextField fullWidth placeholder="" value="" sx={{ ml: 4 }} />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={commonLabelStyle}>Audit Plan Duration</Typography>
+            <TextField fullWidth placeholder="" value="" sx={{ ml: 1.5 }} />
           </Box>
 
           <Divider
@@ -1747,111 +1721,12 @@ const ContractAddEdit = () => {
         </Box>
       </ModalSection>
 
-      {/* Add Scope Modal */}
-
-      <ModalSection
-        title="Scope of Service"
-        open={ScopemodalOpen}
-        onClose={() => setScopemodalOpen(false)}
-      >
-        <Box sx={{ px: 3.5, py: 3.5 }}>
-          {[
-            {
-              label: "Cycle",
-              input: (
-                <Select fullWidth defaultValue="" size="small">
-                  <MenuItem value="">Select</MenuItem>
-                  <MenuItem value="2">2</MenuItem>
-                </Select>
-              ),
-            },
-            {
-              label: "BU Location",
-              input: <TextField fullWidth value="United State of America NA" />,
-            },
-            {
-              label: "Business Unit",
-              input: <TextField fullWidth value="Governance" />,
-            },
-            {
-              label: "Line of Business",
-              input: <TextField fullWidth value="Advisory Services" />,
-            },
-            {
-              label: "IT Service Suites",
-              input: <TextField fullWidth value="Advisory design services" />,
-            },
-            {
-              label: "Service Deliver location",
-              input: (
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={5}
-                  value="River Quest, Quai Voltaire, BC, FRA, WEURO"
-                />
-              ),
-            },
-          ].map((field, index) => (
-            <Box key={index} mb={3} display="flex" alignItems="center" gap={4}>
-              <Typography
-                sx={{
-                  ...commonLabelStyle,
-                  width: "150px", // ✅ fixed label width for alignment
-                  flexShrink: 0, // prevents label from shrinking
-                }}
-              >
-                {field.label}
-              </Typography>
-              <Box sx={{ flex: 1 }}>{field.input}</Box>
-            </Box>
-          ))}
-
-          <Divider
-            sx={{
-              borderStyle: "solid",
-              borderColor: "#DCDCEF",
-              // borderWidth: "1px",
-              my: 2,
-            }}
-          />
-
-          <Box display="flex" justifyContent="flex-start" gap={2}>
-            <Button
-              sx={{
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#2268E9",
-                color: "#FFFFFF",
-                borderRadius: "6px",
-                textTransform: "none",
-              }}
-            >
-              Save and Update
-            </Button>
-            <Button
-              sx={{
-                border: "1px solid #E5E5E5",
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#FFFFFF",
-                color: "#061445",
-              }}
-              onClick={() => setScopemodalOpen(false)}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Box>
-      </ModalSection>
-
       {/* Bussiness Case Modal */}
       <ModalSection
         title="Business Case & Projects"
         open={BussinessCaseModalOpen}
         onClose={() => setBussinessCaseModalOpen(false)}
       >
-
         <Box sx={{ px: 3.5, py: 3.5 }}>
           <Typography
             sx={{
@@ -2089,76 +1964,43 @@ const ContractAddEdit = () => {
       {/* Deliverable Modal */}
 
       <ModalSection
-        title="New Deliverable"
-        open={DeliverablemodalOpen}
-        onClose={() => setDeliverablemodalOpen(false)}
+        title="New Process"
+        open={processmodalOpen}
+        onClose={() => setProcessModalOpen(false)}
       >
         <Box sx={{ px: 3.5, py: 3.5 }}>
           <Box mb={3} mt={1} display="flex" alignItems="center" gap={4}>
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-              Deliverable ID
+              Domain Name
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+            <TextField Select fullWidth placeholder="" value="" />
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-              Project Phase
+              Process and <br /> Procedures Reviewed
             </Typography>
-            <Select fullWidth defaultValue="" size="small">
-              <MenuItem value="">Select</MenuItem>
-              <MenuItem value=""></MenuItem>
-            </Select>
+
+            <TextareaAutosize
+              minRows={6}
+              style={{
+                width: "100%",
+                padding: "8px",
+                fontSize: "16px",
+                borderRadius: "4px",
+                border: "1px solid rgba(0, 0, 0, 0.23)",
+                resize: "vertical", // allows user to resize
+                // height:'100%'
+              }}
+            />
           </Box>
 
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-              Project Phase
+              Duration
             </Typography>
             <TextField fullWidth placeholder="" value="" />
           </Box>
-          <Box display="flex" alignItems="center" gap={4}>
-            <Typography
-              sx={{ ...commonLabelStyle, width: "150px" }}
-            ></Typography>
-            <FormControlLabel
-              control={<Checkbox size="small" defaultChecked />}
-              label="Includes Milestones"
-              sx={{
-                margin: 0,
-                ".MuiTypography-root": {
-                  fontSize: "14px",
-                  color: "#061445",
-                  fontWeight: 500,
-                },
-              }}
-            />
-          </Box>
-          <Divider
-            sx={{
-              borderStyle: "dashed",
-              borderColor: "#DCDCEF",
-              borderWidth: "1px",
-              my: 2,
-            }}
-          />
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-              Milestone code
-            </Typography>
-            <TextField fullWidth placeholder="" value="" />
-          </Box>
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-              Milestone Amount
-            </Typography>
-            <TextField fullWidth placeholder="" value="" />
-          </Box>
-          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
-            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
-              Due Date
-            </Typography>
-            <TextField fullWidth placeholder="" value="" />
-          </Box>
+
           <Divider
             sx={{
               borderStyle: "solid",
@@ -2189,7 +2031,99 @@ const ContractAddEdit = () => {
                 backgroundColor: "#FFFFFF",
                 color: "#061445",
               }}
-              onClick={() => setDeliverablemodalOpen(false)}
+              onClick={() => setProcessModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </ModalSection>
+
+       <ModalSection
+        title="New Stockholder"
+        open={stockholdermodalopen}
+        onClose={() => setStockholdermodalopen(false)}
+      >
+        <Box sx={{ px: 3.5, py: 3.5 }}>
+          <Box mb={3} mt={1} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              Internal stakeholder Name
+            </Typography>
+            <TextField  fullWidth placeholder="" value="" />
+          </Box>
+          <Box mb={3} mt={1} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              External stakeholder Name
+            </Typography>
+            <TextField  fullWidth placeholder="" value="" />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              Stakeholder Designation
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              Stakeholder Company
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              Contact Details
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              Stakeholder's Email
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
+              Interviewed Duration
+            </Typography>
+            <TextField fullWidth placeholder="" value="" />
+          </Box>
+
+          <Divider
+            sx={{
+              borderStyle: "solid",
+              borderColor: "#DCDCEF",
+              borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Box display="flex" justifyContent="flex-start" gap={2}>
+            <Button
+              sx={{
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#2268E9",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                textTransform: "none",
+              }}
+            >
+              Save and Update
+            </Button>
+            <Button
+              sx={{
+                border: "1px solid #E5E5E5",
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#FFFFFF",
+                color: "#061445",
+              }}
+              onClick={() => setStockholdermodalopen(false)}
             >
               Cancel
             </Button>
@@ -2225,107 +2159,107 @@ const ContractAddEdit = () => {
         <Box sx={{ display: "flex", height: "100%" }}>
           {/* Left: PDF Preview */}
           <Box
-      sx={{
-        flex: 1,
-        bgcolor: "#f5f5f5",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {/* Header */}
-      <Box
-        sx={{
-          p: 2,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          boxShadow: "0px 2px 4px 0px #00000040",
-        }}
-      >
-        <span style={{ fontWeight: 500, fontSize: 16 }}>
-          {fileUrl ? fileUrl.split("/").pop() : "No Document Selected"}
-        </span>
-
-        <Typography
-          sx={{
-            cursor: "pointer",
-            fontSize: 16,
-            fontWeight: 500,
-            color: "#2268E9",
-            "&:hover": { textDecoration: "underline" },
-          }}
-          onClick={handleAddDocumentClick}
-        >
-          Add Document
-          <img
-            src={DeleteSvg}
-            alt=""
-            style={{
-              width: 11,
-              height: 13,
-              marginLeft: 25,
-              display: "inline-block",
+            sx={{
+              flex: 1,
+              bgcolor: "#f5f5f5",
+              display: "flex",
+              flexDirection: "column",
             }}
-          />
-        </Typography>
+          >
+            {/* Header */}
+            <Box
+              sx={{
+                p: 2,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                boxShadow: "0px 2px 4px 0px #00000040",
+              }}
+            >
+              <span style={{ fontWeight: 500, fontSize: 16 }}>
+                {fileUrl ? fileUrl.split("/").pop() : "No Document Selected"}
+              </span>
 
-        {/* Hidden File Input */}
-        <input
-          type="file"
-          accept="application/pdf,image/*"
-          style={{ display: "none" }}
-          ref={fileInputRef}
-          onChange={handleFileChange}
-        />
-      </Box>
+              <Typography
+                sx={{
+                  cursor: "pointer",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: "#2268E9",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+                onClick={handleAddDocumentClick}
+              >
+                Add Document
+                <img
+                  src={DeleteSvg}
+                  alt=""
+                  style={{
+                    width: 11,
+                    height: 13,
+                    marginLeft: 25,
+                    display: "inline-block",
+                  }}
+                />
+              </Typography>
 
-      {/* Main Content */}
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "auto",
-          p: 2,
-        }}
-      >
-        {fileUrl?.endsWith(".pdf") ? (
-          <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} width={500} />
-          </Document>
-        ) : (
-          <img
-            src={fileUrl}
-            alt="Preview"
-            style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain",
-            }}
-          />
-        )}
-      </Box>
+              {/* Hidden File Input */}
+              <input
+                type="file"
+                accept="application/pdf,image/*"
+                style={{ display: "none" }}
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+            </Box>
 
-      {/* Footer */}
-      <Box
-        sx={{
-          p: 1.5,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 2,
-          boxShadow: "0px -1px 4px 0px #00000040",
-          backgroundColor: "#fff",
-        }}
-      >
-        <Typography
-          sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
-        >
-          PDF Viewer Controls
-        </Typography>
-      </Box>
-    </Box>
+            {/* Main Content */}
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "auto",
+                p: 2,
+              }}
+            >
+              {fileUrl?.endsWith(".pdf") ? (
+                <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+                  <Page pageNumber={pageNumber} width={500} />
+                </Document>
+              ) : (
+                <img
+                  src={fileUrl}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              )}
+            </Box>
+
+            {/* Footer */}
+            <Box
+              sx={{
+                p: 1.5,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                boxShadow: "0px -1px 4px 0px #00000040",
+                backgroundColor: "#fff",
+              }}
+            >
+              <Typography
+                sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
+              >
+                PDF Viewer Controls
+              </Typography>
+            </Box>
+          </Box>
 
           {/* Right: Form */}
 
@@ -2518,7 +2452,6 @@ const ContractAddEdit = () => {
         </Box>
       </Dialog>
 
-
       <ContractForm
         open={openContractForm}
         handleClose={() => setOpenContractForm(false)}
@@ -2527,4 +2460,4 @@ const ContractAddEdit = () => {
   );
 };
 
-export default ContractAddEdit;
+export default AuditPlanAddEdit;
