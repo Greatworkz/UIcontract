@@ -61,8 +61,28 @@ const AuditPlan = () => {
   const [openContractForm, setOpenContractForm] = useState(false);
   const [auditmodalOpen, setAuditmodalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [formdata,setFormData] =  useState({
+    customer_name:'',
+    supplier_name:'',
+    msa_code:'',
+    audit_plan_code:'',
+    audit_plan_title:'',
+    audit_duration:'',
+    auditors_name:''
+    
+  })
 
   const inputRef = useRef(null);
+
+  const handleChange = (e) =>{
+    const {name,value} =  e.target;
+    
+      setFormData({
+        ...formdata,
+        [name]:value
+      })
+
+  }
 
   const fetchContracts = async () => {
     setLoading(true);
@@ -161,9 +181,9 @@ const AuditPlan = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} md={2}>
+            {/* <Grid item xs={12} md={2}>
               <DateRangeInput value={dateRange} onChange={setDateRange} />
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12} md={2}>
               <Typography
@@ -295,18 +315,20 @@ const AuditPlan = () => {
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
             <Typography sx={commonLabelStyle}>Supplier Name</Typography>
-            <TextField fullWidth placeholder="" value="IT ADM SERIVE  FOR UK" />
+            <TextField fullWidth placeholder="" name="supplier_name"  onChange={handleChange} value={formdata.supplier_name} />
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
             <Typography sx={commonLabelStyle}>MSA Code</Typography>
-            <TextField fullWidth placeholder="" value="ALG-GLOBAL-MSA-1093" />
+            <TextField fullWidth placeholder=""  name='msa_code'  onChange={handleChange} value={formdata.msa_code} />
           </Box>
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
             <TextField
               fullWidth
               placeholder=""
-              value="10/01/2021  To  09/03/2024"
+              name="audit_plan_code"
+              value={formdata.audit_plan_code}
+              onChange={handleChange}
             />
           </Box>
 
@@ -315,7 +337,9 @@ const AuditPlan = () => {
             <TextField
               fullWidth
               placeholder=""
-              value="ALG-GLOBAL-MSA-PRO-10023"
+              name="audit_plan_title"
+              value={formdata.audit_plan_title}
+              onChange={handleChange}
             />
           </Box>
 
@@ -324,7 +348,9 @@ const AuditPlan = () => {
             <TextField
               fullWidth
               placeholder=""
-              value="10/01/2021  To  09/03/2024"
+              name="audit_duration"
+              value={formdata.audit_duration}
+              onChange={handleChange}
             />
           </Box>
 
@@ -357,7 +383,7 @@ const AuditPlan = () => {
 
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={5}>
             <Typography sx={commonLabelStyle}>Auditors Name</Typography>
-            <TextField fullWidth placeholder="" value="ALG-GLOBAL-SOW-10023" />
+            <TextField fullWidth placeholder="" name="auditors_name" onChange={handleChange} value={formdata.auditors_name} />
           </Box>
 
           <Divider

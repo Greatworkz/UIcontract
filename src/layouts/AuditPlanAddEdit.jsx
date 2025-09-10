@@ -50,7 +50,7 @@ import ContractForm from "./ContractForm";
 const steps = [
   "Audit Plan",
   "Business Mapping",
-  "Process View",
+  "Processes View",
   "Stakeholders",
   "Contract Documents",
   "Summary",
@@ -182,6 +182,7 @@ const AuditPlanAddEdit = () => {
   const [processmodalOpen, setProcessModalOpen] = useState(false);
   const [stockholdermodalopen,setStockholdermodalopen] =  useState(false)
   const [BussinessCaseModalOpen, setBussinessCaseModalOpen] = useState(false);
+  const [contractdocumentmodal,setContractDocumentsModal] = useState(false)
   const [tabIndex, setTabIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
 
@@ -333,12 +334,12 @@ const AuditPlanAddEdit = () => {
                   </Typography>
 
                   <Chip
-                    label="ACTIVE"
+                    label="Draft"
                     size="small"
                     sx={{
                       borderRadius: "3px",
-                      backgroundColor: "#DAFFE7",
-                      color: "#008631",
+                      backgroundColor: "#F1F1F1",
+                      color:"black",
                       fontWeight: 600,
                       px: 1.5,
                       py: 1,
@@ -759,6 +760,15 @@ const AuditPlanAddEdit = () => {
                           />
                         </Grid>
 
+                         <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 2,
+                        }}
+                      />
+
                         <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                           <Typography sx={{ ...commonLabelStyle }}>
                             VCC | Focus Area
@@ -798,6 +808,7 @@ const AuditPlanAddEdit = () => {
                           />
                         </Grid>
                       </Grid>
+                      
                     </Grid>
                   </Grid>
                 </CardSection>
@@ -1365,7 +1376,225 @@ const AuditPlanAddEdit = () => {
           {activeStep === 4 && (
             <Box>
               <Box mb={3}>
-                <CardSection title="Summary" showArrow>
+                <CardSection
+                  title="MSA Information"
+                  showArrow
+                  headerActionLabel={
+                    <>
+                      <img src={EditSvg} alt="Edit" width={10} height={12} />
+                      &nbsp; Edit
+                    </>
+                  }
+                  onHeaderActionClick={() => setMSAmodalOpen(true)}
+                >
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid>
+                      <img src={personSvg} alt="" srcset="" />
+                    </Grid>
+                    <Grid size={{ xs: 10, sm: 5, md: 2.5, lg: 2.4, xl: 2 }}>
+                      <Typography sx={commonNameStyle}>
+                        {msaInfo.supplierName}
+                      </Typography>
+                      <Typography mt={1} sx={commonLabelStyle}>
+                        Supplier Name
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>MSA Title</Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.msaTitle}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>MSA Code</Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.msaCode}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 3 }}>
+                      <Typography sx={commonLabelStyle}>
+                        MSA Duration
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.duration}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Divider
+                    sx={{
+                      borderStyle: "dashed",
+                      borderColor: "#E5E5E5",
+                      borderWidth: "1px",
+                      my: 2,
+                    }}
+                  />
+
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 6, sm: 4, md: 3.2, lg: 2.9, xl: 2.4 }}>
+                      <Typography
+                        sx={{
+                          color: "#061445",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Project
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Project Code
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectCode}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Project Name
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectName}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Divider
+                    sx={{
+                      borderStyle: "dashed",
+                      borderColor: "#E5E5E5",
+                      borderWidth: "1px",
+                      my: 2,
+                    }}
+                  />
+
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 6, sm: 4, md: 3.2, lg: 2.9, xl: 2.4 }}>
+                      <Typography
+                        sx={{
+                          color: "#061445",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Audit Plan
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan Code
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectCode}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Audit plan Duration
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {msaInfo.projectName}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </CardSection>
+              </Box>
+
+              <Box mb={2}>
+                <CardSection
+                  title="Contract Document Details"
+                  showArrow
+                  headerActionLabel="+Add Document"
+                  onHeaderActionClick={() => setContractDocumentsModal(true)}
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "MSA ID",
+                            "DOCUMENT TYPE",
+                            "DOCUMENT NAME",
+                            "VERSION",
+                            "DOCUMENT DATE",
+                            "ATTACHMENT"
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+            </Box>
+          )}
+
+
+
+          {activeStep === 5 && (
+            <Box>
+              <Box mb={3}>
+                <CardSection title="MSA Information" showArrow>
                   <Grid container spacing={2} alignItems="center">
                     <Grid>
                       <img src={personSvg} alt="" srcset="" />
@@ -1379,14 +1608,14 @@ const AuditPlanAddEdit = () => {
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>MSA Code</Typography>
+                      <Typography sx={commonLabelStyle}>Audit Type</Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.msaCode}
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
-                        MSA Duration
+                        Auditor Name
                       </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.duration}
@@ -1395,17 +1624,13 @@ const AuditPlanAddEdit = () => {
 
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
-                        MSA Value (TCV)
+                        Audit Plan Duration
                       </Typography>
                       <Typography
                         sx={{ ...commonValueStyle, color: "#078600" }}
                       >
                         1,250,000.00
                       </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>TCV -ACV</Typography>
-                      <Typography sx={commonValueStyle}>2.00%</Typography>
                     </Grid>
                   </Grid>
 
@@ -1419,7 +1644,7 @@ const AuditPlanAddEdit = () => {
                   />
                   <Grid container spacing={2}>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.4 }}>
-                      <Typography
+                      {/* <Typography
                         sx={{
                           color: "#061445",
                           fontSize: "13px",
@@ -1427,21 +1652,21 @@ const AuditPlanAddEdit = () => {
                         }}
                       >
                         SOW Code
-                      </Typography>
+                      </Typography> */}
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>SOW Code</Typography>
+                      <Typography sx={commonLabelStyle}>Project Name</Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.sowCode}
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>SOW Title</Typography>
+                      <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.sowProjectName}
                       </Typography>
                     </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
+                    {/* <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
                         SOW Value (TCV)
                       </Typography>
@@ -1450,97 +1675,450 @@ const AuditPlanAddEdit = () => {
                       >
                         $25,000.00
                       </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
+                    </Grid> */}
+                    {/* <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
                         Contract Staus
                       </Typography>
                       <Typography sx={commonValueStyle}>Active</Typography>
+                    </Grid> */}
+                  </Grid>
+                </CardSection>
+              </Box>
+
+
+              {/* Summary Audit Scope */}
+               <Box mb={3}>
+                <CardSection title="Audit Scope" showArrow>
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                      {/* <Grid item xs={12}> */}
+
+  
+                  
+
+                      <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCCA | Scope
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={5} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "130px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCCA | Audit Title
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "130px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCCA | Focus Area
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "130px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCCA | Objectives
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10} // ensures multiple rows
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "130px", // fixed height
+                                alignItems: "flex-start", // text starts at top
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </CardSection>
               </Box>
 
-              <Box
-                sx={{
-                  mt: "20px",
-                  backgroundColor: "#fff",
-                  borderRadius: "8px",
-                  border: "1px solid #0A18290D",
-                }}
-              >
-                <Box sx={{ mb: 2 }}>
-                  <ThemedTabs value={tabIndex} onChange={handleTabChange}>
-                    <ThemedTab label="SOW Detail" />
-                    <ThemedTab label="SOW Summary" />
-                    <ThemedTab label="Services" />
-                    <ThemedTab label="Deliverables" />
-                    <ThemedTab label="Contract Documents" />
-                    <ThemedTab label="OB Register" />
-                    <ThemedTab label="TCV-ACV Analysisi" />
-                  </ThemedTabs>
-                </Box>
 
-                {tabIndex === 0 && (
-                  <Box p={2}>
-                    <Grid container spacing={2} alignItems="center">
-                      <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
-                        <CardSection
-                          title="SOW Basic Details"
+              {/* Summary MSA Details */}
+               <Box mb={2}>
+                <CardSection
+                  title="MSA Details"
+                  showArrow
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
                           sx={{
-                            minHeight: "300px",
-                            border: "1px solid #DCDCEF !important",
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
                           }}
-                        ></CardSection>
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6 }}>
-                        <CardSection
-                          title="SOW Contract Information"
-                          sx={{ minHeight: "300px" }}
-                        ></CardSection>
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6 }}>
-                        <CardSection
-                          title="SOW Contract Document Information"
-                          sx={{ minHeight: "300px" }}
-                        ></CardSection>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                )}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
 
-                {tabIndex === 1 && (
-                  <Box p={2}>
-                    <CardSection title="SOW Summary"></CardSection>
-                  </Box>
-                )}
+                      {/* Right Side */}
+                    </Box>
 
-                {tabIndex === 2 && (
-                  <Box p={2}>
-                    <CardSection title="Service"></CardSection>
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "CYCLE",
+                            "BU LOCATION",
+                            "IT SERVICE SUITE",
+                            "SERVICE DELIEVERY LOCATION"
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
                   </Box>
-                )}
-                {tabIndex === 3 && (
-                  <Box p={2}>
-                    <CardSection title="Deliverables"></CardSection>
-                  </Box>
-                )}
-                {tabIndex === 4 && (
-                  <Box p={2}>
-                    <CardSection title="Contract Documents"></CardSection>
-                  </Box>
-                )}
-                {tabIndex === 5 && (
-                  <Box p={2}>
-                    <CardSection title="OB Register"></CardSection>
-                  </Box>
-                )}
-                {tabIndex === 6 && (
-                  <Box p={2}>
-                    <CardSection title="TCV-ACV Analysisi"></CardSection>
-                  </Box>
-                )}
+                </CardSection>
               </Box>
+
+
+              {/* Summary Process and procedure Reviewed List */}
+               <Box mb={2}>
+                <CardSection
+                  title="Process and Procedure Reviewed List"
+                  showArrow
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "DOMAIN NAME",
+                            "PROCESS AND PROCEDURE REVIEWED",
+                            "DURATION",
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+
+
+              {/* Summary Stakeholders list */}
+               <Box mb={2}>
+                <CardSection
+                  title="Stakeholders List"
+                  showArrow
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "STAKEHOLDERS NAME",
+                            "COMPANY",
+                            "CONTACT DETAILS",
+                            "DURATION"
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+
+              {/* Summary Contract Document List */}
+               <Box mb={2}>
+                <CardSection
+                  title="Contract Document List"
+                  showArrow
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "MSA ID",
+                            "DOCUMENT TYPE",
+                            "DOCUMENT NAME",
+                            "VERSION",
+                            "DOCUMENT DATE",
+                            "ATTACHMENT"
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+
+
+              
             </Box>
           )}
         </Box>
