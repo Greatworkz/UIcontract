@@ -367,7 +367,7 @@ const AuditPlanAddEdit = () => {
               </Box>
             </Box>
             <Box display="flex" gap={1} justifyContent="flex-end" mt={1}>
-              <Button
+              {/* <Button
                 size="small"
                 variant="outlined"
                 sx={{
@@ -388,7 +388,7 @@ const AuditPlanAddEdit = () => {
                   alt="icon"
                   style={{ width: "100%", height: "100%" }}
                 />
-              </Button>
+              </Button> */}
 
               <Menu anchorEl={anchorEl} open={DropDown} onClose={DropDownClose}>
                 <MenuItem
