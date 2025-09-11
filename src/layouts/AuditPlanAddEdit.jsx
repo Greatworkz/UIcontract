@@ -341,7 +341,7 @@ const AuditPlanAddEdit = () => {
                     size="small"
                     sx={{
                       borderRadius: "3px",
-                      backgroundColor: "#f1f1f1",
+                      backgroundColor: "#F1F1F1",
                       color: "black",
                       fontWeight: 600,
                       px: 1.5,
@@ -2655,7 +2655,6 @@ const AuditPlanAddEdit = () => {
         </Box>
       </ModalSection>
 
-        {/* Stockholder Modal */}
       <ModalSection
         title="New Stockholder"
         open={stockholdermodalopen}
