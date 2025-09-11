@@ -27,7 +27,7 @@ import {
   Checkbox,
   FormControlLabel,
   Menu,
-  TextareaAutosize
+  TextareaAutosize,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -180,9 +180,9 @@ const AuditPlanAddEdit = () => {
   const [MSAmodalOpen, setMSAmodalOpen] = useState(false);
   const [ScopemodalOpen, setScopemodalOpen] = useState(false);
   const [processmodalOpen, setProcessModalOpen] = useState(false);
-  const [stockholdermodalopen,setStockholdermodalopen] =  useState(false)
+  const [stockholdermodalopen, setStockholdermodalopen] = useState(false);
   const [BussinessCaseModalOpen, setBussinessCaseModalOpen] = useState(false);
-  const [contractdocumentmodal,setContractDocumentsModal] = useState(false)
+  const [contractdocumentmodal, setContractDocumentsModal] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
 
@@ -339,7 +339,7 @@ const AuditPlanAddEdit = () => {
                     sx={{
                       borderRadius: "3px",
                       backgroundColor: "#F1F1F1",
-                      color:"black",
+                      color: "black",
                       fontWeight: 600,
                       px: 1.5,
                       py: 1,
@@ -621,198 +621,189 @@ const AuditPlanAddEdit = () => {
               </Box>
 
               {/* Audit Plan Scope */}
+
               <Box mb={3}>
-                <CardSection title="Audit plan Scope" showArrow>
-                  <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, sm: 12, md: 12 }}>
-                      {/* <Grid item xs={12}> */}
+  <CardSection title="Audit plan Scope" showArrow>
+    <Grid container spacing={2}>
+      <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+        <Grid container spacing={3}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 4,
+              mb: 2,
+            }}
+          >
+            <Typography sx={commonLabelStyle}>
+              VCC | Audit Type
+            </Typography>
+            <Select
+              onChange={(e) => setAuditType(e.target.value)}
+              displayEmpty
+              renderValue={(selected) => selected || "Select"}
+              sx={{
+                mt: -1,
+                backgroundColor: "#fff",
+                "& .MuiSelect-select": {},
+              }}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value="internal">Internal Audit</MenuItem>
+              <MenuItem value="external">External Audit</MenuItem>
+              <MenuItem value="compliance">
+                Compliance Audit
+              </MenuItem>
+              <MenuItem value="financial">
+                Financial Audit
+              </MenuItem>
+            </Select>
+          </Box>
 
-                      <Grid container spacing={3}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            gap: 4,
-                            mb: 2,
-                          }}
-                        >
-                          <Typography sx={commonLabelStyle}>
-                            VCC | Audit Type
-                          </Typography>
-                          {/* <FormControl fullWidth sx={textFieldStyle}> */}
-                          <Select
-                            // value={auditType}
-                            onChange={(e) => setAuditType(e.target.value)}
-                            displayEmpty
-                            renderValue={(selected) => selected || "Select"}
-                            sx={{
-                              mt: -1,
-                              backgroundColor: "#fff",
-                              "& .MuiSelect-select": {
-                                // color: auditType ? '#333' : '#999',
-                              },
-                            }}
-                          >
-                            <MenuItem value="">
-                              <em>Select</em>
-                            </MenuItem>
-                            <MenuItem value="internal">Internal Audit</MenuItem>
-                            <MenuItem value="external">External Audit</MenuItem>
-                            <MenuItem value="compliance">
-                              Compliance Audit
-                            </MenuItem>
-                            <MenuItem value="financial">
-                              Financial Audit
-                            </MenuItem>
-                          </Select>
-                          {/* </FormControl> */}
-                        </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 4,
+            }}
+          >
+            <Typography sx={commonLabelStyle}>
+              VCC | Auditor(s) Name
+            </Typography>
+            <Select
+              onChange={(e) => setAuditorName(e.target.value)}
+              displayEmpty
+              renderValue={(selected) => selected || "Select"}
+              sx={{
+                mt: -1,
+                backgroundColor: "#fff",
+                "& .MuiSelect-select": {},
+              }}
+            >
+              <MenuItem value="">
+                <em>Select</em>
+              </MenuItem>
+              <MenuItem value="john-doe">John Doe</MenuItem>
+              <MenuItem value="jane-smith">Jane Smith</MenuItem>
+              <MenuItem value="mike-johnson">
+                Mike Johnson
+              </MenuItem>
+              <MenuItem value="sarah-wilson">
+                Sarah Wilson
+              </MenuItem>
+            </Select>
+          </Box>
+        </Grid>
 
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            gap: 4,
-                          }}
-                        >
-                          <Typography sx={commonLabelStyle}>
-                            VCC | Auditor(s) Name
-                          </Typography>
-                          {/* <FormControl fullWidth sx={textFieldStyle}> */}
-                          <Select
-                            // value={auditorName}
-                            onChange={(e) => setAuditorName(e.target.value)}
-                            displayEmpty
-                            renderValue={(selected) => selected || "Select"}
-                            sx={{
-                              mt: -1,
-                              backgroundColor: "#fff",
-                              "& .MuiSelect-select": {
-                                // color: auditorName ? '#333' : '#999',
-                              },
-                            }}
-                          >
-                            <MenuItem value="">
-                              <em>Select</em>
-                            </MenuItem>
-                            <MenuItem value="john-doe">John Doe</MenuItem>
-                            <MenuItem value="jane-smith">Jane Smith</MenuItem>
-                            <MenuItem value="mike-johnson">
-                              Mike Johnson
-                            </MenuItem>
-                            <MenuItem value="sarah-wilson">
-                              Sarah Wilson
-                            </MenuItem>
-                          </Select>
-                          {/* </FormControl> */}
-                        </Box>
-                      </Grid>
+        <Divider
+          sx={{
+            borderStyle: "dashed",
+            borderColor: "#E5E5E5",
+            borderWidth: "1px",
+            my: 2,
+          }}
+        />
 
-                      {/* Check */}
-                      {/* </Grid> */}
+        {/* First row with Scope and Audit Title */}
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+            <Typography sx={{ ...commonLabelStyle }}>
+              VCC | Scope
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              minRows={10}
+              placeholder="Enter details here..."
+              sx={{
+                "& .MuiInputBase-root": {
+                  height: "200px",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  mt: 1,
+                },
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+            <Typography sx={{ ...commonLabelStyle }}>
+              VCC | Audit Title
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              minRows={10}
+              placeholder="Enter details here..."
+              sx={{
+                "& .MuiInputBase-root": {
+                  height: "200px",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  mt: 1,
+                },
+              }}
+            />
+          </Grid>
+        </Grid>
 
-                      <Divider
-                        sx={{
-                          borderStyle: "dashed",
-                          borderColor: "#E5E5E5",
-                          borderWidth: "1px",
-                          my: 2,
-                        }}
-                      />
+        {/* Second divider - placed after the first row */}
+        <Divider
+          sx={{
+            borderStyle: "dashed",
+            borderColor: "#E5E5E5",
+            borderWidth: "1px",
+            my: 2,
+          }}
+        />
 
-                      <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-                          <Typography sx={{ ...commonLabelStyle }}>
-                            VCC | Scope
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            multiline
-                            minRows={10} // ensures multiple rows
-                            placeholder="Enter details here..."
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                height: "200px", // fixed height
-                                alignItems: "flex-start", // text starts at top
-                                width: "100%",
-                                mt: 1,
-                              },
-                            }}
-                          />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-                          <Typography sx={{ ...commonLabelStyle }}>
-                            VCC | Audit Title
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            multiline
-                            minRows={10} // ensures multiple rows
-                            placeholder="Enter details here..."
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                height: "200px", // fixed height
-                                alignItems: "flex-start", // text starts at top
-                                width: "100%",
-                                mt: 1,
-                              },
-                            }}
-                          />
-                        </Grid>
-
-                         <Divider
-                        sx={{
-                          borderStyle: "dashed",
-                          borderColor: "#E5E5E5",
-                          borderWidth: "1px",
-                          my: 2,
-                        }}
-                      />
-
-                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-                          <Typography sx={{ ...commonLabelStyle }}>
-                            VCC | Focus Area
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            multiline
-                            minRows={10} // ensures multiple rows
-                            placeholder="Enter details here..."
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                height: "200px", // fixed height
-                                alignItems: "flex-start", // text starts at top
-                                width: "100%",
-                                mt: 1,
-                              },
-                            }}
-                          />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-                          <Typography sx={{ ...commonLabelStyle }}>
-                            VCC | Objectives
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            multiline
-                            minRows={10} // ensures multiple rows
-                            placeholder="Enter details here..."
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                height: "200px", // fixed height
-                                alignItems: "flex-start", // text starts at top
-                                width: "100%",
-                                mt: 1,
-                              },
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-                      
-                    </Grid>
-                  </Grid>
-                </CardSection>
-              </Box>
+        {/* Second row with Focus Area and Objectives */}
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+            <Typography sx={{ ...commonLabelStyle }}>
+              VCC | Focus Area
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              minRows={10}
+              placeholder="Enter details here..."
+              sx={{
+                "& .MuiInputBase-root": {
+                  height: "200px",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  mt: 1,
+                },
+              }}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+            <Typography sx={{ ...commonLabelStyle }}>
+              VCC | Objectives
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              minRows={10}
+              placeholder="Enter details here..."
+              sx={{
+                "& .MuiInputBase-root": {
+                  height: "200px",
+                  alignItems: "flex-start",
+                  width: "100%",
+                  mt: 1,
+                },
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  </CardSection>
+</Box>
+              
             </Box>
           )}
 
@@ -1158,7 +1149,7 @@ const AuditPlanAddEdit = () => {
               </Box>
             </Box>
           )}
-           {activeStep === 3 && (
+          {activeStep === 3 && (
             <Box>
               <Box mb={3}>
                 <CardSection
@@ -1336,7 +1327,7 @@ const AuditPlanAddEdit = () => {
                             "DESIGNATION",
                             "COMPANY",
                             "CONTACT DETAILS",
-                            "DURATION"
+                            "DURATION",
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
@@ -1552,7 +1543,7 @@ const AuditPlanAddEdit = () => {
                             "DOCUMENT NAME",
                             "VERSION",
                             "DOCUMENT DATE",
-                            "ATTACHMENT"
+                            "ATTACHMENT",
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
@@ -1588,8 +1579,6 @@ const AuditPlanAddEdit = () => {
               </Box>
             </Box>
           )}
-
-
 
           {activeStep === 5 && (
             <Box>
@@ -1655,13 +1644,17 @@ const AuditPlanAddEdit = () => {
                       </Typography> */}
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>Project Name</Typography>
+                      <Typography sx={commonLabelStyle}>
+                        Project Name
+                      </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.sowCode}
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan Code
+                      </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.sowProjectName}
                       </Typography>
@@ -1686,16 +1679,12 @@ const AuditPlanAddEdit = () => {
                 </CardSection>
               </Box>
 
-
               {/* Summary Audit Scope */}
-               <Box mb={3}>
+              <Box mb={3}>
                 <CardSection title="Audit Scope" showArrow>
                   <Grid container spacing={2}>
                     <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                       {/* <Grid item xs={12}> */}
-
-  
-                  
 
                       <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 12, md: 6 }}>
@@ -1781,13 +1770,9 @@ const AuditPlanAddEdit = () => {
                 </CardSection>
               </Box>
 
-
               {/* Summary MSA Details */}
-               <Box mb={2}>
-                <CardSection
-                  title="MSA Details"
-                  showArrow
-                >
+              <Box mb={2}>
+                <CardSection title="MSA Details" showArrow>
                   <Box>
                     <Box
                       sx={{
@@ -1830,7 +1815,7 @@ const AuditPlanAddEdit = () => {
                             "CYCLE",
                             "BU LOCATION",
                             "IT SERVICE SUITE",
-                            "SERVICE DELIEVERY LOCATION"
+                            "SERVICE DELIEVERY LOCATION",
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
@@ -1865,9 +1850,8 @@ const AuditPlanAddEdit = () => {
                 </CardSection>
               </Box>
 
-
               {/* Summary Process and procedure Reviewed List */}
-               <Box mb={2}>
+              <Box mb={2}>
                 <CardSection
                   title="Process and Procedure Reviewed List"
                   showArrow
@@ -1948,13 +1932,9 @@ const AuditPlanAddEdit = () => {
                 </CardSection>
               </Box>
 
-
               {/* Summary Stakeholders list */}
-               <Box mb={2}>
-                <CardSection
-                  title="Stakeholders List"
-                  showArrow
-                >
+              <Box mb={2}>
+                <CardSection title="Stakeholders List" showArrow>
                   <Box>
                     <Box
                       sx={{
@@ -1997,7 +1977,7 @@ const AuditPlanAddEdit = () => {
                             "STAKEHOLDERS NAME",
                             "COMPANY",
                             "CONTACT DETAILS",
-                            "DURATION"
+                            "DURATION",
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
@@ -2033,11 +2013,8 @@ const AuditPlanAddEdit = () => {
               </Box>
 
               {/* Summary Contract Document List */}
-               <Box mb={2}>
-                <CardSection
-                  title="Contract Document List"
-                  showArrow
-                >
+              <Box mb={2}>
+                <CardSection title="Contract Document List" showArrow>
                   <Box>
                     <Box
                       sx={{
@@ -2082,7 +2059,7 @@ const AuditPlanAddEdit = () => {
                             "DOCUMENT NAME",
                             "VERSION",
                             "DOCUMENT DATE",
-                            "ATTACHMENT"
+                            "ATTACHMENT",
                           ]}
                           rows={[]}
                           onRowClick={(row) => console.log("Row Click", row)}
@@ -2116,9 +2093,6 @@ const AuditPlanAddEdit = () => {
                   </Box>
                 </CardSection>
               </Box>
-
-
-              
             </Box>
           )}
         </Box>
@@ -2617,7 +2591,7 @@ const AuditPlanAddEdit = () => {
         </Box>
       </ModalSection>
 
-       <ModalSection
+      <ModalSection
         title="New Stockholder"
         open={stockholdermodalopen}
         onClose={() => setStockholdermodalopen(false)}
@@ -2627,13 +2601,13 @@ const AuditPlanAddEdit = () => {
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
               Internal stakeholder Name
             </Typography>
-            <TextField  fullWidth placeholder="" value="" />
+            <TextField fullWidth placeholder="" value="" />
           </Box>
           <Box mb={3} mt={1} display="flex" alignItems="center" gap={4}>
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
               External stakeholder Name
             </Typography>
-            <TextField  fullWidth placeholder="" value="" />
+            <TextField fullWidth placeholder="" value="" />
           </Box>
 
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
