@@ -428,3 +428,23 @@ export const getAuditPlanListApi = async (params: any) => {
     throw error;
   }
 }
+
+
+export const getAuditObservationListApi = async (params: any) => {
+  const API_URL = `${BaseUrl}/auditobservation/list`;
+  try {
+    // const response = await axios.get(API_URL, { params });
+    // return response.data;
+    return [
+      {
+        "Audit plan Code": 'AUDIT-0021', "Audit plan Title": 'Audit Basic Info', "MSA Code": 'NDA-2025-05-022-001', "Customer Name": "ALG Global Limited", "Supplier Name": 'SATTAS SE',"Project Name":'IT ADM Services',"Duration":"10/01/2025-10/01/2025","Status": 'Active'
+      },
+      {
+        "Customer Name": 'XYZ Corporation', "Audit plan Code": 'AUDIT 0034', "Audit Plan Title": 'Comprehensive Audit Plan', "Supplier Name": "Tech Solutions", "MSA Code": 'MSA-2024-11-015-002',"Duration":'15/02/2025-15/08/2025',"Status": 'Completed'
+      },
+     
+    ];
+  } catch (error) {
+    throw error;
+  }
+}

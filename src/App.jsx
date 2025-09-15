@@ -11,6 +11,8 @@ import TwoStepVerification from "./layouts/TwoStepVerification";
 import { SnackbarProvider } from "./utils/snackbar";
 import AuditPlan from "./layouts/AuditPlan";
 import AuditPlanAddEdit from "./layouts/AuditPlanAddEdit";
+import AuditObservation from "./layouts/AuditObservation";
+import AuditObservationAddEdit from "./layouts/AuditObservationAddEdit";
 
 function App() {
   return (
@@ -33,6 +35,9 @@ function App() {
           <Route path="/contract/edit/:id" element={<ContractAddEdit />} />
           <Route path="/auditplan" element={<AuditPlan />} />
           <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />
+          <Route path='/audits' element={<AuditObservation />} /> 
+          <Route path="/audits/edit/:id" element={<AuditObservationAddEdit />} />
+
 
         </Route>
       </Routes>
