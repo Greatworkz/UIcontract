@@ -262,7 +262,7 @@ const AuditObservation = () => {
               ]}
               rows={filteredAuditPlan}
               loading={loading}
-              onRowClick={(row) => navigate(`/audits/edit/${row.id}`)}
+              onRowClick={(row) => navigate(`/auditobservation/edit/${row.id}`)}
             //   onEdit={(row) => console.log("Edit", row)}
             //   onDelete={(row) => console.log("Delete", row)}
             />
