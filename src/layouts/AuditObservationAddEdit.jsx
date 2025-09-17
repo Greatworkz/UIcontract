@@ -46,8 +46,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import MoreIcon from "../assets/oblication-icon/moreIcon.svg";
 import ContractForm from "./ContractForm";
+import FileUpload from "../components/FileUpload";
 
-const steps = ["Issue", "Risk", "Cost saving | Recovery"];
+const steps = ["Issue", "Risk", "Cost saving | Recovery","Summary"];
 const commonLabelStyle = {
   color: "#60698F",
   fontSize: "13px",
@@ -172,6 +173,7 @@ const AuditObservationAddEdit = () => {
   const handleEditClick = () => alert("Edit clicked"); // Replace with modal/edit form logic
   const [MSAmodalOpen, setMSAmodalOpen] = useState(false);
   const [ScopemodalOpen, setScopemodalOpen] = useState(false);
+  const [Supportingdocumentmodal,setSupportingDocumentModal] = useState(false)
   const [riskDetailsmodalOpen, setRiskDetailsModalOpen] = useState(false);
   const [costsavingdetailmodalOpen, setCostSavingDetailModalOpen] =
     useState(false);
@@ -1404,6 +1406,313 @@ const AuditObservationAddEdit = () => {
             </Box>
           )}
 
+           {activeStep === 3 && (
+            <Box>
+              <Box mb={3}></Box>
+
+              {/* MSA Information Section */}
+
+              <Box mb={3}>
+                <CardSection
+                  title="MSA Information"
+                  showArrow
+                  // headerActionLabel={
+                  //   <>
+                  //     <img src={EditSvg} alt="Edit" width={10} height={12} />
+                  //     &nbsp; Edit
+                  //   </>
+                  // }
+                  onHeaderActionClick={() => setMSAmodalOpen(true)}
+                >
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid>
+                      <img src={personSvg} alt="" srcset="" />
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
+                      <Typography sx={commonNameStyle}>{"--"}</Typography>
+                      <Typography mt={1} sx={commonLabelStyle}>
+                        Supplier Name
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>MSA Titel</Typography>
+                      <Typography sx={commonValueStyle}>
+                        {"IT ADM Service FOR UK"}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>MSA Code</Typography>
+                      <Typography sx={commonValueStyle}>
+                        {"ALZ-Global-MSA-1000"}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>
+                        MSA Duration
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {"10-01-2025 To 12-31-2025"}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Divider
+                    sx={{
+                      borderStyle: "dashed",
+                      borderColor: "#E5E5E5",
+                      borderWidth: "1px",
+                      my: 2,
+                    }}
+                  />
+
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.7, lg: 2.6, xl: 2.4 }}>
+                      <Typography
+                        sx={{
+                          color: "#061445",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Project
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Project Code
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {"ALZ-GLOBAL-MSA-PROJ-1000-1"}
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Project Name
+                      </Typography>
+                      <Typography sx={commonValueStyle}>
+                        {"IT ADM Service"}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Divider
+                    sx={{
+                      borderStyle: "dashed",
+                      borderColor: "#E5E5E5",
+                      borderWidth: "1px",
+                      my: 2,
+                    }}
+                  />
+
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.7, lg: 2.6, xl: 2.4 }}>
+                      <Typography
+                        sx={{
+                          color: "#061445",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Audit plan
+                      </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan Code
+                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
+                    </Grid>
+                    <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
+                      <Typography sx={commonLabelStyle}>
+                        VCCA | Review Period
+                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
+                    </Grid>
+                  </Grid>
+                </CardSection>
+              </Box>
+
+              {/* Vcca Observation First */}
+
+              <Box mb={2}>
+                <CardSection
+                  title="List of Table Data Will be Displayed"
+                  showArrow
+                  headerActionLabel="+Add New Process"
+                  //   onHeaderActionClick={() => setProcessModalOpen(true)}
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "OB#",
+                            "RISK AREA",
+                            "NCR CATEGORY",
+                            "IMPACT",
+                            "ISSUE (Y/N)",
+                            "RISK (Y/N)",
+                            "COST (Y/N)",
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          onEdit={(row) => console.log("Edit", row)}
+                          onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+
+              {/* Vcca Observation Second */}
+              <Box mb={2}>
+                <CardSection
+                  title="Supporting Documents"
+                  showArrow
+                  headerActionLabel="+Add Document"
+                  onHeaderActionClick={() => setSupportingDocumentModal(true)}
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "OB#",
+                            "ISSUE",
+                            "RISK AREA",
+                            "NCR CATEGORY",
+                            "IMPACT",
+                            "ISSUE (Y/N)",
+                            "ISSUES SCORE",
+                            "FIN IMPACT VALUE",
+                            "VIEW",
+                          ]}
+                          rows={[]}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          onEdit={(row) => console.log("Edit", row)}
+                          onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+            </Box>
+          )}
+
           <Box
             sx={{
               borderTop: "1px solid #F3F3F3",
@@ -2482,6 +2791,200 @@ const AuditObservationAddEdit = () => {
               Cancel
             </Button>
           </Box>
+        </Box>
+      </ModalSection>
+
+
+      {/* Supporting Document Modal  */}
+
+       <ModalSection
+        title="Add Supporting Documents"
+        open={Supportingdocumentmodal}
+        onClose={() => setSupportingDocumentModal(false)}
+      >
+        <Box
+          sx={{
+            width: "600px",
+            p: "2px",
+            bgcolor: "#fff",
+            borderLeft: "1px solid #ddd",
+          }}
+        >
+          <Grid container spacing={2} sx={{ p: 3 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Type
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Name | Title
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Version
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Date
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 1,
+                        }}
+                      />
+                    </Grid>
+       */}
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document File Name
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Upload Date
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document upload Status
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid>
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Financial Impact | Indicator (Y/S)
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid> */}
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 1,
+                        }}
+                      />
+                    </Grid> */}
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Financial Impact value
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid> */}
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Issue | Likeihood
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid> */}
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>Issue Impact</Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid> */}
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>Issue Score</Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid> */}
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 1,
+                        }}
+                      />
+                    </Grid>
+       */}
+            <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Docuement Descriptions
+              </Typography>
+              <TextField fullWidth multiline rows={5} placeholder="" value="" />
+            </Grid>
+
+           
+
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+              <Divider
+                sx={{
+                  borderStyle: "solid",
+                  borderColor: "#D3D6E14D",
+                  borderWidth: "1px",
+                  my: 2,
+                }}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 12, md: 12}}>
+            <FileUpload />
+
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+              <Box display="flex" justifyContent="flex-start" gap={2}>
+                <Button
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    backgroundColor: "#2268E9",
+                    color: "#FFFFFF",
+                    borderRadius: "6px",
+                    textTransform: "none",
+                  }}
+                >
+                  Save and Update
+                </Button>
+                <Button
+                  sx={{
+                    border: "1px solid #E5E5E5",
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    backgroundColor: "#FFFFFF",
+                    color: "#061445",
+                  }}
+                  onClick={() => setSupportingDocumentModal(false)}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </ModalSection>
 
