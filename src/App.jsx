@@ -40,6 +40,8 @@ function App() {
           <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />
           <Route path='/auditobservation' element={<AuditObservation />} /> 
           <Route path="/auditobservation/edit/:id" element={<AuditObservationCheck />} />
+          <Route path='/issue' element={<AuditObservationAddEdit />} /> 
+
 
 
         </Route>

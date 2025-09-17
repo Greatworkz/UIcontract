@@ -28,6 +28,9 @@ import {
   FormControlLabel,
   Menu,
   TextareaAutosize,
+  FormControl,
+  RadioGroup,
+  Radio,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -46,6 +49,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 import MoreIcon from "../assets/oblication-icon/moreIcon.svg";
 import ContractForm from "./ContractForm";
+
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import FileUpload from "../components/FileUpload";
 
 const steps = [
   "Audit Plan",
@@ -180,6 +189,7 @@ const AuditObservationCheck = () => {
   const [MSAmodalOpen, setMSAmodalOpen] = useState(false);
   const [ScopemodalOpen, setScopemodalOpen] = useState(false);
   const [processmodalOpen, setProcessModalOpen] = useState(false);
+  const [documentModalOpen,setDocumentModalOpen]= useState(false)
   const [stockholdermodalopen, setStockholdermodalopen] = useState(false);
   const [BussinessCaseModalOpen, setBussinessCaseModalOpen] = useState(false);
   const [contractdocumentmodal, setContractDocumentsModal] = useState(false);
@@ -187,10 +197,21 @@ const AuditObservationCheck = () => {
   const [completedSteps, setCompletedSteps] = useState([]);
 
   const [DocumentModalopen, setDocumentModal] = useState(false);
+  const [Supportingdocumentmodal,setSupportingDocumentModal] =  useState(false)
   const [ObservationModal, setObservationModal] = useState(false);
   const [fileUrl, setFileUrl] = useState(""); // default PDF
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(null);
+
+  const [formData, setFormData] = useState({
+    issueIndicator: "",
+    riskIndicator: "",
+    costRecoveryIndicator: "",
+    observationDueDate: null,
+    expectedActionPlanDate: null,
+    issueMitigationPlan: "",
+    auditRecommendations: "",
+  });
 
   const fileInputRef = useRef(null);
 
@@ -250,6 +271,27 @@ const AuditObservationCheck = () => {
     if (!completedSteps.includes(index)) {
       setCompletedSteps((prev) => [...prev, index]); // Mark clicked step as completed
     }
+  };
+
+  const handleRadioChange = (field) => (event) => {
+    setFormData({
+      ...formData,
+      [field]: event.target.value,
+    });
+  };
+
+  const handleDateChange = (field) => (date) => {
+    setFormData({
+      ...formData,
+      [field]: date,
+    });
+  };
+
+  const handleTextChange = (field) => (event) => {
+    setFormData({
+      ...formData,
+      [field]: event.target.value,
+    });
   };
 
   useEffect(() => {
@@ -752,8 +794,6 @@ const AuditObservationCheck = () => {
               </Button>
             </Box>
           </Box>
-
-          
         </Box>
 
         {/* <Box
@@ -1342,6 +1382,199 @@ const AuditObservationCheck = () => {
         </Box>
       </ModalSection>
 
+
+        {/* Add Supporting Document Modal */}
+        <ModalSection
+        title="Add Supporting Documents"
+        open={Supportingdocumentmodal}
+        onClose={() => setSupportingDocumentModal(false)}
+      >
+        <Box
+          sx={{
+            width: "600px",
+            p: "2px",
+            bgcolor: "#fff",
+            borderLeft: "1px solid #ddd",
+          }}
+        >
+          <Grid container spacing={2} sx={{ p: 3 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Type
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Name | Title
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Version
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Date
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 1,
+                        }}
+                      />
+                    </Grid>
+       */}
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document File Name
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document Upload Date
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Document upload Status
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid>
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Financial Impact | Indicator (Y/S)
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid> */}
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 1,
+                        }}
+                      />
+                    </Grid> */}
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Financial Impact value
+              </Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid> */}
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Issue | Likeihood
+              </Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid> */}
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>Issue Impact</Typography>
+              <Select fullWidth defaultValue="select" size="small">
+                <MenuItem value="select">Select</MenuItem>
+                <MenuItem value=""></MenuItem>
+              </Select>
+            </Grid> */}
+            {/* <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Typography sx={{ ...commonLabelStyle }}>Issue Score</Typography>
+              <TextField fullWidth placeholder="" value="" />
+            </Grid> */}
+
+            {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 1,
+                        }}
+                      />
+                    </Grid>
+       */}
+            <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+              <Typography sx={{ ...commonLabelStyle }}>
+                Docuement Descriptions
+              </Typography>
+              <TextField fullWidth multiline rows={5} placeholder="" value="" />
+            </Grid>
+
+           
+
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+              <Divider
+                sx={{
+                  borderStyle: "solid",
+                  borderColor: "#D3D6E14D",
+                  borderWidth: "1px",
+                  my: 2,
+                }}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 12, md: 12}}>
+            <FileUpload />
+
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
+              <Box display="flex" justifyContent="flex-start" gap={2}>
+                <Button
+                  sx={{
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    backgroundColor: "#2268E9",
+                    color: "#FFFFFF",
+                    borderRadius: "6px",
+                    textTransform: "none",
+                  }}
+                >
+                  Save and Update
+                </Button>
+                <Button
+                  sx={{
+                    border: "1px solid #E5E5E5",
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    backgroundColor: "#FFFFFF",
+                    color: "#061445",
+                  }}
+                  onClick={() => setSupportingDocumentModal(false)}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </ModalSection>
+
       {/* Add Document Modal */}
 
       <Dialog fullScreen open={ObservationModal} onClose={handleClose}>
@@ -1388,12 +1621,12 @@ const AuditObservationCheck = () => {
                 <CardSection
                   title="MSA Information"
                   showArrow
-                  headerActionLabel={
-                    <>
-                      <img src={EditSvg} alt="Edit" width={10} height={12} />
-                      &nbsp; Edit
-                    </>
-                  }
+                  // headerActionLabel={
+                  //   <>
+                  //     <img src={EditSvg} alt="Edit" width={10} height={12} />
+                  //     &nbsp; Edit
+                  //   </>
+                  // }
                   onHeaderActionClick={() => setMSAmodalOpen(true)}
                 >
                   <Grid container spacing={2} alignItems="center">
@@ -1658,11 +1891,8 @@ const AuditObservationCheck = () => {
 
               {/* Observation | Risk Information */}
 
-             <Box mb={3} sx={{ width: "100%", maxWidth: "100vw", px: 0 }}>
-                <CardSection
-                  title="Observation | Risk Information"
-                  showArrow
-                >
+              <Box mb={3} sx={{ width: "100%", maxWidth: "100vw", px: 0 }}>
+                <CardSection title="Observation | Risk Information" showArrow>
                   <Grid container spacing={2} sx={{ width: "100%" }}>
                     <Grid item xs={12}>
                       <Grid container spacing={2} sx={{ width: "100%" }}>
@@ -1816,9 +2046,8 @@ const AuditObservationCheck = () => {
                           </Select>
                         </Grid>
 
-
                         {/* Field 6 */}
-                         <Grid
+                        <Grid
                           item
                           xs={12}
                           sm={12}
@@ -1851,7 +2080,584 @@ const AuditObservationCheck = () => {
                   </Grid>
                 </CardSection>
               </Box>
+
+              {/* Audit Observation  | Non compliance Category */}
+
+              <Box mb={3}>
+                <CardSection
+                  title="Audit Observation | Non Compliance (NCR) category"
+                  showArrow
+                >
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                      {/* <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 2,
+                        }}
+                      /> */}
+
+                      {/* First row with Scope and Audit Title */}
+                      <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCCA | Audit Observation Description
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10}
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px",
+                                alignItems: "flex-start",
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            Alternate Analysis
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10}
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px",
+                                alignItems: "flex-start",
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+
+                      {/* Second divider - placed after the first row */}
+                      {/* <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 2,
+                        }}
+                      />
+               */}
+
+                      <Grid container spacing={2} sx={{ width: "100%", mt: 2 }}>
+                        {/* Field 1 */}
+                        <Grid item xs={12} md={12}>
+                          <Typography sx={{ ...commonLabelStyle, mb: 1 }}>
+                            Audit Observation Impact
+                          </Typography>
+                          <Select
+                            fullWidth
+                            size="small"
+                            sx={{
+                              backgroundColor: "#fff",
+                              height: "40px",
+                              width: "450px",
+                              "& .MuiSelect-select": {
+                                display: "flex",
+                                alignItems: "center",
+                              },
+                            }}
+                          >
+                            {/* Menu items */}
+                          </Select>
+                        </Grid>
+
+                        {/* Field 2 */}
+                        <Grid item xs={12} md={6}>
+                          <Typography sx={{ ...commonLabelStyle, mb: 1 }}>
+                            Observation | Open date
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            size="small"
+                            sx={{
+                              backgroundColor: "#fff",
+                              width: "450px",
+                              "& .MuiOutlinedInput-root": { height: "40px" },
+                            }}
+                          />
+                        </Grid>
+
+                        {/* Field 3 */}
+                        <Grid item xs={12} md={6}>
+                          <Typography sx={{ ...commonLabelStyle, mb: 1 }}>
+                            Non Compliance (NCR) category (Y/N)
+                          </Typography>
+                          <Select
+                            fullWidth
+                            size="small"
+                            sx={{
+                              backgroundColor: "#fff",
+                              height: "40px",
+                              width: "450px",
+                              "& .MuiSelect-select": {
+                                display: "flex",
+                                alignItems: "center",
+                              },
+                            }}
+                          >
+                            {/* Menu items */}
+                          </Select>
+                        </Grid>
+
+                        {/* Field 4 */}
+                        <Grid item xs={12} md={6}>
+                          <Typography sx={{ ...commonLabelStyle, mb: 1 }}>
+                            NCR Category Name
+                          </Typography>
+                          <Select
+                            fullWidth
+                            size="small"
+                            sx={{
+                              backgroundColor: "#fff",
+                              height: "40px",
+                              width: "450px",
+                              "& .MuiSelect-select": {
+                                display: "flex",
+                                alignItems: "center",
+                              },
+                            }}
+                          >
+                            <MenuItem>Select</MenuItem>
+                          </Select>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </CardSection>
+              </Box>
+
+              {/* Issue | Risk | Cost Recovery | Action Plan | Audit Recommendations */}
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Box mb={3}>
+                  <CardSection
+                    title="Issue | Risk | Cost Recovery | Action Plan | Audit Recommendations"
+                    showArrow
+                  >
+                    {/* <Box sx={{display:'grid'}}> */}
+
+                    <Grid container spacing={4}>
+                      {/* --- Group 1: Radio Groups --- */}
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                          }}
+                        >
+                          {/* Radio 1 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Observation | Issue Indicator (Y/N)
+                            </Typography>
+                            <RadioGroup
+                              row
+                              value={formData.issueIndicator}
+                              onChange={handleRadioChange("issueIndicator")}
+                              sx={{ gap: 2 }}
+                            >
+                              <FormControlLabel
+                                value="yes"
+                                control={<Radio size="small" />}
+                                label="Yes"
+                              />
+                              <FormControlLabel
+                                value="no"
+                                control={<Radio size="small" />}
+                                label="No"
+                              />
+                            </RadioGroup>
+                          </Box>
+
+                          {/* Radio 2 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Observation | Risk Indicator (Y/N)
+                            </Typography>
+                            <RadioGroup
+                              row
+                              value={formData.riskIndicator}
+                              onChange={handleRadioChange("riskIndicator")}
+                              sx={{ gap: 2 }}
+                            >
+                              <FormControlLabel
+                                value="yes"
+                                control={<Radio size="small" />}
+                                label="Yes"
+                              />
+                              <FormControlLabel
+                                value="no"
+                                control={<Radio size="small" />}
+                                label="No"
+                              />
+                            </RadioGroup>
+                          </Box>
+
+                          {/* Radio 3 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Observation | Cost Recovery Indicator (Y/N)
+                            </Typography>
+                            <RadioGroup
+                              row
+                              value={formData.costRecoveryIndicator}
+                              onChange={handleRadioChange(
+                                "costRecoveryIndicator"
+                              )}
+                              sx={{ gap: 2 }}
+                            >
+                              <FormControlLabel
+                                value="yes"
+                                control={<Radio size="small" />}
+                                label="Yes"
+                              />
+                              <FormControlLabel
+                                value="no"
+                                control={<Radio size="small" />}
+                                label="No"
+                              />
+                            </RadioGroup>
+                          </Box>
+                        </Box>
+                      </Grid>
+
+                      {/* --- Group 2: Date Pickers --- */}
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                          }}
+                        >
+                          {/* Date Picker 1 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Observation Due Date
+                            </Typography>
+                            <DatePicker
+                              value={formData.observationDueDate}
+                              onChange={handleDateChange("observationDueDate")}
+                              slotProps={{
+                                textField: { size: "small", fullWidth: false },
+                              }}
+                            />
+                          </Box>
+
+                          {/* Date Picker 2 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Expected Action Plan Closure Date
+                            </Typography>
+                            <DatePicker
+                              value={formData.expectedActionPlanDate}
+                              onChange={handleDateChange(
+                                "expectedActionPlanDate"
+                              )}
+                              slotProps={{
+                                textField: { size: "small", fullWidth: false },
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </Grid>
+
+                      {/* --- Group 3: Text Areas --- */}
+                      <Grid item xs={12}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                          }}
+                        >
+                          {/* TextArea 1 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "flex-start",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Issue | Risk Mitigation Action Plan
+                            </Typography>
+                            <TextField
+                              multiline
+                              rows={4}
+                              fullWidth
+                              value={formData.issueMitigationPlan}
+                              onChange={handleTextChange("issueMitigationPlan")}
+                            />
+                          </Box>
+
+                          {/* TextArea 2 */}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "flex-start",
+                              gap: 3,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                minWidth: "280px",
+                              }}
+                            >
+                              Audit Recommendations
+                            </Typography>
+                            <TextField
+                              multiline
+                              rows={4}
+                              fullWidth
+                              value={formData.auditRecommendations}
+                              onChange={handleTextChange(
+                                "auditRecommendations"
+                              )}
+                            />
+                          </Box>
+                        </Box>
+                      </Grid>
+                    </Grid>
+
+                    {/* </Box> */}
+                  </CardSection>
+                </Box>
+              </LocalizationProvider>
+
+
+              {/* Supporting Documents */}
+               <Box mb={2}>
+                              <CardSection
+                                title="Supporting Documents"
+                                showArrow
+                                headerActionLabel="+Add Document"
+                                onHeaderActionClick={() => setSupportingDocumentModal(true)}
+                              >
+                                <Box>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                      mb: 2,
+                                    }}
+                                  >
+                                    {/* Left Side */}
+                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                      <img
+                                        src={filterIconSvg}
+                                        alt=""
+                                        style={{ width: 13, height: 14, marginRight: 5 }}
+                                      />
+                                      <Typography
+                                        sx={{
+                                          color: "#061445",
+                                          fontWeight: 600,
+                                          fontSize: "14px",
+                                        }}
+                                      >
+                                        Filter By :
+                                      </Typography>
+                                      <TextField
+                                        placeholder="Search content"
+                                        size="small"
+                                        sx={{ ml: 1 }}
+                                      />
+                                    </Box>
+              
+                                    {/* Right Side */}
+                                  </Box>
+              
+                                  <Box sx={{ overflowX: "auto" }}>
+                                    <Box sx={{ minWidth: 800 }}>
+                                      <TableSection
+                                        headers={[
+                                          "MSA ID",
+                                          "DOCUMENT TYPE",
+                                          "DOCUMENT NAME",
+                                          "VERSION",
+                                          "DOCUMENT DATE",
+                                          "ATTACHMENTS",
+                                        ]}
+                                        rows={[]}
+                                        onRowClick={(row) => console.log("Row Click", row)}
+                                        onEdit={(row) => console.log("Edit", row)}
+                                        onDelete={(row) => console.log("Delete", row)}
+                                      />
+                                    </Box>
+                                  </Box>
+              
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      mt: 4, // margin top
+                                    }}
+                                  >
+                                    {/* Right side - Total count */}
+                                    <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                                      Total Count : {totalCount}
+                                    </Typography>
+              
+                                    {/* Left side - Pagination */}
+                                    {/* <Pagination
+                                      count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                                      page={currentPage}
+                                      onChange={(e, page) => setCurrentPage(page)}
+                                      size="small"
+                                    /> */}
+                                  </Box>
+                                </Box>
+                              </CardSection>
+                            </Box>
+
+
             </Box>
+
+            <Box
+                      sx={{
+                        borderTop: "1px solid #F3F3F3",
+                        backgroundColor: "#fff",
+                        px: 2,
+                        py: 2,
+                        boxShadow: "0px -2px 2px 0px #D3D6E14D",
+                      }}
+                    >
+                      <Box display="flex" justifyContent="flex-start" gap={2}>
+                        {/* {activeStep !== 0 && ( */}
+                          {/* // <Button */}
+                          {/* //   sx={{ */}
+                          {/* //     border: "1px solid #2268E9",
+                          //     fontSize: "13px",
+                          //     fontWeight: 400,
+                          //     backgroundColor: "#FFFFFF",
+                          //     color: "#2268E9",
+                          //     borderRadius: "6px",
+                          //   }}
+                          //   onClick={handleBack} */}
+                          {/* // > */}
+                          {/* //   {"<"} Previous */}
+                          {/* // </Button> */}
+                        {/* // )} */}
+            
+                        <Button
+                          sx={{
+                            fontSize: "13px",
+                            fontWeight: 400,
+                            backgroundColor: "#2268E9",
+                            color: "#FFFFFF",
+                            borderRadius: "6px",
+                            textTransform: "none",
+                          }}
+                          onClick={handleNext}
+                        >
+                          Save Observation
+                        </Button>
+                        <Button
+                          sx={{
+                            border: "1px solid #E5E5E5",
+                            fontSize: "13px",
+                            fontWeight: 400,
+                            backgroundColor: "#FFFFFF",
+                            color: "#061445",
+                            borderRadius: "6px",
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </Box>
+                    </Box>
 
             {/* Footer */}
             {/* <Box

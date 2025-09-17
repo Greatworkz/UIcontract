@@ -43,7 +43,7 @@ const tabRoutes = [
   { label: "Financial", path: "/financial" },
   { label: "Compliance", path: "/compliance" },
   { label: "Analytics", path: "/analytics" },
-  // { label: "AuditPlan", path: "/auditplan" },
+  { label: "Audit Observation UI", path: "/issue" },
 ];
 
 const CustomNavbar = () => {
@@ -57,9 +57,20 @@ const CustomNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentTabIndex = tabRoutes.findIndex((route) =>
-    location.pathname.startsWith(route.path)
-  );
+// In CustomNavbar component:
+const currentTabIndex = tabRoutes.findIndex((route) => {
+  // Match direct path
+  if (location.pathname.startsWith(route.path)) return true;
+
+  // Match included extra paths
+  if (route.include?.some((p) => location.pathname.startsWith(p))) return true;
+
+  // Match submenu items
+  if (route.submenu?.some((item) => location.pathname.startsWith(item.path)))
+    return true;
+
+  return false;
+});
 
   const handleAuditsMenuOpen = (event, index) => {
     setAuditsAnchorEl(event.currentTarget);
