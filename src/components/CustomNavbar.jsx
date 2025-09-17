@@ -31,18 +31,26 @@ const tabRoutes = [
   { label: "Home", path: "/home" },
   { label: "Contracts", path: "/contracts", include: ["/contract/add"] },
   { label: "Obligations", path: "/obligations", include: ["/obligationView"] },
+  {
+    label: "Audits",
+    path: "/audits",
+    submenu: [
+      { label: "Audit Plan", path: "/auditplan" },
+      { label: "Audit Observation", path: "/auditobservation" },
+    ],
+  },
   { label: "Suppliers", path: "/suppliers" },
   { label: "Financial", path: "/financial" },
   { label: "Compliance", path: "/compliance" },
   { label: "Analytics", path: "/analytics" },
-  { label: "AuditPlan", path: "/auditplan" },
-
-
+  // { label: "AuditPlan", path: "/auditplan" },
 ];
 
 const CustomNavbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [auditsAnchorEl, setAuditsAnchorEl] = React.useState(null);
+  const [auditsTabIndex, setAuditsTabIndex] = React.useState(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -53,11 +61,32 @@ const CustomNavbar = () => {
     location.pathname.startsWith(route.path)
   );
 
+  const handleAuditsMenuOpen = (event, index) => {
+    setAuditsAnchorEl(event.currentTarget);
+    setAuditsTabIndex(index);
+  };
+
+  const handleAuditsMenuClose = () => {
+    setAuditsAnchorEl(null);
+    setAuditsTabIndex(null);
+  };
+
+  const handleSubmenuItemClick = (path) => {
+    navigate(path);
+    handleAuditsMenuClose();
+  };
+
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
   const handleTabChange = (event, newValue) => {
     const selectedRoute = tabRoutes[newValue]?.path;
-    if (selectedRoute) navigate(selectedRoute);
+    if (selectedRoute) {
+      if (selectedRoute === "/audits") {
+        // Don't navigate if it's the Audits tab (we'll handle via submenu)
+        return;
+      }
+      navigate(selectedRoute);
+    }
   };
   const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
 
@@ -241,9 +270,53 @@ const CustomNavbar = () => {
             }}
           >
             {tabRoutes.map((tab, index) => (
-              <Tab key={index} label={tab.label} disableRipple />
+              <Tab
+                key={index}
+                label={
+                  tab.submenu ? (
+                    <Box
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAuditsMenuOpen(e, index);
+                      }}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      {tab.label}
+                      <ExpandMoreIcon fontSize="small" sx={{ ml: 0.5 }} />
+                    </Box>
+                  ) : (
+                    tab.label
+                  )
+                }
+                disableRipple
+              />
             ))}
           </Tabs>
+
+          <Menu
+            anchorEl={auditsAnchorEl}
+            open={Boolean(auditsAnchorEl)}
+            onClose={handleAuditsMenuClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            {auditsTabIndex !== null &&
+              tabRoutes[auditsTabIndex].submenu.map((item, i) => (
+                <MenuItem
+                  key={i}
+                  onClick={() => handleSubmenuItemClick(item.path)}
+                  selected={location.pathname.startsWith(item.path)}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
+          </Menu>
         </AppBar>
       )}
     </>

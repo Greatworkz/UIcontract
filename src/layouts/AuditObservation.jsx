@@ -25,7 +25,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HeaderTabSection from "../components/HeaderTabSection";
 import filterIconSvg from "../assets/icons/filter.svg";
 import DateRangeInput from "../components/DateRange";
-import { getAuditPlanListApi } from "../Apis/ApiConfig";
+import { getAuditObservationListApi } from "../Apis/ApiConfig";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -43,7 +43,7 @@ const commonLabelStyle = {
   marginBottom: "7px",
 };
 
-const AuditPlan = () => {
+const AuditObservation = () => {
   const [tab, setTab] = React.useState("All");
   const navigate = useNavigate();
   const handleTabChange = (event, newValue) => {
@@ -52,7 +52,7 @@ const AuditPlan = () => {
 
   // const filteredContracts =
   //   tab === "All" ? mockContracts : mockContracts.filter((c) => c.status === tab);
-  const [auditplanlist, setAuditplanlist] = useState([]);
+  const [auditobservationlist, setAuditObservationlist] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const rowsPerPage = 10;
   const [loading, setLoading] = useState(false);
@@ -84,16 +84,16 @@ const AuditPlan = () => {
 
   }
 
-  const fetchContracts = async () => {
+  const fetchAuditObservation = async () => {
     setLoading(true);
     try {
-      const response = await getAuditPlanListApi({
+      const response = await getAuditObservationListApi({
         status: tab !== "All" ? tab : undefined,
         page: currentPage,
         limit: rowsPerPage,
       });
       console.log("API Response:", response);
-      setAuditplanlist(response); // adjust based on actual API response shape
+      setAuditObservationlist(response); // adjust based on actual API response shape
       setTotalCount(response.totalCount || response.length);
     } catch (err) {
       console.error("Failed to fetch contracts", err);
@@ -103,25 +103,25 @@ const AuditPlan = () => {
   };
 
   useEffect(() => {
-    fetchContracts();
+    fetchAuditObservation();
   }, [tab, currentPage]);
 
   // const filteredContracts = contractList; // directly use API-loaded data
   const filteredAuditPlan =
     tab === "All"
-      ? auditplanlist
-      : auditplanlist.filter((c) => c.Status === tab);
+      ? auditobservationlist
+      : auditobservationlist.filter((c) => c.Status === tab);
 
   console.log("Filtered Audit Plan:", filteredAuditPlan);
 
   return (
     <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
       <HeaderTabSection
-        title="Audit Plans"
+        title="Audit Observation"
         tab={tab}
         handleTabChange={handleTabChange}
         onAddNew={() => setAuditmodalOpen(true)}
-        btnTitle="+ New Audit Plan"
+        // btnTitle="+ New Audit Plan"
       />
 
       <Container maxWidth="xxl">
@@ -251,19 +251,20 @@ const AuditPlan = () => {
           <Box sx={{ overflowX: "auto" }}>
             <TableSection
               headers={[
-                "Customer Name",
                 "Audit plan Code",
-                "Audit Plan Title",
-                "Supplier Name",
+                "Audit plan Title",
                 "MSA Code",
+                "Customer Name",
+                "Supplier Name",
+                "Project Name",
                 "Duration",
-                "Status",
+                "Status"
               ]}
               rows={filteredAuditPlan}
               loading={loading}
-              onRowClick={(row) => navigate(`/auditplan/edit/${row.id}`)}
-              onEdit={(row) => console.log("Edit", row)}
-              onDelete={(row) => console.log("Delete", row)}
+              onRowClick={(row) => navigate(`/auditobservation/edit/${row.id}`)}
+            //   onEdit={(row) => console.log("Edit", row)}
+            //   onDelete={(row) => console.log("Delete", row)}
             />
           </Box>
 
@@ -427,4 +428,4 @@ const AuditPlan = () => {
   );
 };
 
-export default AuditPlan;
+export default AuditObservation;

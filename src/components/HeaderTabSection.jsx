@@ -106,9 +106,11 @@ const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle }) =
           }}
         >
           <Tab label="All" value="All" />
+          {title === 'Audit Observation' &&  <Tab label="Pending" value="Pending" /> }
           <Tab label="Active" value="Active" />
           <Tab label="Completed" value="Completed" />
           <Tab label="Terminated" value="Terminated" />
+          
         </Tabs>
       </Box>
     </Box>
