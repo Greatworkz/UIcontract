@@ -24,7 +24,7 @@ const ContractForm = ({ open, handleClose }) => {
   const navigate = useNavigate();
   const snackbar = useSnackbar();
   const [formData, setFormData] = useState({
-    customerName: "",
+    customerName: "", 
     supplierName: "",
     msaCode: "",
     msaTitle: "",
