@@ -187,7 +187,7 @@ export const getContractDetails = async () => {
   let data = {
     customer_name: "ALG Glibal Limited",
     extraction_code: "NDA-2025-05-022-013",
-    uploaded_file: "Audit Basic Test",
+    uploaded_file: "NDA-2025-05-022-013",
     uploaded_on: "04/06/2025 03:33:24",
     document_type: "Non-Disclosure Agreements",
     start_date: "23/06/2025",

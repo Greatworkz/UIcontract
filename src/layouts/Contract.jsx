@@ -19,6 +19,7 @@ import {
   IconButton,
   Divider,
   Button,
+  Menu,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
@@ -35,7 +36,7 @@ const commonLabelStyle = {
   minWidth: "100px", // 👈 fixed width for alignment
   flexShrink: 0,
   whiteSpace: "nowrap",
-  marginBottom: '7px'
+  marginBottom: "7px",
 };
 
 const ContractList = () => {
@@ -54,7 +55,7 @@ const ContractList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [openContractForm, setOpenContractForm] = useState(false);
-
+  
   const fetchContracts = async () => {
     setLoading(true);
     try {
@@ -71,19 +72,16 @@ const ContractList = () => {
       setLoading(false);
     }
   };
-  
+
 
 
   useEffect(() => {
     fetchContracts();
   }, [tab, currentPage]);
 
- 
-
   // const filteredContracts = contractList; // directly use API-loaded data
   const filteredContracts =
     tab === "All" ? contractList : contractList.filter((c) => c.Status === tab);
-
 
   return (
     <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
@@ -93,7 +91,12 @@ const ContractList = () => {
         handleTabChange={handleTabChange}
         onAddNew={() => setOpenContractForm(true)}
         btnTitle="+ Add New Contract"
+        menuItems={[
+          { label: "Import Contract", onClick: () => navigate("/contractform/import")  },
+        ]}
       />
+
+     
 
       <Container maxWidth="xxl">
         <CardSection>
@@ -262,8 +265,10 @@ const ContractList = () => {
       </Container>
 
       <Box>
-        <ContractForm  open={openContractForm}
-        handleClose={() => setOpenContractForm(false)}></ContractForm>
+        <ContractForm
+          open={openContractForm}
+          handleClose={() => setOpenContractForm(false)}
+        ></ContractForm>
       </Box>
     </Box>
   );

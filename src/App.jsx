@@ -14,6 +14,7 @@ import AuditPlanAddEdit from "./layouts/AuditPlanAddEdit";
 import AuditObservation from "./layouts/AuditObservation";
 import AuditObservationAddEdit from "./layouts/AuditObservationAddEdit";
 import AuditObservationCheck from "./layouts/AuditObservationCheck";
+import ContarctImportForm from "./layouts/ContarctImportForm";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/contracts" element={<ContractList />} />
           <Route path="/contract/add" element={<ContractAddEdit />} />
           <Route path="/contract/edit/:id" element={<ContractAddEdit />} />
+          <Route path="/contractform/import" element={<ContarctImportForm />} />
           <Route path="/auditplan" element={<AuditPlan />} />
           <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />
           <Route path='/auditobservation' element={<AuditObservation />} /> 

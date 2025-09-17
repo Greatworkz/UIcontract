@@ -1,7 +1,19 @@
-import React from "react";
-import { Box, Typography, Tabs, Tab, Button } from "@mui/material";
+import React,{useState} from "react";
+import { Box, Typography, Tabs, Tab, Button,Menu,MenuItem } from "@mui/material";
+import MoreIcon from "../assets/oblication-icon/moreIcon.svg"; 
+const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle,menuItems = [], }) => {
 
-const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const DropDown = Boolean(anchorEl);
+
+  const DropDownOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const DropDownClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ mb: 3 }}>
       {/* Title + Button Row */}
@@ -31,7 +43,8 @@ const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle }) =
           {title}
         </Typography>
 
-        {/* Right Side Button */}
+        <Box display="flex" gap={1} justifyContent="flex-end">
+          {/* Right Side Button */}
         {btnTitle && (
           <Button
             variant="contained"
@@ -54,6 +67,48 @@ const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle }) =
             {btnTitle}
           </Button>
         )}
+        
+        {/* More Icon Dropdown */}
+        {menuItems.length > 0 && (
+            <>
+              <Button
+                size="small"
+                variant="outlined"
+                sx={{
+                  borderRadius: "6px",
+                  border: "1px solid #E5E5E5",
+                  textTransform: "none",
+                  minWidth: "auto",
+                  padding: "9px",
+                }}
+                onClick={DropDownOpen}
+              >
+                <img src={MoreIcon} alt="icon" style={{ width: "100%", height: "100%" }} />
+              </Button>
+
+              <Menu anchorEl={anchorEl} open={DropDown} onClose={DropDownClose}>
+                {menuItems.map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      item.onClick();
+                      DropDownClose();
+                    }}
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      color: "#000000",
+                      "&:hover": { backgroundColor: "#fff ", color: "#2268E9" },
+                    }}
+                  >
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
+          )}
+        </Box>
       </Box>
 
       {/* Tabs Section */}

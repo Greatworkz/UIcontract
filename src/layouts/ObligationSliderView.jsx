@@ -159,12 +159,11 @@ const ObligationSliderView = ({ open, onClose, page }) => {
           page.sections.map((section, index) => {
             const detailItems = [
               {
-                label: "Accountability",
+                label: "MSA | SOW | Schedule #",
                 value: section.accountability || "--",
               },
-              { label: "Severity", value: section.severity || "--" },
-              { label: "Frequency", value: section.frequency || "--" },
-              { label: "Deliverable", value: section.deliverable || "--" },
+              { label: "Section #", value: section.severity || "--" },
+              { label: "Clause #", value: section.frequency || "--" },
             ];
 
             return (

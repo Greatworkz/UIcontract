@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -25,7 +25,8 @@ import {
   Toolbar,
   InputBase,
   Checkbox,
-  FormControlLabel,Menu,
+  FormControlLabel,
+  Menu,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -88,7 +89,7 @@ const adornmentRightStyle = {
   },
   "& .MuiInputAdornment-root": {
     backgroundColor: "#F7F7FF",
-    padding: "16px",
+    padding: "18px",
     display: "flex",
     alignItems: "center",
     fontSize: "14px",
@@ -262,6 +263,16 @@ const ContractAddEdit = () => {
       setLoading(false);
     }
   };
+
+  // Deliverable Model Function
+  const [currency, setCurrency] = useState("USD");
+
+  // Currency symbols
+  const currencySymbols = {
+    USD: "$",
+    INR: "₹",
+    EUR: "€",
+  };
   return (
     <Box>
       <Box display="flex" flexDirection="column">
@@ -359,60 +370,55 @@ const ContractAddEdit = () => {
               </Box>
             </Box>
             <Box display="flex" gap={1} justifyContent="flex-end" mt={1}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    width: "fit-content",
-                    borderRadius: "6px",
-                    border: "1px solid #E5E5E5",
-                    opacity: 1,
-                    textTransform: "none",
-                    fontWeight: 400,
-                    color: "#000000",
-                    minWidth: "auto",
-                    padding: "9px",
-                  }}
-                  onClick={DropDownOpen}
-                >
-                  <img
-                    src={MoreIcon}
-                    alt="icon"
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                sx={{
+                  width: "fit-content",
+                  borderRadius: "6px",
+                  border: "1px solid #E5E5E5",
+                  opacity: 1,
+                  textTransform: "none",
+                  fontWeight: 400,
+                  color: "#000000",
+                  minWidth: "auto",
+                  padding: "9px",
+                }}
+                onClick={DropDownOpen}
+              >
+                <img
+                  src={MoreIcon}
+                  alt="icon"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Button>
 
-                <Menu
-                  anchorEl={anchorEl}
-                  open={DropDown}
-                  onClose={DropDownClose}
+              <Menu anchorEl={anchorEl} open={DropDown} onClose={DropDownClose}>
+                <MenuItem
+                  onClick={() => {
+                    setOpenContractForm(true);
+                    DropDownClose();
+                  }}
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: 500,
+                    fontStyle: "normal",
+                    fontSize: "14px",
+                    lineHeight: "100%",
+                    letterSpacing: "0px",
+                    verticalAlign: "middle",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#2268E9",
+                      color: "#fff",
+                    },
+                  }}
                 >
-                  <MenuItem
-                    onClick={() => {
-                       setOpenContractForm(true)
-                      DropDownClose();
-                    }}
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: 500,
-                      fontStyle: "normal",
-                      fontSize: "14px",
-                      lineHeight: "100%",
-                      letterSpacing: "0px",
-                      verticalAlign: "middle",
-                      color: "#000000",
-                      "&:hover": {
-                        backgroundColor: "#2268E9",
-                        color: "#fff",
-                      },
-                    }}
-                  >
-                    Edit
-                  </MenuItem>
-                </Menu>
-              </Box>
+                  Edit
+                </MenuItem>
+              </Menu>
+            </Box>
           </Box>
-          
         </Box>
       </Box>
       <Box>
@@ -734,7 +740,9 @@ const ContractAddEdit = () => {
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
-                      <Typography sx={commonLabelStyle}>Audit Plan Code</Typography>
+                      <Typography sx={commonLabelStyle}>
+                        Audit Plan Code
+                      </Typography>
                       <Typography sx={commonValueStyle}>
                         {msaInfo.sowCode}
                       </Typography>
@@ -807,7 +815,6 @@ const ContractAddEdit = () => {
             </Box>
           )}
 
-          
           {activeStep === 1 && (
             <Box>
               <Box mb={3}>
@@ -1851,7 +1858,6 @@ const ContractAddEdit = () => {
         open={BussinessCaseModalOpen}
         onClose={() => setBussinessCaseModalOpen(false)}
       >
-
         <Box sx={{ px: 3.5, py: 3.5 }}>
           <Typography
             sx={{
@@ -1922,7 +1928,7 @@ const ContractAddEdit = () => {
               color: "#061445",
             }}
           >
-            Investment
+            Business Investment projection
           </Typography>
 
           <Box mb={3} mt={3} display="flex" alignItems="center" flexWrap="wrap">
@@ -2050,6 +2056,123 @@ const ContractAddEdit = () => {
 
           <Divider
             sx={{
+              borderStyle: "dashed",
+              borderColor: "#DCDCEF",
+              borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+            Business Projection
+          </Typography>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Total one time investiment
+            </Typography>
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    $
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Recurring cost over years
+            </Typography>
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    $
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Total investment
+            </Typography>
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    $
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Nett.Quantified Benfits
+            </Typography>
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    $
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Net Present Value
+            </Typography>
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                    $
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+
+          <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle, width: "200px" }}>
+              Internal Rate of return
+            </Typography>
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "250px" }}
+              InputProps={{
+                disableUnderline: true,
+                endAdornment: (
+                  <InputAdornment position="end" sx={{ bgcolor: "#F7F7FF" }}>
+                    %
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+
+          <Divider
+            sx={{
               borderStyle: "solid",
               borderColor: "#DCDCEF",
               // borderWidth: "1px",
@@ -2147,12 +2270,28 @@ const ContractAddEdit = () => {
             </Typography>
             <TextField fullWidth placeholder="" value="" />
           </Box>
+
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
+            
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
               Milestone Amount
             </Typography>
-            <TextField fullWidth placeholder="" value="" />
+            <TextField
+              onChange={() => {}}
+              sx={{ ...adornmentRightStyle, width: "280px" }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ bgcolor: "#F7F7FF" }}>
+                     USD
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            
           </Box>
+
           <Box mb={3} mt={3} display="flex" alignItems="center" gap={4}>
             <Typography sx={{ ...commonLabelStyle, width: "150px" }}>
               Due Date
@@ -2225,107 +2364,107 @@ const ContractAddEdit = () => {
         <Box sx={{ display: "flex", height: "100%" }}>
           {/* Left: PDF Preview */}
           <Box
-      sx={{
-        flex: 1,
-        bgcolor: "#f5f5f5",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {/* Header */}
-      <Box
-        sx={{
-          p: 2,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          boxShadow: "0px 2px 4px 0px #00000040",
-        }}
-      >
-        <span style={{ fontWeight: 500, fontSize: 16 }}>
-          {fileUrl ? fileUrl.split("/").pop() : "No Document Selected"}
-        </span>
-
-        <Typography
-          sx={{
-            cursor: "pointer",
-            fontSize: 16,
-            fontWeight: 500,
-            color: "#2268E9",
-            "&:hover": { textDecoration: "underline" },
-          }}
-          onClick={handleAddDocumentClick}
-        >
-          Add Document
-          <img
-            src={DeleteSvg}
-            alt=""
-            style={{
-              width: 11,
-              height: 13,
-              marginLeft: 25,
-              display: "inline-block",
+            sx={{
+              flex: 1,
+              bgcolor: "#f5f5f5",
+              display: "flex",
+              flexDirection: "column",
             }}
-          />
-        </Typography>
+          >
+            {/* Header */}
+            <Box
+              sx={{
+                p: 2,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                boxShadow: "0px 2px 4px 0px #00000040",
+              }}
+            >
+              <span style={{ fontWeight: 500, fontSize: 16 }}>
+                {fileUrl ? fileUrl.split("/").pop() : "No Document Selected"}
+              </span>
 
-        {/* Hidden File Input */}
-        <input
-          type="file"
-          accept="application/pdf,image/*"
-          style={{ display: "none" }}
-          ref={fileInputRef}
-          onChange={handleFileChange}
-        />
-      </Box>
+              <Typography
+                sx={{
+                  cursor: "pointer",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: "#2268E9",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+                onClick={handleAddDocumentClick}
+              >
+                Add Document
+                <img
+                  src={DeleteSvg}
+                  alt=""
+                  style={{
+                    width: 11,
+                    height: 13,
+                    marginLeft: 25,
+                    display: "inline-block",
+                  }}
+                />
+              </Typography>
 
-      {/* Main Content */}
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "auto",
-          p: 2,
-        }}
-      >
-        {fileUrl?.endsWith(".pdf") ? (
-          <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} width={500} />
-          </Document>
-        ) : (
-          <img
-            src={fileUrl}
-            alt="Preview"
-            style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain",
-            }}
-          />
-        )}
-      </Box>
+              {/* Hidden File Input */}
+              <input
+                type="file"
+                accept="application/pdf,image/*"
+                style={{ display: "none" }}
+                ref={fileInputRef}
+                onChange={handleFileChange}
+              />
+            </Box>
 
-      {/* Footer */}
-      <Box
-        sx={{
-          p: 1.5,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 2,
-          boxShadow: "0px -1px 4px 0px #00000040",
-          backgroundColor: "#fff",
-        }}
-      >
-        <Typography
-          sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
-        >
-          PDF Viewer Controls
-        </Typography>
-      </Box>
-    </Box>
+            {/* Main Content */}
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "auto",
+                p: 2,
+              }}
+            >
+              {fileUrl?.endsWith(".pdf") ? (
+                <Document file={fileUrl} onLoadSuccess={onDocumentLoadSuccess}>
+                  <Page pageNumber={pageNumber} width={500} />
+                </Document>
+              ) : (
+                <img
+                  src={fileUrl}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              )}
+            </Box>
+
+            {/* Footer */}
+            <Box
+              sx={{
+                p: 1.5,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                boxShadow: "0px -1px 4px 0px #00000040",
+                backgroundColor: "#fff",
+              }}
+            >
+              <Typography
+                sx={{ color: "#DCDCDC", fontSize: "16px", fontWeight: 500 }}
+              >
+                PDF Viewer Controls
+              </Typography>
+            </Box>
+          </Box>
 
           {/* Right: Form */}
 
@@ -2517,7 +2656,6 @@ const ContractAddEdit = () => {
           </Box>
         </Box>
       </Dialog>
-
 
       <ContractForm
         open={openContractForm}
