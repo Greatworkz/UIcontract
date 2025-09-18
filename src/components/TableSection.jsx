@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 // Status color logic
 const getStatusColor = (status) => {
@@ -35,6 +36,7 @@ const TableSection = ({
   rows = [],
   onEdit,
   onDelete,
+  onView,
   onRowClick,
 }) => {
   if (!Array.isArray(headers) || !Array.isArray(rows)) return null;
@@ -77,7 +79,7 @@ const TableSection = ({
                 {header}
               </TableCell>
             ))}
-            {(onEdit || onDelete) && (
+            {(onEdit || onDelete || onView) && (
               <TableCell sx={{ fontWeight: "bold", py: 2, px: 2 }}>
                 Actions
               </TableCell>
@@ -89,7 +91,7 @@ const TableSection = ({
           {rows.length === 0 ? (
             <TableRow>
               <TableCell
-                colSpan={headers.length + (onEdit || onDelete ? 1 : 0)}
+                colSpan={headers.length + (onEdit || onDelete || onView ? 1 : 0)}
                 sx={{ fontSize: "13px" }}
               >
                 <Typography
@@ -153,7 +155,7 @@ const TableSection = ({
                   );
                 })}
 
-                {(onEdit || onDelete) && (
+                {(onEdit || onDelete || onView) && (
                   <TableCell align="left" sx={{ py: 1, px: 2 }}>
                     <Box sx={{ display: "flex", gap: 1 }}>
                       {onEdit && (
@@ -167,6 +169,19 @@ const TableSection = ({
                           <EditIcon fontSize="small" />
                         </IconButton>
                       )}
+                      
+                      {onView && (
+                        <IconButton
+                        color="primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onView(row);
+                        }}
+                      >
+                        <RemoveRedEyeIcon fontSize="small" />
+                      </IconButton>
+                      )}
+
                       {onDelete && (
                         <IconButton
                           color="error"
@@ -178,6 +193,8 @@ const TableSection = ({
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       )}
+
+                      
                     </Box>
                   </TableCell>
                 )}

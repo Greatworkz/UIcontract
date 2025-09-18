@@ -171,10 +171,10 @@ export const getObligationSummary = async (id: any) => {
   // const response = await axios.get(API_URL,);
   // return response.data;
   return [
-    { label: "Total Attachments", value: '05' },
-    { label: "Total Classes", value: '34' },
-    { label: "Confidence", value: '14' },
-    { label: "Total Pages", value: '36' },
+    { label: "Total Attachments", value: "05" },
+    { label: "Total Classes", value: "34" },
+    { label: "Confidence", value: "14" },
+    { label: "Total Pages", value: "36" },
   ];
 };
 
@@ -297,9 +297,34 @@ export const GetsObligationChartData = async () => {
     { label: "Highly Confidence", value: 45, color: "#dc3545" },
     { label: "Confidence", value: 35, color: "#ffc107" },
   ];
-};  
+};
 
 // ---------------------*** Contract Page Api List ***--------------------------------------
+// Contract Doucment List Api
+export const GetContractDocumentList = async () => {
+  const API_URL = `${BaseUrl}/contract/documentList`;
+  // const response = await axios.get(API_URL);
+  // return response.data;
+  return [
+    {
+      customerName: "AGL GLobal Limmited",
+      supplierName: "Sattas SE",
+      sowId: "AGL-GLOBAL-SOW-AMD-1000-1",
+      schedule: "",
+      sch: "",
+      documentName: "Contract Terms & Conditons",
+    },
+    {
+      customerName: "AGL GLobal Limmited",
+      supplierName: "Sattas SE",
+      sowId: "AGL-GLOBAL-SOW-AMD-1000-1",
+      schedule: "",
+      sch: "",
+      documentName: "IT Audit Policy Document",
+
+    },
+  ];
+};
 // Get Obligation List Api
 export const getContractListApi = async (params: any) => {
   const API_URL = `${BaseUrl}/contract/list`;
@@ -417,18 +442,28 @@ export const getAuditPlanListApi = async (params: any) => {
     // return response.data;
     return [
       {
-        "Customer Name": 'ALG Glbal Limited', "Audit plan Code": 'AUDIT 0021', "Audit Plan Title": 'Audit basic info', "Supplier Name": "NGTS", "MSA Code": 'NDA-2025-05-022-001',"Duration":'10/01/2025-10/01/2025',"Status": 'Active'
+        "Customer Name": "ALG Glbal Limited",
+        "Audit plan Code": "AUDIT 0021",
+        "Audit Plan Title": "Audit basic info",
+        "Supplier Name": "NGTS",
+        "MSA Code": "NDA-2025-05-022-001",
+        Duration: "10/01/2025-10/01/2025",
+        Status: "Active",
       },
       {
-        "Customer Name": 'XYZ Corporation', "Audit plan Code": 'AUDIT 0034', "Audit Plan Title": 'Comprehensive Audit Plan', "Supplier Name": "Tech Solutions", "MSA Code": 'MSA-2024-11-015-002',"Duration":'15/02/2025-15/08/2025',"Status": 'Completed'
+        "Customer Name": "XYZ Corporation",
+        "Audit plan Code": "AUDIT 0034",
+        "Audit Plan Title": "Comprehensive Audit Plan",
+        "Supplier Name": "Tech Solutions",
+        "MSA Code": "MSA-2024-11-015-002",
+        Duration: "15/02/2025-15/08/2025",
+        Status: "Completed",
       },
-     
     ];
   } catch (error) {
     throw error;
   }
-}
-
+};
 
 export const getAuditObservationListApi = async (params: any) => {
   const API_URL = `${BaseUrl}/auditobservation/list`;
@@ -437,14 +472,26 @@ export const getAuditObservationListApi = async (params: any) => {
     // return response.data;
     return [
       {
-        "Audit plan Code": 'AUDIT-0021', "Audit plan Title": 'Audit Basic Info', "MSA Code": 'NDA-2025-05-022-001', "Customer Name": "ALG Global Limited", "Supplier Name": 'SATTAS SE',"Project Name":'IT ADM Services',"Duration":"10/01/2025-10/01/2025","Status": 'Active'
+        "Audit plan Code": "AUDIT-0021",
+        "Audit plan Title": "Audit Basic Info",
+        "MSA Code": "NDA-2025-05-022-001",
+        "Customer Name": "ALG Global Limited",
+        "Supplier Name": "SATTAS SE",
+        "Project Name": "IT ADM Services",
+        Duration: "10/01/2025-10/01/2025",
+        Status: "Active",
       },
       {
-        "Customer Name": 'XYZ Corporation', "Audit plan Code": 'AUDIT 0034', "Audit Plan Title": 'Comprehensive Audit Plan', "Supplier Name": "Tech Solutions", "MSA Code": 'MSA-2024-11-015-002',"Duration":'15/02/2025-15/08/2025',"Status": 'Completed'
+        "Customer Name": "XYZ Corporation",
+        "Audit plan Code": "AUDIT 0034",
+        "Audit Plan Title": "Comprehensive Audit Plan",
+        "Supplier Name": "Tech Solutions",
+        "MSA Code": "MSA-2024-11-015-002",
+        Duration: "15/02/2025-15/08/2025",
+        Status: "Completed",
       },
-     
     ];
   } catch (error) {
     throw error;
   }
-}
+};

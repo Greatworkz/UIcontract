@@ -27,12 +27,17 @@ import {
   Checkbox,
   FormControlLabel,
   Menu,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
 import ArrowSvg from "../assets/oblication-icon/arrow.svg";
 import personSvg from "../assets/icons/person.svg";
-import { getContractDetails } from "../Apis/ApiConfig";
+import { getContractDetails, GetContractDocumentList } from "../Apis/ApiConfig";
 import filterIconSvg from "../assets/icons/filter.svg";
 import EditSvg from "../assets/icons/edit.svg";
 import ModalSection from "../components/ModalSection";
@@ -47,6 +52,9 @@ import MoreIcon from "../assets/oblication-icon/moreIcon.svg";
 import ContractForm from "./ContractForm";
 import SingleDatePicker from "../components/SingleDatePicker";
 import FileUploadSection from "./fileuploadSection";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DownloadIcon from "@mui/icons-material/Download";
+import { useSnackbar } from "../utils/snackbar";
 
 const steps = [
   "Select Project SOW",
@@ -119,8 +127,6 @@ const CompactInputs = {
   },
 };
 
-
-
 const ColorConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -174,6 +180,7 @@ const ContractAddEdit = () => {
     sowProjectName: "IT ADM - ADS Service for US & UE" || "--",
   });
   const rowsPerPage = 10;
+  const snackbar = useSnackbar();
   const [loading, setLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -188,6 +195,7 @@ const ContractAddEdit = () => {
 
   const [DocumentModalopen, setDocumentModal] = useState(false);
   const [DocumentViewModalopen, setDocumentViewModal] = useState(false);
+  const [DocumentListDetails, setDocumentListDetails] = useState(null);
   const [fileUrl, setFileUrl] = useState(""); // default PDF
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(null);
@@ -255,6 +263,7 @@ const ContractAddEdit = () => {
   useEffect(() => {
     // if (!contractId) return;
     fetchData();
+    GetDocumentList();
   }, []);
 
   const fetchData = async () => {
@@ -262,6 +271,26 @@ const ContractAddEdit = () => {
       setLoading(true);
       const contractResult = await getContractDetails();
       setContractData(contractResult);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const GetDocumentList = async () => {
+    try {
+      setLoading(true);
+      const DocumentListResult = await GetContractDocumentList();
+      const mappedData = DocumentListResult.map((doc) => ({
+        CUSTOMER: doc.customerName || "N/A",
+        SUPPLIER: doc.supplierName || "N/A",
+        SOW: doc.sowId || "-",
+        SCHEDULE: doc.schedule || "-",
+        SCHEDULE_2: doc.sch || "-",
+        DOCUMENT_NAME: doc.documentName || "-",
+      }));
+      setDocumentListDetails(mappedData);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -286,7 +315,19 @@ const ContractAddEdit = () => {
     console.log("Uploaded files:", files);
     // you can send them to API or store in state here
   };
-  
+
+  const UploadDocument = async () => {
+    snackbar.success("Data saved successfully!");
+    handleClose();
+  }
+
+  // Get Documentment Image
+  const documentsImg = [
+    { name: "Business Doc 1.jpg", url: "/files/doc1.jpg" },
+    { name: "Business Doc 2.pdf", url: "/files/doc2.pdf" },
+    { name: "Business Doc 3.pdf", url: "/files/doc3.pdf" },
+  ];
+
   return (
     <Box>
       <Box display="flex" flexDirection="column">
@@ -1410,9 +1451,9 @@ const ContractAddEdit = () => {
                             "SCHEDULE",
                             "DOCUMENT NAME",
                           ]}
-                          rows={[]}
+                          rows={DocumentListDetails}
                           onRowClick={(row) => console.log("Row Click", row)}
-                          onEdit={(row) => console.log("Edit", row)}
+                          onView={(row) => setDocumentViewModal(true)}
                           onDelete={(row) => console.log("Delete", row)}
                         />
                       </Box>
@@ -2781,9 +2822,7 @@ const ContractAddEdit = () => {
             </Grid>
 
             <Grid size={{ xs: 12, sm: 12, md: 12 }}>
-              <Typography sx={{ ...commonLabelStyle }}>
-              Attachments
-              </Typography>
+              <Typography sx={{ ...commonLabelStyle }}>Attachments</Typography>
               <FileUploadSection onFilesSelected={handleFilesSelected} />
             </Grid>
 
@@ -2809,6 +2848,8 @@ const ContractAddEdit = () => {
                     borderRadius: "6px",
                     textTransform: "none",
                   }}
+
+                  onClick={UploadDocument}
                 >
                   Save and Update
                 </Button>
@@ -2820,7 +2861,7 @@ const ContractAddEdit = () => {
                     backgroundColor: "#FFFFFF",
                     color: "#061445",
                   }}
-                  // onClick={() => setDeliverablemodalOpen(false)}
+                  onClick={handleClose}
                 >
                   Cancel
                 </Button>
@@ -2833,39 +2874,152 @@ const ContractAddEdit = () => {
       <ModalSection
         title="Supporting Documents"
         open={DocumentViewModalopen}
-        onClose={handleClose}
+        onClose={() => setDocumentViewModal(false)}
       >
-      <Box>
-        {/* <Grid container spacing={2} sx={{ p: 3 }}>
-         
-        </Grid> */}
-        <Box display="flex" justifyContent="flex-start" gap={2}>
-                <Button
-                  sx={{
-                    fontSize: "13px",
-                    fontWeight: 400,
-                    backgroundColor: "#2268E9",
-                    color: "#FFFFFF",
-                    borderRadius: "6px",
-                    textTransform: "none",
-                  }}
-                >
-                  Save and Update
-                </Button>
-                <Button
-                  sx={{
-                    border: "1px solid #E5E5E5",
-                    fontSize: "13px",
-                    fontWeight: 400,
-                    backgroundColor: "#FFFFFF",
-                    color: "#061445",
-                  }}
-                  onClick={() => setDocumentViewModal(false)}
-                >
-                  Cancel
-                </Button>
-              </Box>
-      </Box>
+        <Box sx={{ px: 3.5, py: 3.5 }}>
+          <Box mb={3} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle,width: '120px' }}>MSA ID</Typography>
+            <Typography sx={{ ...commonValueStyle }}>ALG -Glbal-MSA-10000</Typography>
+          </Box>
+
+          <Box mb={3} mt={1} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle,width: '120px' }}>Document type</Typography>
+            <Typography sx={{ ...commonValueStyle }}>Business Case</Typography>
+          </Box>
+
+          <Box mb={3} mt={1} display="flex" alignItems="center" gap={4}>
+            <Typography sx={{ ...commonLabelStyle,width: '120px' }}>Version</Typography>
+            <Typography sx={{ ...commonValueStyle }}>1.0</Typography>
+          </Box>
+
+          <Typography
+            sx={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 600,
+              fontSize: "14px",
+              lineHeight: "18px",
+              letterSpacing: 0,
+              verticalAlign: "middle",
+              color: "#061445",
+              marginTop: '5px'
+            }}
+          >
+            Attached Documents
+          </Typography>
+
+          <Box sx={{ overflowX: "auto" }} mt={2}>
+            <Box>
+              <Table
+                size="small"
+                sx={{
+                  width: "100%",
+                  minHeight: "100px",
+                  overflowX: "auto",
+                  borderTop: "1px solid #0A18290D",
+                  borderBottom: "1px solid #0A18290D",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  boxShadow: "none",
+                }}
+              >
+                <TableHead>
+                  <TableRow
+                    sx={{
+                      "& th": {
+                        backgroundColor: "#FAFAFB",
+                        color: "#60698F",
+                        fontWeight: 600,
+                        py: 1.5,
+                        px: 2,
+                        borderBottom: "1px solid #E0E0E0",
+                        textTransform: "uppercase",
+                        fontSize: "12px",
+                        letterSpacing: "0.15em",
+                      },
+                      borderTop: "1px solid #E0E0E0",
+                    }}
+                  >
+                    <TableCell>DOCUMENT NAME</TableCell>
+                    <TableCell>ACTION</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {documentsImg.map((doc, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "& td": {
+                          py: 1.5, // row padding
+                          px: 2,
+                          fontSize: "14px",
+                          fontWeight: 400,
+                        },
+                        "&:hover .action-links": { display: "inline-flex" }, // show links on hover
+                      }}
+                    >
+                      <TableCell>{doc.name}</TableCell>
+                      <TableCell>
+                        <Box
+                          className="action-links"
+                          sx={{
+                            display: "none",
+                            gap: 2,
+                            alignItems: "center",
+                            "& a": {
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "4px",
+                              color: "#0080FE",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              cursor: "pointer",
+                              textDecoration: "none",
+                              "&:hover": {
+                                textDecoration: "underline",
+                              },
+                            },
+                          }}
+                        >
+                          {/* View with Icon */}
+                          <a
+                            href={doc.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <VisibilityIcon fontSize="small" /> View
+                          </a>
+
+                          {/* Download with Icon */}
+                          <a href={doc.url} download={doc.name}>
+                            <DownloadIcon fontSize="small" /> Download
+                          </a>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Box>
+          
+
+          <Box display="flex" justifyContent="flex-start" gap={2} mt={2}>
+            <Button
+              sx={{
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#2268E9",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                textTransform: "none",
+              }}
+              onClick={() => setDocumentViewModal(false)}
+            >
+              Close
+            </Button>
+          </Box>
+        </Box>
       </ModalSection>
 
       <ContractForm
