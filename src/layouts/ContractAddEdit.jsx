@@ -314,7 +314,7 @@ const ContractAddEdit = () => {
   const handleFilesSelected = (files) => {
     console.log("Uploaded files:", files);
     // you can send them to API or store in state here
-  };
+  }
 
   const UploadDocument = async () => {
     snackbar.success("Data saved successfully!");

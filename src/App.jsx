@@ -13,7 +13,8 @@ import AuditPlan from "./layouts/AuditPlan";
 import AuditPlanAddEdit from "./layouts/AuditPlanAddEdit";
 import AuditObservation from "./layouts/AuditObservation";
 import AuditObservationAddEdit from "./layouts/AuditObservationAddEdit";
-import AuditObservationCheck from "./layouts/AuditObservationCheck";
+import AuditObservationIssueRisk from "./layouts/AuditObservationIssueRisk";
+// import AuditObservationCheck from "./layouts/AuditObservationCheck";
 import ContarctImportForm from "./layouts/ContarctImportForm";
 
 function App() {
@@ -39,8 +40,8 @@ function App() {
           <Route path="/auditplan" element={<AuditPlan />} />
           <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />
           <Route path='/auditobservation' element={<AuditObservation />} /> 
-          <Route path="/auditobservation/edit/:id" element={<AuditObservationCheck />} />
-          <Route path='/issue' element={<AuditObservationAddEdit />} /> 
+          <Route path="/auditobservation/edit/:id" element={<AuditObservationAddEdit />} />
+          <Route path='/auditObservation-issue' element={<AuditObservationIssueRisk />} /> 
 
 
 

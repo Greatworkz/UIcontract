@@ -43,7 +43,7 @@ const tabRoutes = [
   { label: "Financial", path: "/financial" },
   { label: "Compliance", path: "/compliance" },
   { label: "Analytics", path: "/analytics" },
-  { label: "Audit Observation UI", path: "/issue" },
+  // { label: "Audit Observation UI", path: "/issue" },
 ];
 
 const CustomNavbar = () => {
