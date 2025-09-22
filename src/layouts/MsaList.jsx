@@ -17,8 +17,9 @@ import filterIconSvg from "../assets/icons/filter.svg";
 import DateRangeInput from "../components/DateRange";
 import { getContractListApi } from "../Apis/ApiConfig";
 import ContractForm from "./ContractForm";
+import MSAForm from "./MsaForm";
 
-const ContractList = () => {
+const MSAList = () => {
   const [tab, setTab] = React.useState("All");
   const navigate = useNavigate();
   const handleTabChange = (event, newValue) => {
@@ -65,13 +66,13 @@ const ContractList = () => {
   return (
     <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
       <HeaderTabSection
-        title="Contract List"
+        title="MSA List"
         tab={tab}
         handleTabChange={handleTabChange}
         onAddNew={() => setOpenContractForm(true)}
-        btnTitle="+ Add New Contract"
+        btnTitle="+ Add New MSA"
         menuItems={[
-          { label: "Import Contract", onClick: () => navigate("/contractform/import")  },
+          { label: "Import MSA", onClick: () => navigate("/msaform/import")  },
         ]}
       />
 
@@ -213,7 +214,7 @@ const ContractList = () => {
               ]}
               rows={filteredContracts}
               loading={loading}
-              onRowClick={(row) => navigate(`/contract/edit/${row.id}`)}
+              onRowClick={(row) => navigate(`/msa/edit/${row.id}`)}
               onEdit={(row) => console.log("Edit", row)}
               onDelete={(row) => console.log("Delete", row)}
             />
@@ -244,13 +245,13 @@ const ContractList = () => {
       </Container>
 
       <Box>
-        <ContractForm
+        <MSAForm
           open={openContractForm}
           handleClose={() => setOpenContractForm(false)}
-        ></ContractForm>
+        ></MSAForm>
       </Box>
     </Box>
   );
 };
 
-export default ContractList;
+export default MSAList;

@@ -31,6 +31,9 @@ const tabRoutes = [
   { label: "Home", path: "/home" },
   { label: "Contracts", path: "/contracts", include: ["/contract/add"] },
   { label: "Obligations", path: "/obligations", include: ["/obligationView"] },
+  { label: "MSA", path: "/msa/list", include: ["/msa/add"] },
+  { label: "CR", path: "/cr/list", include: ["/cr/add"] },
+
   {
     label: "Audits",
     path: "/audits",

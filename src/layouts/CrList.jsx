@@ -16,9 +16,9 @@ import HeaderTabSection from "../components/HeaderTabSection";
 import filterIconSvg from "../assets/icons/filter.svg";
 import DateRangeInput from "../components/DateRange";
 import { getContractListApi } from "../Apis/ApiConfig";
-import ContractForm from "./ContractForm";
+import CRForm from "./CrForm";
 
-const ContractList = () => {
+const CRList = () => {
   const [tab, setTab] = React.useState("All");
   const navigate = useNavigate();
   const handleTabChange = (event, newValue) => {
@@ -65,13 +65,13 @@ const ContractList = () => {
   return (
     <Box sx={{ backgroundColor: "#F7F7F9", minHeight: "100vh" }}>
       <HeaderTabSection
-        title="Contract List"
+        title="CR List"
         tab={tab}
         handleTabChange={handleTabChange}
         onAddNew={() => setOpenContractForm(true)}
-        btnTitle="+ Add New Contract"
+        btnTitle="+ Add New CR"
         menuItems={[
-          { label: "Import Contract", onClick: () => navigate("/contractform/import")  },
+          { label: "Import CR", onClick: () => navigate("/crform/import")  },
         ]}
       />
 
@@ -213,7 +213,7 @@ const ContractList = () => {
               ]}
               rows={filteredContracts}
               loading={loading}
-              onRowClick={(row) => navigate(`/contract/edit/${row.id}`)}
+              onRowClick={(row) => navigate(`/cr/edit/${row.id}`)}
               onEdit={(row) => console.log("Edit", row)}
               onDelete={(row) => console.log("Delete", row)}
             />
@@ -244,13 +244,13 @@ const ContractList = () => {
       </Container>
 
       <Box>
-        <ContractForm
+        <CRForm
           open={openContractForm}
           handleClose={() => setOpenContractForm(false)}
-        ></ContractForm>
+        ></CRForm>
       </Box>
     </Box>
   );
 };
 
-export default ContractList;
+export default CRList;
