@@ -22,6 +22,11 @@ import MSAImportForm from "./layouts/MsaImportForm";
 import CRList from "./layouts/CrList";
 import CRAddEdit from "./layouts/CrAddEdit";
 import CRImportForm from "./layouts/CrImportForm";
+import CCNPlan from "./layouts/Ccnplan";
+import CCNObservation from "./layouts/CCNobservation";
+import CCNPlanAddEdit from "./layouts/CcnPlanAddEdit";
+import CCNObservationAddEdit from "./layouts/CCNObservationAddEdit";
+import CCNObservationIssueRisk from "./layouts/CCNObservationIssueRisk";
 
 function App() {
   return (
@@ -46,6 +51,17 @@ function App() {
           <Route path="/contract/add" element={<ContractAddEdit />} />
           <Route path="/contract/edit/:id" element={<ContractAddEdit />} />
           <Route path="/contractform/import" element={<ContarctImportForm />} />
+
+          {/* CCN */}
+          <Route path="/contracts/ccn/plan" element={<CCNPlan />} />
+          <Route path="/contracts/edit/:id" element={<CCNPlanAddEdit />} />
+          <Route path="/contracts/ccn/observation" element={<CCNObservation />} />
+          <Route path="/contracts/edit/:id" element={<CCNObservationAddEdit />} />
+          <Route path='/contracts-issue' element={<CCNObservationIssueRisk />} /> 
+
+
+
+          
 
           <Route path="/auditplan" element={<AuditPlan />} />
           <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />

@@ -25,15 +25,30 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useLocation, useNavigate } from "react-router-dom";
 import LogoSvg from "../assets/icons/logo.svg";
+
 const tabRoutes = [
   { label: "Home", path: "/home" },
-  { label: "Contracts", path: "/contracts", include: ["/contract/add"] },
+  { 
+    label: "Contracts", 
+    path: "/contracts", 
+    include: ["/contract/add"],
+    submenu: [
+      { 
+        label: "CCN", 
+        path: "/contracts",
+        submenu: [
+          { label: "CCN Plan", path: "/contracts/ccn/plan" },
+          { label: "CCN Observation", path: "/contracts/ccn/observation" },
+        ]
+      },
+    ]
+  },
   { label: "Obligations", path: "/obligations", include: ["/obligationView"] },
   { label: "MSA", path: "/msa/list", include: ["/msa/add"] },
   { label: "CR", path: "/cr/list", include: ["/cr/add"] },
-
   {
     label: "Audits",
     path: "/audits",
@@ -46,62 +61,77 @@ const tabRoutes = [
   { label: "Financial", path: "/financial" },
   { label: "Compliance", path: "/compliance" },
   { label: "Analytics", path: "/analytics" },
-  // { label: "Audit Observation UI", path: "/issue" },
 ];
 
 const CustomNavbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [auditsAnchorEl, setAuditsAnchorEl] = React.useState(null);
-  const [auditsTabIndex, setAuditsTabIndex] = React.useState(null);
+  const [submenuAnchorEl, setSubmenuAnchorEl] = React.useState(null);
+  const [currentSubmenuIndex, setCurrentSubmenuIndex] = React.useState(null);
+  const [nestedSubmenuAnchorEl, setNestedSubmenuAnchorEl] = React.useState(null);
+  const [currentNestedSubmenu, setCurrentNestedSubmenu] = React.useState(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const location = useLocation();
 
-// In CustomNavbar component:
-const currentTabIndex = tabRoutes.findIndex((route) => {
-  // Match direct path
-  if (location.pathname.startsWith(route.path)) return true;
+  const currentTabIndex = tabRoutes.findIndex((route) => {
+    // Match direct path
+    if (location.pathname.startsWith(route.path)) return true;
 
-  // Match included extra paths
-  if (route.include?.some((p) => location.pathname.startsWith(p))) return true;
+    // Match included extra paths
+    if (route.include?.some((p) => location.pathname.startsWith(p))) return true;
 
-  // Match submenu items
-  if (route.submenu?.some((item) => location.pathname.startsWith(item.path)))
-    return true;
+    // Match submenu items
+    if (route.submenu?.some((item) => {
+      if (location.pathname.startsWith(item.path)) return true;
+      // Check nested submenu items
+      if (item.submenu?.some((nestedItem) => location.pathname.startsWith(nestedItem.path))) return true;
+      return false;
+    })) return true;
 
-  return false;
-});
+    return false;
+  });
 
-  const handleAuditsMenuOpen = (event, index) => {
-    setAuditsAnchorEl(event.currentTarget);
-    setAuditsTabIndex(index);
+  const handleSubmenuOpen = (event, index) => {
+    setSubmenuAnchorEl(event.currentTarget);
+    setCurrentSubmenuIndex(index);
   };
 
-  const handleAuditsMenuClose = () => {
-    setAuditsAnchorEl(null);
-    setAuditsTabIndex(null);
+  const handleSubmenuClose = () => {
+    setSubmenuAnchorEl(null);
+    setCurrentSubmenuIndex(null);
+    setNestedSubmenuAnchorEl(null);
+    setCurrentNestedSubmenu(null);
+  };
+
+  const handleNestedSubmenuOpen = (event, submenuItem) => {
+    event.stopPropagation();
+    setNestedSubmenuAnchorEl(event.currentTarget);
+    setCurrentNestedSubmenu(submenuItem);
+  };
+
+  const handleNestedSubmenuClose = () => {
+    setNestedSubmenuAnchorEl(null);
+    setCurrentNestedSubmenu(null);
   };
 
   const handleSubmenuItemClick = (path) => {
     navigate(path);
-    handleAuditsMenuClose();
+    handleSubmenuClose();
   };
 
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
+  
   const handleTabChange = (event, newValue) => {
-    const selectedRoute = tabRoutes[newValue]?.path;
-    if (selectedRoute) {
-      if (selectedRoute === "/audits") {
-        // Don't navigate if it's the Audits tab (we'll handle via submenu)
-        return;
-      }
-      navigate(selectedRoute);
+    const selectedRoute = tabRoutes[newValue];
+    if (selectedRoute && !selectedRoute.submenu) {
+      navigate(selectedRoute.path);
     }
   };
+
   const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
 
   return (
@@ -119,16 +149,12 @@ const currentTabIndex = tabRoutes.findIndex((route) => {
               width="119"
               style={{ marginRight: 8 }}
             />
-            {/* <Typography variant="h6" sx={{ fontWeight: "bold", color: "#fff" }}>
-              Contract
-            </Typography> */}
           </Box>
 
           {/* Search, Company, Notifications */}
           {!isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <TextField
-                // variant="outlined"
                 size="small"
                 placeholder="Search..."
                 InputProps={{
@@ -291,7 +317,7 @@ const currentTabIndex = tabRoutes.findIndex((route) => {
                     <Box
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleAuditsMenuOpen(e, index);
+                        handleSubmenuOpen(e, index);
                       }}
                       sx={{ display: "flex", alignItems: "center" }}
                     >
@@ -307,10 +333,11 @@ const currentTabIndex = tabRoutes.findIndex((route) => {
             ))}
           </Tabs>
 
+          {/* First level submenu */}
           <Menu
-            anchorEl={auditsAnchorEl}
-            open={Boolean(auditsAnchorEl)}
-            onClose={handleAuditsMenuClose}
+            anchorEl={submenuAnchorEl}
+            open={Boolean(submenuAnchorEl)}
+            onClose={handleSubmenuClose}
             anchorOrigin={{
               vertical: "bottom",
               horizontal: "left",
@@ -320,16 +347,56 @@ const currentTabIndex = tabRoutes.findIndex((route) => {
               horizontal: "left",
             }}
           >
-            {auditsTabIndex !== null &&
-              tabRoutes[auditsTabIndex].submenu.map((item, i) => (
+            {currentSubmenuIndex !== null &&
+              tabRoutes[currentSubmenuIndex].submenu?.map((item, i) => (
                 <MenuItem
                   key={i}
-                  onClick={() => handleSubmenuItemClick(item.path)}
+                  onClick={(e) => {
+                    if (item.submenu) {
+                      handleNestedSubmenuOpen(e, item);
+                    } else {
+                      handleSubmenuItemClick(item.path);
+                    }
+                  }}
                   selected={location.pathname.startsWith(item.path)}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
                   {item.label}
+                  {item.submenu && <ChevronRightIcon fontSize="small" />}
                 </MenuItem>
               ))}
+          </Menu>
+
+          {/* Nested submenu */}
+          <Menu
+            anchorEl={nestedSubmenuAnchorEl}
+            open={Boolean(nestedSubmenuAnchorEl)}
+            onClose={handleNestedSubmenuClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            {currentNestedSubmenu?.submenu?.map((nestedItem, i) => (
+              <MenuItem
+                key={i}
+                onClick={() => {
+                  navigate(nestedItem.path);
+                  handleSubmenuClose();
+                }}
+                selected={location.pathname.startsWith(nestedItem.path)}
+              >
+                {nestedItem.label}
+              </MenuItem>
+            ))}
           </Menu>
         </AppBar>
       )}
