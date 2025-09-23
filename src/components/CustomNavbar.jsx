@@ -33,9 +33,10 @@ const tabRoutes = [
   { label: "Home", path: "/home" },
   { 
     label: "Contracts", 
-    path: "/contracts", 
-    include: ["/contract/add"],
+    // path: "/contracts", 
+    // include: ["/contract/add"],
     submenu: [
+      { label: "Contracts",path: "/contracts" },
       { 
         label: "CCN", 
         path: "/contracts",
