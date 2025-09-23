@@ -49,8 +49,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useSnackbar } from "../utils/snackbar";
 import CRForm from "./CrForm";
-
-const steps = [
+ 
+const steps = [ 
   "Select Project SOW",
   "Business Case",
   "Deliverable",
