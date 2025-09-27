@@ -28,6 +28,9 @@ import {
   FormControlLabel,
   Menu,
   TextareaAutosize,
+  OutlinedInput,
+  ListItemText,
+  TableContainer,Table,TableCell,TableBody,TableRow
 } from "@mui/material";
 import CardSection from "../components/CardSection";
 import TableSection from "../components/TableSection";
@@ -85,6 +88,19 @@ const commonValueStyle = {
   color: "#21263C",
   marginTop: "10px",
 };
+
+const commonTablevalueStyle = {
+  fontFamily: "Inter",
+  fontWeight: 500,
+  fontSize: "13px",
+  lineHeight: "100%",
+  letterSpacing: "0%",
+  verticalAlign: "middle",
+  color: "#21263C",
+  ml: 5,
+  // marginTop: "10px",
+};
+
 const adornmentRightStyle = {
   "& .MuiInputBase-root": {
     padding: "0px !important", // remove padding from input root
@@ -156,6 +172,36 @@ function ColorStepIcon(props) {
   );
 }
 
+const sampleData = [
+  {
+    CYCLE: "1",
+    "BU LOCATION": "New York",
+    "BUSINESS UNIT": "Finance",
+    "LINE OF BUSINESS": "Banking",
+    "IT SERVICE SUITE": "Core Banking",
+    "BUSINESS LOCATION": "Manhattan",
+    Status: "active",
+  },
+  {
+    CYCLE: "2",
+    "BU LOCATION": "London",
+    "BUSINESS UNIT": "Operations",
+    "LINE OF BUSINESS": "Trading",
+    "IT SERVICE SUITE": "Trading Platform",
+    "BUSINESS LOCATION": "City of London",
+    Status: "completed",
+  },
+  {
+    CYCLE: "3",
+    "BU LOCATION": "Tokyo",
+    "BUSINESS UNIT": "Risk Management",
+    "LINE OF BUSINESS": "Compliance",
+    "IT SERVICE SUITE": "Risk Analytics",
+    "BUSINESS LOCATION": "Shibuya",
+    Status: "pending",
+  },
+];
+
 const FilterGrid = { xs: 12, sm: 6, md: 6, lg: 4, xl: 3 };
 
 const AuditPlanAddEdit = () => {
@@ -179,12 +225,15 @@ const AuditPlanAddEdit = () => {
   const handleEditClick = () => alert("Edit clicked"); // Replace with modal/edit form logic
   const [MSAmodalOpen, setMSAmodalOpen] = useState(false);
   const [ScopemodalOpen, setScopemodalOpen] = useState(false);
+  const [businessunitmodalopen, setBusinessUnitModalOpen] = useState(false);
   const [processmodalOpen, setProcessModalOpen] = useState(false);
   const [stockholdermodalopen, setStockholdermodalopen] = useState(false);
   const [BussinessCaseModalOpen, setBussinessCaseModalOpen] = useState(false);
   const [contractdocumentmodal, setContractDocumentsModal] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([]);
+  const [itServiceSuites, setItServiceSuites] = useState([]);
+  const [selecteditserviceSuites, setSelectedItserviceSuites] = useState("");
 
   const [DocumentModalopen, setDocumentModal] = useState(false);
   const [fileUrl, setFileUrl] = useState(""); // default PDF
@@ -199,9 +248,6 @@ const AuditPlanAddEdit = () => {
   const DropDownOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-
-
 
   const DropDownClose = () => {
     setAnchorEl(null);
@@ -254,6 +300,15 @@ const AuditPlanAddEdit = () => {
     }
   };
 
+  const handleChangeForItServiceSuites = (event) => {
+    const { value } = event.target;
+    setItServiceSuites(typeof value === "string" ? [value] : value);
+  };
+
+  const handleDeleteServiceITsuite = (itemToDelete) => {
+    setItServiceSuites((prev) => prev.filter((item) => item !== itemToDelete));
+  };
+
   useEffect(() => {
     // if (!contractId) return;
     fetchData();
@@ -270,6 +325,8 @@ const AuditPlanAddEdit = () => {
       setLoading(false);
     }
   };
+
+  console.log(itServiceSuites, "Cjeee");
   return (
     <Box>
       <Box display="flex" flexDirection="column">
@@ -514,32 +571,24 @@ const AuditPlanAddEdit = () => {
                       <img src={personSvg} alt="" srcset="" />
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
-                      <Typography sx={commonNameStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonNameStyle}>{"--"}</Typography>
                       <Typography mt={1} sx={commonLabelStyle}>
                         Supplier Name
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
                       <Typography sx={commonLabelStyle}>MSA Titel</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
                       <Typography sx={commonLabelStyle}>MSA Code</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
                       <Typography sx={commonLabelStyle}>
                         MSA Duration
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                   </Grid>
 
@@ -568,17 +617,13 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Project Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
                       <Typography sx={commonLabelStyle}>
                         Project Name
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                       {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                   </Grid>
 
@@ -607,17 +652,13 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2.5 }}>
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Duration
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                   </Grid>
                 </CardSection>
@@ -626,187 +667,186 @@ const AuditPlanAddEdit = () => {
               {/* Audit Plan Scope */}
 
               <Box mb={3}>
-  <CardSection title="Audit plan Scope" showArrow>
-    <Grid container spacing={2}>
-      <Grid size={{ xs: 12, sm: 12, md: 12 }}>
-        <Grid container spacing={3}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 4,
-              mb: 2,
-            }}
-          >
-            <Typography sx={commonLabelStyle}>
-              VCC | Audit Type
-            </Typography>
-            <Select
-              onChange={(e) => setAuditType(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Select"}
-              sx={{
-                mt: -1,
-                backgroundColor: "#fff",
-                "& .MuiSelect-select": {},
-              }}
-            >
-              <MenuItem value="">
-                <em>Select</em>
-              </MenuItem>
-              <MenuItem value="internal">Internal Audit</MenuItem>
-              <MenuItem value="external">External Audit</MenuItem>
-              <MenuItem value="compliance">
-                Compliance Audit
-              </MenuItem>
-              <MenuItem value="financial">
-                Financial Audit
-              </MenuItem>
-            </Select>
-          </Box>
+                <CardSection title="Audit plan Scope" showArrow>
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 12, md: 12 }}>
+                      <Grid container spacing={3}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 4,
+                            mb: 2,
+                          }}
+                        >
+                          <Typography sx={commonLabelStyle}>
+                            VCC | Audit Type
+                          </Typography>
+                          <Select
+                            onChange={(e) => setAuditType(e.target.value)}
+                            displayEmpty
+                            renderValue={(selected) => selected || "Select"}
+                            sx={{
+                              mt: -1,
+                              backgroundColor: "#fff",
+                              "& .MuiSelect-select": {},
+                            }}
+                          >
+                            <MenuItem value="">
+                              <em>Select</em>
+                            </MenuItem>
+                            <MenuItem value="internal">Internal Audit</MenuItem>
+                            <MenuItem value="external">External Audit</MenuItem>
+                            <MenuItem value="compliance">
+                              Compliance Audit
+                            </MenuItem>
+                            <MenuItem value="financial">
+                              Financial Audit
+                            </MenuItem>
+                          </Select>
+                        </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 4,
-            }}
-          >
-            <Typography sx={commonLabelStyle}>
-              VCC | Auditor(s) Name
-            </Typography>
-            <Select
-              onChange={(e) => setAuditorName(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Select"}
-              sx={{
-                mt: -1,
-                backgroundColor: "#fff",
-                "& .MuiSelect-select": {},
-              }}
-            >
-              <MenuItem value="">
-                <em>Select</em>
-              </MenuItem>
-              <MenuItem value="john-doe">John Doe</MenuItem>
-              <MenuItem value="jane-smith">Jane Smith</MenuItem>
-              <MenuItem value="mike-johnson">
-                Mike Johnson
-              </MenuItem>
-              <MenuItem value="sarah-wilson">
-                Sarah Wilson
-              </MenuItem>
-            </Select>
-          </Box>
-        </Grid>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 4,
+                          }}
+                        >
+                          <Typography sx={commonLabelStyle}>
+                            VCC | Auditor(s) Name
+                          </Typography>
+                          <Select
+                            onChange={(e) => setAuditorName(e.target.value)}
+                            displayEmpty
+                            renderValue={(selected) => selected || "Select"}
+                            sx={{
+                              mt: -1,
+                              backgroundColor: "#fff",
+                              "& .MuiSelect-select": {},
+                            }}
+                          >
+                            <MenuItem value="">
+                              <em>Select</em>
+                            </MenuItem>
+                            <MenuItem value="john-doe">John Doe</MenuItem>
+                            <MenuItem value="jane-smith">Jane Smith</MenuItem>
+                            <MenuItem value="mike-johnson">
+                              Mike Johnson
+                            </MenuItem>
+                            <MenuItem value="sarah-wilson">
+                              Sarah Wilson
+                            </MenuItem>
+                          </Select>
+                        </Box>
+                      </Grid>
 
-        <Divider
-          sx={{
-            borderStyle: "dashed",
-            borderColor: "#E5E5E5",
-            borderWidth: "1px",
-            my: 2,
-          }}
-        />
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 2,
+                        }}
+                      />
 
-        {/* First row with Scope and Audit Title */}
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-            <Typography sx={{ ...commonLabelStyle }}>
-              VCC | Scope
-            </Typography>
-            <TextField
-              fullWidth
-              multiline
-              minRows={10}
-              placeholder="Enter details here..."
-              sx={{
-                "& .MuiInputBase-root": {
-                  height: "200px",
-                  alignItems: "flex-start",
-                  width: "100%",
-                  mt: 1,
-                },
-              }}
-            />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-            <Typography sx={{ ...commonLabelStyle }}>
-              VCC | Audit Title
-            </Typography>
-            <TextField
-              fullWidth
-              multiline
-              minRows={10}
-              placeholder="Enter details here..."
-              sx={{
-                "& .MuiInputBase-root": {
-                  height: "200px",
-                  alignItems: "flex-start",
-                  width: "100%",
-                  mt: 1,
-                },
-              }}
-            />
-          </Grid>
-        </Grid>
+                      {/* First row with Scope and Audit Title */}
+                      <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Scope
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10}
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px",
+                                alignItems: "flex-start",
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Audit Title
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10}
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px",
+                                alignItems: "flex-start",
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
 
-        {/* Second divider - placed after the first row */}
-        <Divider
-          sx={{
-            borderStyle: "dashed",
-            borderColor: "#E5E5E5",
-            borderWidth: "1px",
-            my: 2,
-          }}
-        />
+                      {/* Second divider - placed after the first row */}
+                      <Divider
+                        sx={{
+                          borderStyle: "dashed",
+                          borderColor: "#E5E5E5",
+                          borderWidth: "1px",
+                          my: 2,
+                        }}
+                      />
 
-        {/* Second row with Focus Area and Objectives */}
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-            <Typography sx={{ ...commonLabelStyle }}>
-              VCC | Focus Area
-            </Typography>
-            <TextField
-              fullWidth
-              multiline
-              minRows={10}
-              placeholder="Enter details here..."
-              sx={{
-                "& .MuiInputBase-root": {
-                  height: "200px",
-                  alignItems: "flex-start",
-                  width: "100%",
-                  mt: 1,
-                },
-              }}
-            />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 6 }}>
-            <Typography sx={{ ...commonLabelStyle }}>
-              VCC | Objectives
-            </Typography>
-            <TextField
-              fullWidth
-              multiline
-              minRows={10}
-              placeholder="Enter details here..."
-              sx={{
-                "& .MuiInputBase-root": {
-                  height: "200px",
-                  alignItems: "flex-start",
-                  width: "100%",
-                  mt: 1,
-                },
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  </CardSection>
+                      {/* Second row with Focus Area and Objectives */}
+                      <Grid container spacing={2}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Focus Area
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10}
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px",
+                                alignItems: "flex-start",
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                          <Typography sx={{ ...commonLabelStyle }}>
+                            VCC | Objectives
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            multiline
+                            minRows={10}
+                            placeholder="Enter details here..."
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                height: "200px",
+                                alignItems: "flex-start",
+                                width: "100%",
+                                mt: 1,
+                              },
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </CardSection>
               </Box>
-              
             </Box>
           )}
 
@@ -829,33 +869,25 @@ const AuditPlanAddEdit = () => {
                       <img src={personSvg} alt="" srcset="" />
                     </Grid>
                     <Grid size={{ xs: 10, sm: 5, md: 2.5, lg: 2.4, xl: 2 }}>
-                      <Typography sx={commonNameStyle}>
-                         {"--"}
-                      </Typography>
+                      <Typography sx={commonNameStyle}>{"--"}</Typography>
                       <Typography mt={1} sx={commonLabelStyle}>
                         Supplier Name
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>MSA Titel</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>MSA Code</Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
 
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 3 }}>
                       <Typography sx={commonLabelStyle}>
                         MSA Duration
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                   </Grid>
 
@@ -884,17 +916,13 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Project Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                         {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
                         Project Name
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                         {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                   </Grid>
 
@@ -923,19 +951,189 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                       {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Duration
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"--"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"--"}</Typography>
                     </Grid>
                   </Grid>
+                </CardSection>
+              </Box>
+
+              <Box mb={2}>
+                <CardSection
+                  title="Service Mapping"
+                  showArrow
+                  // headerActionLabel="+Add New Process"
+                  // onHeaderActionClick={() => setProcessModalOpen(true)}
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "CYCLE",
+                            "BU LOCATION",
+                            "BUSINESS UNIT",
+                            "LINE OF BUSINESS",
+                            "IT SERVICE SUITE",
+                            "BUSINESS LOCATION",
+                          ]}
+                          rows={sampleData}
+                          ischeckboxWant={true}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          onView={(row) => console.log("Edit", row)}
+                          onMap={(row) => setBusinessUnitModalOpen(true)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
+                </CardSection>
+              </Box>
+
+              <Box mb={2}>
+                <CardSection
+                  title="Scope of services"
+                  showArrow
+                  // headerActionLabel="+Add New Process"
+                  // onHeaderActionClick={() => setProcessModalOpen(true)}
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        mb: 2,
+                      }}
+                    >
+                      {/* Left Side */}
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <img
+                          src={filterIconSvg}
+                          alt=""
+                          style={{ width: 13, height: 14, marginRight: 5 }}
+                        />
+                        <Typography
+                          sx={{
+                            color: "#061445",
+                            fontWeight: 600,
+                            fontSize: "14px",
+                          }}
+                        >
+                          Filter By :
+                        </Typography>
+                        <TextField
+                          placeholder="Search content"
+                          size="small"
+                          sx={{ ml: 1 }}
+                        />
+                      </Box>
+
+                      {/* Right Side */}
+                    </Box>
+
+                    <Box sx={{ overflowX: "auto" }}>
+                      <Box sx={{ minWidth: 800 }}>
+                        <TableSection
+                          headers={[
+                            "CYCLE",
+                            "GEO | REG | LOCATION",
+                            "BUSINESS UNIT",
+                            "LINE OF BUSINESS",
+                            "IT SERVICE SUITE",
+                            "SERVICE DELIEVERY LOCATION",
+                          ]}
+                          rows={[]}
+                          ischeckboxWant={true}
+                          onRowClick={(row) => console.log("Row Click", row)}
+                          // onEdit={(row) => console.log("Edit", row)}
+                          // onDelete={(row) => console.log("Delete", row)}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 4, // margin top
+                      }}
+                    >
+                      {/* Right side - Total count */}
+                      <Typography sx={{ fontSize: "13px", fontWeight: 500 }}>
+                        Total Count : {totalCount}
+                      </Typography>
+
+                      {/* Left side - Pagination */}
+                      {/* <Pagination
+                        count={Math.ceil(totalCount / rowsPerPage)} // e.g., 173 / 10 = 18 pages
+                        page={currentPage}
+                        onChange={(e, page) => setCurrentPage(page)}
+                        size="small"
+                      /> */}
+                    </Box>
+                  </Box>
                 </CardSection>
               </Box>
             </Box>
@@ -1052,9 +1250,7 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"02"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"02"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
@@ -1150,7 +1346,6 @@ const AuditPlanAddEdit = () => {
                   </Box>
                 </CardSection>
               </Box>
-
             </Box>
           )}
           {activeStep === 3 && (
@@ -1265,9 +1460,7 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"02"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"02"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
@@ -1365,8 +1558,6 @@ const AuditPlanAddEdit = () => {
                   </Box>
                 </CardSection>
               </Box>
-
- 
             </Box>
           )}
 
@@ -1482,9 +1673,7 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"02"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"02"}</Typography>
                     </Grid>
                     <Grid size={{ xs: 6, sm: 4, md: 2.5, lg: 2.5, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
@@ -1583,7 +1772,6 @@ const AuditPlanAddEdit = () => {
                   </Box>
                 </CardSection>
               </Box>
-  
             </Box>
           )}
 
@@ -1622,9 +1810,7 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Duration
                       </Typography>
-                      <Typography
-                        sx={{ ...commonValueStyle }}
-                      >
+                      <Typography sx={{ ...commonValueStyle }}>
                         10-01-2025 To 12-31-2025
                       </Typography>
                     </Grid>
@@ -1662,9 +1848,7 @@ const AuditPlanAddEdit = () => {
                       <Typography sx={commonLabelStyle}>
                         Audit Plan Code
                       </Typography>
-                      <Typography sx={commonValueStyle}>
-                        {"02"}
-                      </Typography>
+                      <Typography sx={commonValueStyle}>{"02"}</Typography>
                     </Grid>
                     {/* <Grid size={{ xs: 6, sm: 4, md: 2, lg: 2, xl: 2 }}>
                       <Typography sx={commonLabelStyle}>
@@ -2103,18 +2287,17 @@ const AuditPlanAddEdit = () => {
             </Box>
           )}
 
-
           <Box
-          sx={{
-            borderTop: "1px solid #F3F3F3",
-            backgroundColor: "#fff",
-            px: 2,
-            py: 2,
-            boxShadow: "0px -2px 2px 0px #D3D6E14D",
-          }}
-        >
-          <Box display="flex" justifyContent="flex-start" gap={2}>
-            {/* {activeStep !== 0 && ( */}
+            sx={{
+              borderTop: "1px solid #F3F3F3",
+              backgroundColor: "#fff",
+              px: 2,
+              py: 2,
+              boxShadow: "0px -2px 2px 0px #D3D6E14D",
+            }}
+          >
+            <Box display="flex" justifyContent="flex-start" gap={2}>
+              {/* {activeStep !== 0 && ( */}
               {/* // <Button */}
               {/* //   sx={{ */}
               {/* //     border: "1px solid #2268E9",
@@ -2128,37 +2311,35 @@ const AuditPlanAddEdit = () => {
               {/* // > */}
               {/* //   {"<"} Previous */}
               {/* // </Button> */}
-            {/* // )} */}
+              {/* // )} */}
 
-            <Button
-              sx={{
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#2268E9",
-                color: "#FFFFFF",
-                borderRadius: "6px",
-                textTransform: "none",
-              }}
-              onClick={handleNext}
-            >
-              Save & Continue
-            </Button>
-            <Button
-              sx={{
-                border: "1px solid #E5E5E5",
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#FFFFFF",
-                color: "#061445",
-                borderRadius: "6px",
-              }}
-            >
-              Cancel
-            </Button>
+              <Button
+                sx={{
+                  fontSize: "13px",
+                  fontWeight: 400,
+                  backgroundColor: "#2268E9",
+                  color: "#FFFFFF",
+                  borderRadius: "6px",
+                  textTransform: "none",
+                }}
+                onClick={handleNext}
+              >
+                Save & Continue
+              </Button>
+              <Button
+                sx={{
+                  border: "1px solid #E5E5E5",
+                  fontSize: "13px",
+                  fontWeight: 400,
+                  backgroundColor: "#FFFFFF",
+                  color: "#061445",
+                  borderRadius: "6px",
+                }}
+              >
+                Cancel
+              </Button>
+            </Box>
           </Box>
-        </Box>
-
-
         </Box>
 
         {/* <Box
@@ -2172,9 +2353,9 @@ const AuditPlanAddEdit = () => {
         >
           <Box display="flex" justifyContent="flex-start" gap={2}>
             {/* {activeStep !== 0 && ( */}
-              {/* // <Button */}
-              {/* //   sx={{ */}
-              {/* //     border: "1px solid #2268E9",
+        {/* // <Button */}
+        {/* //   sx={{ */}
+        {/* //     border: "1px solid #2268E9",
               //     fontSize: "13px",
               //     fontWeight: 400,
               //     backgroundColor: "#FFFFFF",
@@ -2182,12 +2363,12 @@ const AuditPlanAddEdit = () => {
               //     borderRadius: "6px",
               //   }}
               //   onClick={handleBack} */}
-              {/* // > */}
-              {/* //   {"<"} Previous */}
-              {/* // </Button> */}
-            {/* // )} */}
+        {/* // > */}
+        {/* //   {"<"} Previous */}
+        {/* // </Button> */}
+        {/* // )} */}
 
-            {/* <Button
+        {/* <Button
               sx={{
                 fontSize: "13px",
                 fontWeight: 400,
@@ -2747,6 +2928,219 @@ const AuditPlanAddEdit = () => {
         </Box>
       </ModalSection>
 
+      {/* Business Unit Mapping Detail model When user clicks Map button */}
+
+      <ModalSection
+        title="BU Mapping Details"
+        open={businessunitmodalopen}
+        onClose={() => setBusinessUnitModalOpen(false)}
+      >
+        <Box sx={{ px: 3.5, py: 3.5 }}>
+
+
+         <Box sx={{ 
+      display: 'grid',
+      gridTemplateColumns: 'auto 1fr',
+      gap: '8px 16px',
+      mb: 3,
+      alignItems: 'center'
+    }}>
+      <Typography sx={{ ...commonLabelStyle, textAlign: 'left' }}>Customer Name</Typography>
+      <Typography sx={commonTablevalueStyle}>ALG Global Limited</Typography>
+      
+      <Typography sx={{ ...commonLabelStyle, textAlign: 'left' }}>Business Unit</Typography>
+      <Typography sx={commonTablevalueStyle}>Governance</Typography>
+      
+      <Typography sx={{ ...commonLabelStyle, textAlign: 'left' }}>Line of Business</Typography>
+      <Typography sx={commonTablevalueStyle}>Policy management</Typography>
+      
+      <Typography sx={{ ...commonLabelStyle, textAlign: 'left' }}>IT Service Unit</Typography>
+      <Typography sx={commonTablevalueStyle}>Advisory services</Typography>
+      
+      <Typography sx={{ ...commonLabelStyle, textAlign: 'left' }}>Business Location</Typography>
+      <Typography sx={commonTablevalueStyle}>River ouest, Qual voltair, BC</Typography>
+    </Box>
+
+          <Divider
+            sx={{
+              borderStyle: "dotted",
+              borderColor: "#DCDCEF",
+              borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Typography
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: "13px",
+              // color: "",
+              lineHeight: "30px",
+              letterSpacing: 0.2,
+            }}
+          >
+            Mapping services
+          </Typography>
+
+          <Box mb={3} mt={3} display="grid" alignItems="center" gap={1}>
+            <Typography sx={commonLabelStyle}>Supplier Name</Typography>
+            <Select fullWidth defaultValue="" size="small">
+              <MenuItem value="">Select</MenuItem>
+              <MenuItem value="India">India</MenuItem>
+            </Select>
+          </Box>
+
+         
+          <Box mb={2} display="grid" gap={1}>
+            <Typography sx={commonLabelStyle}>IT Service Suite</Typography>
+            <Select
+              multiple
+              fullWidth
+              size="small"
+              value={itServiceSuites}
+              onChange={handleChangeForItServiceSuites}
+              input={<OutlinedInput />}
+              renderValue={() => "Select options"} // This replaces the default chip display
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 300,
+                  },
+                },
+              }}
+            >
+              {[
+                "Cloud Services",
+                "Data Analytics",
+                "Cybersecurity",
+                "ERP Solutions",
+                "Advisory",
+                "Support",
+              ].map((service) => (
+                <MenuItem key={service} value={service}>
+                  <Checkbox checked={itServiceSuites.indexOf(service) > -1} />
+                  <ListItemText primary={service} />
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+
+          {/* Selected Chips Display - now the only place selections appear */}
+          {itServiceSuites.length > 0 && (
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 1,
+                mb: 3,
+                "& > *": {
+                  flex: "1 1 calc(50% - 8px)",
+                  minWidth: "120px",
+                  maxWidth: "calc(50% - 8px)",
+                  position: "relative", // For absolute positioning of delete icon
+                },
+              }}
+            >
+              {itServiceSuites.map((value, index) => (
+                <Chip
+                  key={index}
+                  label={
+                    <Box
+                      sx={{
+                        pr: 2, // Add right padding for delete icon space
+                        width: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {value}
+                    </Box>
+                  }
+                  onDelete={() => handleDelete(value)}
+                  deleteIcon={
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        right: 4,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "#FF3B30",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        "&:hover": {
+                          color: "#D70015",
+                        },
+                      }}
+                    >
+                      ×
+                    </Box>
+                  }
+                  sx={{
+                    backgroundColor: "#E6F0FF",
+                    border: "1px solid #2268E9",
+                    borderRadius: "6px",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    height: "32px",
+                    width: "100%",
+                    "& .MuiChip-label": {
+                      padding: "0 0 0 8px",
+                      flex: 1,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    },
+                    "& .MuiChip-deleteIcon": {
+                      margin: 0,
+                      padding: 0,
+                      position: "absolute",
+                      right: "4px",
+                    },
+                  }}
+                />
+              ))}
+            </Box>
+          )}
+
+          <Divider
+            sx={{
+              borderStyle: "solid",
+              borderColor: "#DCDCEF",
+              borderWidth: "1px",
+              my: 2,
+            }}
+          />
+
+          <Box display="flex" justifyContent="flex-start" gap={2}>
+            <Button
+              sx={{
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#2268E9",
+                color: "#FFFFFF",
+                borderRadius: "6px",
+                textTransform: "none",
+              }}
+            >
+              Map
+            </Button>
+            <Button
+              sx={{
+                border: "1px solid #E5E5E5",
+                fontSize: "13px",
+                fontWeight: 400,
+                backgroundColor: "#FFFFFF",
+                color: "#061445",
+              }}
+              onClick={() => setBusinessUnitModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </ModalSection>
+
       {/* Add Document Modal */}
 
       <Dialog fullScreen open={DocumentModalopen} onClose={handleClose}>
@@ -2845,8 +3239,7 @@ const AuditPlanAddEdit = () => {
                   <Page pageNumber={pageNumber} width={500} />
                 </Document>
               ) : (
-                <>
-                </>
+                <></>
               )}
             </Box>
 
@@ -2897,9 +3290,9 @@ const AuditPlanAddEdit = () => {
                 Contract Document Information
               </Typography>
             </Box>
-             
+
             <Grid container spacing={2} sx={{ p: 3 }}>
-               {/* <Box sx={{justifyContent:'space-between'}}> */}
+              {/* <Box sx={{justifyContent:'space-between'}}> */}
               <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                 <Typography sx={{ ...commonLabelStyle }}>
                   Document Type
@@ -2943,7 +3336,7 @@ const AuditPlanAddEdit = () => {
                 />
               </Grid>
 
-             <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+              <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                 <Typography sx={{ ...commonLabelStyle }}>
                   Document Name
                 </Typography>
@@ -2955,8 +3348,6 @@ const AuditPlanAddEdit = () => {
                 </Typography>
                 <TextField fullWidth placeholder="" value="" />
               </Grid>
-              
-             
 
               {/* <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12 }}>
                 <Divider
@@ -3054,27 +3445,26 @@ const AuditPlanAddEdit = () => {
                   </Button>
                 </Box>
               </Grid> */}
-                {/* </Box> */}
-
+              {/* </Box> */}
 
               {/*  */}
 
-          <Box
-          sx={{
-            borderTop: "1px solid #F3F3F3",
-            backgroundColor: "#fff",
-            px: 2,
-            py: 2,
-            boxShadow: "0px -2px 2px 0px #D3D6E14D",
-            width:'100%',
-            mt:42
-          }}
-        >
-          <Box display="flex" justifyContent="flex-start" gap={2}>
-            {/* {activeStep !== 0 && ( */}
-              {/* // <Button */}
-              {/* //   sx={{ */}
-              {/* //     border: "1px solid #2268E9",
+              <Box
+                sx={{
+                  borderTop: "1px solid #F3F3F3",
+                  backgroundColor: "#fff",
+                  px: 2,
+                  py: 2,
+                  boxShadow: "0px -2px 2px 0px #D3D6E14D",
+                  width: "100%",
+                  mt: 42,
+                }}
+              >
+                <Box display="flex" justifyContent="flex-start" gap={2}>
+                  {/* {activeStep !== 0 && ( */}
+                  {/* // <Button */}
+                  {/* //   sx={{ */}
+                  {/* //     border: "1px solid #2268E9",
               //     fontSize: "13px",
               //     fontWeight: 400,
               //     backgroundColor: "#FFFFFF",
@@ -3082,40 +3472,38 @@ const AuditPlanAddEdit = () => {
               //     borderRadius: "6px",
               //   }}
               //   onClick={handleBack} */}
-              {/* // > */}
-              {/* //   {"<"} Previous */}
-              {/* // </Button> */}
-            {/* // )} */}
+                  {/* // > */}
+                  {/* //   {"<"} Previous */}
+                  {/* // </Button> */}
+                  {/* // )} */}
 
-            <Button
-              sx={{
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#2268E9",
-                color: "#FFFFFF",
-                borderRadius: "6px",
-                textTransform: "none",
-              }}
-              onClick={handleNext}
-            >
-              Save & Continue
-            </Button>
-            <Button
-              sx={{
-                // border: "1px solid #E5E5E5",
-                fontSize: "13px",
-                fontWeight: 400,
-                backgroundColor: "#FFFFFF",
-                color: "#061445",
-                borderRadius: "6px",
-              }}
-            >
-              Cancel
-            </Button>
-          </Box>
-          </Box>
-
-
+                  <Button
+                    sx={{
+                      fontSize: "13px",
+                      fontWeight: 400,
+                      backgroundColor: "#2268E9",
+                      color: "#FFFFFF",
+                      borderRadius: "6px",
+                      textTransform: "none",
+                    }}
+                    onClick={handleNext}
+                  >
+                    Save & Continue
+                  </Button>
+                  <Button
+                    sx={{
+                      // border: "1px solid #E5E5E5",
+                      fontSize: "13px",
+                      fontWeight: 400,
+                      backgroundColor: "#FFFFFF",
+                      color: "#061445",
+                      borderRadius: "6px",
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </Box>
             </Grid>
           </Box>
         </Box>

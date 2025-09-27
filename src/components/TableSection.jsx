@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,6 +10,7 @@ import {
   Typography,
   IconButton,
   Box,
+  Checkbox,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -38,7 +39,44 @@ const TableSection = ({
   onDelete,
   onView,
   onRowClick,
+  onSelectionChange,
+  ischeckboxWant = false,
+  onMap,
 }) => {
+  const [selectedRows, setSelectedRows] = useState(new Set());
+  const [selectAll, setSelectAll] = useState(false);
+
+  useEffect(() => {
+    if (onSelectionChange) {
+      const selectedRowData = Array.from(selectedRows).map(index => rows[index]);
+      onSelectionChange(selectedRowData);
+    }
+  }, [selectedRows, rows, onSelectionChange]);
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows(new Set());
+    } else {
+      setSelectedRows(new Set(rows.map((_, index) => index)));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleRowSelect = (rowIndex) => {
+    const newSelected = new Set(selectedRows);
+    if (newSelected.has(rowIndex)) {
+      newSelected.delete(rowIndex);
+    } else {
+      newSelected.add(rowIndex);
+    }
+    setSelectedRows(newSelected);
+    setSelectAll(newSelected.size === rows.length && rows.length > 0);
+  };
+
+  useEffect(() => {
+    setSelectAll(selectedRows.size === rows.length && rows.length > 0);
+  }, [selectedRows, rows]);
+
   if (!Array.isArray(headers) || !Array.isArray(rows)) return null;
 
   return (
@@ -52,7 +90,7 @@ const TableSection = ({
         borderBottom: "1px solid #0A18290D",
         borderLeft: "none",
         borderRight: "none",
-        boxShadow: "none", // optional: remove Paper shadow
+        boxShadow: "none",
       }}
     >
       <Table size="small" aria-label="responsive table">
@@ -69,17 +107,35 @@ const TableSection = ({
                 textTransform: "uppercase",
                 fontSize: "12px",
                 letterSpacing: "0.15em",
-                // verticalAlign: "middle",
               },
               borderTop: "1px solid #E0E0E0",
             }}
           >
+            {ischeckboxWant && (
+              <TableCell sx={{ fontWeight: "bold", width: "48px" }}>
+                <Checkbox
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                  indeterminate={selectedRows.size > 0 && selectedRows.size < rows.length}
+                  sx={{
+                    color: "#60698F",
+                    pl:2,
+                    '&.Mui-checked': {
+                      color: "#2268E9",
+                    },
+                    '&.MuiCheckbox-indeterminate': {
+                      color: "#2268E9",
+                    },
+                  }}
+                />
+              </TableCell>
+            )}
             {headers.map((header, idx) => (
               <TableCell key={idx} sx={{ fontWeight: "bold", py: 2, px: 2 }}>
                 {header}
               </TableCell>
             ))}
-            {(onEdit || onDelete || onView) && (
+            {(onEdit || onDelete || onView || onMap) && (
               <TableCell sx={{ fontWeight: "bold", py: 2, px: 2 }}>
                 Actions
               </TableCell>
@@ -91,7 +147,7 @@ const TableSection = ({
           {rows.length === 0 ? (
             <TableRow>
               <TableCell
-                colSpan={headers.length + (onEdit || onDelete || onView ? 1 : 0)}
+                colSpan={headers.length + (ischeckboxWant ? 1 : 0) + (onEdit || onDelete || onView || onMap ? 1 : 0)}
                 sx={{ fontSize: "13px" }}
               >
                 <Typography
@@ -110,9 +166,7 @@ const TableSection = ({
                 sx={{
                   cursor: "pointer",
                   fontWeight: 500,
-
                   "&:hover": {
-                    // backgroundColor: "#fff",
                     "& td": {
                       color: "#2268E9",
                       fontWeight: 500,
@@ -122,6 +176,28 @@ const TableSection = ({
                 }}
                 onClick={() => onRowClick?.(row)}
               >
+                {ischeckboxWant && (
+                  <TableCell
+                    sx={{
+                      py: 2,
+                      px: 2,
+                      fontSize: "13px",
+                      borderBottom: "1px solid #DCDCEF",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Checkbox
+                      checked={selectedRows.has(rowIndex)}
+                      onChange={() => handleRowSelect(rowIndex)}
+                      sx={{
+                        color: "#60698F",
+                        '&.Mui-checked': {
+                          color: "#2268E9",
+                        },
+                      }}
+                    />
+                  </TableCell>
+                )}
                 {headers.map((header, colIndex) => {
                   const key = header;
                   const value = row[key] ?? "—";
@@ -155,8 +231,8 @@ const TableSection = ({
                   );
                 })}
 
-                {(onEdit || onDelete || onView) && (
-                  <TableCell align="left" sx={{ py: 1, px: 2 }}>
+                {(onEdit || onDelete || onView || onMap) && (
+                  <TableCell align="left" sx={{ py: 1, px: 2, borderBottom: "1px solid #DCDCEF" }}>
                     <Box sx={{ display: "flex", gap: 1 }}>
                       {onEdit && (
                         <IconButton
@@ -172,14 +248,54 @@ const TableSection = ({
                       
                       {onView && (
                         <IconButton
-                        color="primary"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onView(row);
-                        }}
-                      >
-                        <RemoveRedEyeIcon fontSize="small" />
-                      </IconButton>
+                          color="primary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onView(row);
+                          }}
+                          sx={{
+                            backgroundColor: "white",
+                            color: "#2268E9",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            borderRadius: "4px",
+                            padding: "4px 8px",
+                            minWidth: "auto",
+                            height: "24px",
+                            "&:hover": {
+                               backgroundColor: "#1557D0",
+                              color:'#fff'
+                            },
+                          }}
+                        >
+                          View
+                        </IconButton>
+                      )}
+
+                      {onMap && (
+                        <IconButton
+                          color="primary"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onMap(row);
+                          }}
+                          sx={{
+                            backgroundColor: "white",
+                            color: "#2268E9",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            borderRadius: "4px",
+                            padding: "4px 8px",
+                            minWidth: "auto",
+                            height: "24px",
+                            "&:hover": {
+                              backgroundColor: "#1557D0",
+                              color:'#fff'
+                            },
+                          }}
+                        >
+                          Map
+                        </IconButton>
                       )}
 
                       {onDelete && (
@@ -193,8 +309,6 @@ const TableSection = ({
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       )}
-
-                      
                     </Box>
                   </TableCell>
                 )}
