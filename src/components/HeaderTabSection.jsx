@@ -62,7 +62,7 @@ const HeaderTabSection = ({ title, tab, handleTabChange, onAddNew, btnTitle,menu
               py: 0.8,
               backgroundColor: "#2268E9",
             }}
-            onClick={onAddNew}
+            onClick={onAddNew} 
           >
             {btnTitle}
           </Button>
