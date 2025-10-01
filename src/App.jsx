@@ -27,6 +27,8 @@ import CCNObservation from "./layouts/CCNobservation";
 import CCNPlanAddEdit from "./layouts/CcnPlanAddEdit";
 import CCNObservationAddEdit from "./layouts/CCNObservationAddEdit";
 import CCNObservationIssueRisk from "./layouts/CCNObservationIssueRisk";
+import Customers from "./layouts/Customers";
+import CustomerAddEdit from "./layouts/CustomerAddEdit";
 
 function App() {
   return (
@@ -42,6 +44,11 @@ function App() {
 
         {/* Main App Routes - with navbar */}
         <Route element={<MainLayout />}>
+
+          {/* Customers */}
+          <Route path="/customer" element={<Customers />} />
+          <Route path="/customer/edit/:id" element={<CustomerAddEdit />} />
+
           {/* Obligation Module Route */}
           <Route path="/obligations" element={<Obligations />} />
           <Route path="/obligationView/:id" element={<ObligationView />} />
@@ -62,7 +69,7 @@ function App() {
 
 
           
-
+          {/* Audit  */}
           <Route path="/auditplan" element={<AuditPlan />} />
           <Route path="/auditplan/edit/:id" element={<AuditPlanAddEdit />} />
           <Route path='/auditobservation' element={<AuditObservation />} /> 

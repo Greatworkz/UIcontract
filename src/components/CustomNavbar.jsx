@@ -31,6 +31,7 @@ import LogoSvg from "../assets/icons/logo.svg";
 
 const tabRoutes = [
   { label: "Home", path: "/home" },
+  { label: "Customers", path: "/customer" },
   { 
     label: "Contracts", 
     // path: "/contracts", 
