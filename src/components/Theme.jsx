@@ -127,6 +127,7 @@ const theme = createTheme({
           "&:hover": {
             backgroundColor: "#2268E9",
             color: "#fff",
+            // paddingLeft: '2px'
           },
           "&.Mui-selected": {
             backgroundColor: "#2268E9",
